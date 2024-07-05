@@ -10,7 +10,7 @@ void print_valarray(const std::string name, const std::valarray<double> &dv) {
   for (auto v : dv) {
     std::cout << v << ", ";
   }
-  std::cout << endl;
+  std::cout << "\n";
 }
 
 int main() {
