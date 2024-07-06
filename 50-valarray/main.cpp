@@ -3,7 +3,6 @@
 #include <iterator>
 #include <string>
 #include <valarray>
-using namespace std;
 
 void print_valarray(const std::string name, const std::valarray<double> &dv) {
   std::cout << name << ": ";
