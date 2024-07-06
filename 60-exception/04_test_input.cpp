@@ -5,8 +5,7 @@ using namespace std;
 
 void test_user_input() {
   int size = -1;
-  cout << "Input size of array: (try type not a number) "
-       << "\n";
+  cout << "Input size of array: (try type not a number)\n";
   try {
     cin >> size;
     if (!cin) // if input was not integer, cin becomes false
@@ -21,10 +20,7 @@ void test_user_input() {
 
 class ABC {
 public:
-  ~ABC() {
-    cout << "~ABC()"
-         << "\n";
-  }
+  ~ABC() { cout << "~ABC()\n"; }
 };
 
 void test_dtor() {
@@ -34,8 +30,7 @@ void test_dtor() {
       throw logic_error("");
     } catch (...) {
     }
-    cout << "end of block"
-         << "\n";
+    cout << "end of block\n";
   }
 
   {
@@ -45,7 +40,6 @@ void test_dtor() {
       throw logic_error("");
     } catch (...) {
     }
-    cout << "end of block"
-         << "\n";
+    cout << "end of block\n";
   }
 }
