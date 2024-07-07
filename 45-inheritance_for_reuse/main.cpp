@@ -13,9 +13,9 @@ protected:
       : manufacturer(m), model(md), year(y) {}
 
   void getInfo() const {
-    std::cout << "Manufacturer: " << manufacturer << std::"\n"
-              << "Model: " << model << std::"\n"
-              << "Year: " << year << std::"\n";
+    std::cout << "Manufacturer: " << manufacturer << "\n"
+              << "Model: " << model << "\n"
+              << "Year: " << year << "\n";
   }
 };
 
@@ -30,7 +30,7 @@ public:
 
   void getInfo() const {
     Vehicle::getInfo();
-    std::cout << "Number of doors: " << numberOfDoors << std::"\n";
+    std::cout << "Number of doors: " << numberOfDoors << "\n";
   }
 };
 
@@ -46,7 +46,7 @@ public:
 
   void getInfo() const {
     Vehicle::getInfo();
-    std::cout << "Type: " << type << std::"\n";
+    std::cout << "Type: " << type << "\n";
   }
 };
 
@@ -59,7 +59,7 @@ int main() {
   Motorcycle motorcycle("Honda", "CBR500R", 2021, "Sport");
 
   car.getInfo();
-  std::cout << "----------" << std::"\n";
+  std::cout << "----------" << "\n";
   motorcycle.getInfo();
 
   // And a pointer for the Base class can not call any member function.
