@@ -107,8 +107,7 @@ int main() {
   cout << w.get() << "\n";
 
   {
-    cout << "return unique_ptr from a function"
-         << "\n";
+    cout << "return unique_ptr from a function\n";
     auto x = return_int();
     cout << *x << "\n";
     cout << x.get() << "\n";
