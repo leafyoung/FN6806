@@ -13,7 +13,6 @@ namespace GameNaive {
 
 using std::array;
 using std::cout;
-using std::endl;
 using std::generate;
 using std::ostream;
 using std::shuffle;
