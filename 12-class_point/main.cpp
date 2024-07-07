@@ -59,19 +59,16 @@ int main() {
     auto p2{p};    // 2. copy constructor
     if (p2 != p) { // comparison operator!=
       p2 = p;      // 3. copy assignment operator
-      cout << "not equal"
-           << "\n";
+      cout << "not equal\n";
     } else {
-      cout << "equal"
-           << "\n";
+      cout << "equal\n";
     }
     Point p3(3, 5);
     cout << (p3 == p) << "\n"; // comparison operator==
-  }                            // 4. p and p2 are out of scope, destroyed
+  } // 4. p and p2 are out of scope, destroyed
 
   {
-    cout << "PointWithStrNoCtor"
-         << "\n";
+    cout << "PointWithStrNoCtor\n";
     PointWithStrNoCtor p;
     cout << p.get_x() << ", " << p.get_y() << ", " << p.get_name() << "\n";
 
@@ -82,8 +79,7 @@ int main() {
   }
 
   {
-    cout << "PointWithStr(...)"
-         << "\n";
+    cout << "PointWithStr(...)\n";
     PointWithStr p(42, 43, "a. name", {1, 2});
     cout << p.get_x() << ", " << p.get_y() << ", " << p.get_name() << "\n";
 
@@ -94,8 +90,7 @@ int main() {
   }
 
   {
-    cout << "PointWithStr(empty)"
-         << "\n";
+    cout << "PointWithStr(empty)\n";
     PointWithStr p;
     cout << p.get_x() << ", " << p.get_y() << ", " << p.get_name() << "\n";
 

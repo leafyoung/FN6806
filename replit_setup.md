@@ -3,6 +3,7 @@
 rm main main.o main-debug
 mkdir 12-class_point
 mv *.h *.cpp 12-class_point/
+git config pull.rebase true
 git init
 git remote add origin https://github.com/leafyoung/FN6806.git
 git sparse-checkout init --cone
