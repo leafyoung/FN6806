@@ -33,8 +33,8 @@ void test_lock() {
   b->pointer = a;
 
   // When we use shared_ptr
-  // cout << b->pointer->value[9] << endl;
+  // cout << b->pointer->value[9] << "\n";
   // When we use weak_ptr
-  cout << b->pointer.lock()->value[9] << endl;
+  cout << b->pointer.lock()->value[9] << "\n";
 }
 } // namespace NoLock
