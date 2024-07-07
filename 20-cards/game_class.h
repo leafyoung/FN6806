@@ -45,15 +45,14 @@ class Game {
   vector<Card> cards;
 
 public:
-  Game(int n = 1) : cards(52 * n) {
+  explicit Game(int n = 1) : cards(52 * n) {
     for (size_t n0 = 0; n0 < n; ++n0) {
       int vn = 0;
       for (auto s : {Suit::Heart, Suit::Diamond, Suit::Club, Suit::Spade}) {
         int c = 1;
         generate(next(cards.begin(), 52 * n0 + 13 * vn),
-                 next(cards.begin(), 52 * n0 + 13 * (vn + 1)), [&c, &s]() {
-                   return Card{c++, s};
-                 });
+                 next(cards.begin(), 52 * n0 + 13 * (vn + 1)),
+                 [&c, &s]() { return Card{c++, s}; });
         vn++;
       }
     }
