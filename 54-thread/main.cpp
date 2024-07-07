@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/54-thread
+
 #include <chrono>
 #include <future>
 #include <iostream>
@@ -116,8 +118,7 @@ int main() {
   }
 
   {
-    cout << "ForThread2"
-         << "\n";
+    cout << "ForThread2" << "\n";
     ForThread2 for_thread2(3);
     thread t2(&ForThread2::add, &for_thread2, 4);
     t2.join();

@@ -7,7 +7,7 @@ class K {
 public:
   // virtual ~K() = default;
   // For demo, we make some print here and not virtual.
-  ~K() { cout << "~K" << endl; };
+  ~K() { cout << "~K" << "\n"; };
 };
 
 class Ksub : public K {
@@ -16,7 +16,7 @@ class Ksub : public K {
 public:
   // allocate large memory
   Ksub() : x(1'000'000'000, 0) {}
-  ~Ksub() { cout << "~Ksub" << endl; };
+  ~Ksub() { cout << "~Ksub" << "\n"; };
 };
 
 void test_k();

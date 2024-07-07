@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/45-inheritanceforreuse
+
 #include <iostream>
 
 // Base class
@@ -11,9 +13,9 @@ protected:
       : manufacturer(m), model(md), year(y) {}
 
   void getInfo() const {
-    std::cout << "Manufacturer: " << manufacturer << std::endl
-              << "Model: " << model << std::endl
-              << "Year: " << year << std::endl;
+    std::cout << "Manufacturer: " << manufacturer << std::"\n"
+              << "Model: " << model << std::"\n"
+              << "Year: " << year << std::"\n";
   }
 };
 
@@ -28,7 +30,7 @@ public:
 
   void getInfo() const {
     Vehicle::getInfo();
-    std::cout << "Number of doors: " << numberOfDoors << std::endl;
+    std::cout << "Number of doors: " << numberOfDoors << std::"\n";
   }
 };
 
@@ -44,7 +46,7 @@ public:
 
   void getInfo() const {
     Vehicle::getInfo();
-    std::cout << "Type: " << type << std::endl;
+    std::cout << "Type: " << type << std::"\n";
   }
 };
 
@@ -57,7 +59,7 @@ int main() {
   Motorcycle motorcycle("Honda", "CBR500R", 2021, "Sport");
 
   car.getInfo();
-  std::cout << "----------" << std::endl;
+  std::cout << "----------" << std::"\n";
   motorcycle.getInfo();
 
   // And a pointer for the Base class can not call any member function.

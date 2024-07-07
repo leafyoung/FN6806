@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/30-template
+
 #include <array>
 #include <iostream>
 #include <list>
@@ -44,41 +46,41 @@ template <typename T> void print_container(const T &coll) {
   for (auto const &v : coll) {
     cout << v << ", ";
   }
-  cout << endl;
+  cout << "\n";
 }
 
 int main() {
   // 1. Use function template
-  cout << mymax(3, 2) << endl;
-  cout << mymax(4.0, 3.0) << endl;
-  cout << mymax("abc"s, "def"s) << endl;
-  // cout << mymax(3, 2.0) << endl; // ERROR
+  cout << mymax(3, 2) << "\n";
+  cout << mymax(4.0, 3.0) << "\n";
+  cout << mymax("abc"s, "def"s) << "\n";
+  // cout << mymax(3, 2.0) << "\n"; // ERROR
 
-  cout << (true > false) << endl;
+  cout << (true > false) << "\n";
 
   // C++11 allows us to skip the template argument
   // when it can deduce, but not for this one.
-  // cout << mymax(3, 2.0) << endl;
-  cout << mymax<double>(3, 2.0) << endl;
+  // cout << mymax(3, 2.0) << "\n";
+  cout << mymax<double>(3, 2.0) << "\n";
 
   // 2. Use class template
   // 4 3-dim boxes
   Boxes<4, 3, double> boxes_3d;
-  cout << boxes_3d.get_size() << endl;
+  cout << boxes_3d.get_size() << "\n";
 
   // Below will have a compilation error.
-  // cout << boxes_3d.get_dim() << endl;
+  // cout << boxes_3d.get_dim() << "\n";
 
   // 2 2-dim boxes
   Boxes<2, 2, double> boxes_2d;
-  cout << boxes_2d.get_size() << endl;
+  cout << boxes_2d.get_size() << "\n";
 
   // add default type to template arguments to enable below
   // Boxes<4> boxes_3d_2;
-  // cout << boxes_3d_2.get_size() << endl;
+  // cout << boxes_3d_2.get_size() << "\n";
 
   // 3. Use specialized function template
-  cout << mymax(Point{1, 2}, Point{3, 4}) << endl;
+  cout << mymax(Point{1, 2}, Point{3, 4}) << "\n";
 
   print_container(vector<int>{3, 4});
   print_container(vector<string>{"def", "abc"});

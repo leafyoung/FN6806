@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/3c-sharedptr
+
 #include <cassert>
 #include <iostream>
 #include <memory>
@@ -18,10 +20,7 @@ public:
     return shared_ptr<Y>(this);
   }
 
-  ~Y() {
-    cout << "~Y()"
-         << "\n";
-  }
+  ~Y() { cout << "~Y()" << "\n"; }
   void incr() { ++data; }
   int get() { return data; }
 };
@@ -38,8 +37,7 @@ int main() {
     // 1. Initialization
     // not preferred
     shared_ptr<Y> pY(new Y);
-    cout << "pY is released after this."
-         << "\n";
+    cout << "pY is released after this." << "\n";
 
     // preferred with make_shared
     auto p = make_shared<Y>();
@@ -54,8 +52,7 @@ int main() {
     auto p = make_shared<Y>();
     shared_ptr<Y> q{p}; // copy from p
 
-    cout << "We shall have 2 use_count()"
-         << "\n";
+    cout << "We shall have 2 use_count()" << "\n";
     cout << p.use_count() << ", " << q.use_count() << "\n";
     cout << p.get() << ", " << q.get() << "\n";
 
@@ -78,8 +75,7 @@ int main() {
     // return a shared from a shared_ptr
     shared_ptr<Y> x = p;
     shared_ptr<Y> z = p->shared_from_this();
-    cout << "We shall have 3 use_count()"
-         << "\n";
+    cout << "We shall have 3 use_count()" << "\n";
     assert(p == z);
     assert(p == x);
 

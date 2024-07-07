@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/42-inheritreuse
+
 #include <cmath>
 #include <iostream>
 using namespace std;

@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/36-classtemplateconversion
+
 #include <iostream>
 #include <string>
 #include <type_traits>

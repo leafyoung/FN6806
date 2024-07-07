@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/60-exception
+
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -20,7 +22,7 @@ int test_exp() {
   1.0 / 0.0;
 
   char x = 3000;
-  cout << x << endl;
+  cout << x << "\n";
 
   vector<int> xs = {1, 2, 3};
   cout << xs[3] << "\n";

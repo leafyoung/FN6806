@@ -1,7 +1,7 @@
 #include <cmath>
 #include <iostream>
 using std::cout;
-using std::endl;
+using std::"\n";
 using std::exp;
 
 class ZCB {
@@ -20,5 +20,5 @@ public:
   CouponBond(double face_value, double r, double c)
       : ZCB(face_value + c, r), c(c) {}
   double npv(double t) const { return ZCB::npv(t); }
-  void print() const { cout << "CouponBond(" << c << ")" << endl; }
+  void print() const { cout << "CouponBond(" << c << ")" << "\n"; }
 };

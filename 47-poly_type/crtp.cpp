@@ -7,7 +7,7 @@ namespace CRTP {
 
 void test_crtp() {
 
-  cout << "Call from CRTP" << endl;
+  cout << "Call from CRTP" << "\n";
 
   {
     Car car;

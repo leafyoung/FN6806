@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/34-classtemplatestatic
+
 #include <array>
 #include <iostream>
 #include <vector>

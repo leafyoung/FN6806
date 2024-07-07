@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/48-crtpvsvirtual
+
 #include <chrono>
 #include <functional>
 #include <iostream>
@@ -35,7 +37,7 @@ int main() {
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runVirtualCall(): "
          << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns" << endl;
+         << "ns" << "\n";
   }
   {
     unique_ptr<CRTPBase<CRTPBy1>> obj = make_unique<CRTPBy1>();
@@ -44,6 +46,6 @@ int main() {
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runCRTPCall(): "
          << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns" << endl;
+         << "ns" << "\n";
   }
 }

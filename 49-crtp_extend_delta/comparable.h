@@ -58,29 +58,29 @@ void test_comparable() {
   cout << boolalpha;
   {
     using namespace Vanilla;
-    cout << "Using Vanilla" << endl;
+    cout << "Using Vanilla" << "\n";
 
     Point p1(1, 1), p2(1, 2);
-    cout << (p1 == p1) << ", " << (p1 != p1) << endl;
-    cout << (p1 == p2) << ", " << (p1 != p2) << endl;
+    cout << (p1 == p1) << ", " << (p1 != p1) << "\n";
+    cout << (p1 == p2) << ", " << (p1 != p2) << "\n";
 
     Rectangle r1(p1, p2), r2({1, 2}, p2);
-    cout << (r1 == r1) << ", " << (r1 != r1) << endl;
-    cout << (r1 == r2) << ", " << (r1 != r2) << endl;
-    cout << endl;
+    cout << (r1 == r1) << ", " << (r1 != r1) << "\n";
+    cout << (r1 == r2) << ", " << (r1 != r2) << "\n";
+    cout << "\n";
   }
 
   {
     using namespace CRTP;
-    cout << "Using CRTP" << endl;
+    cout << "Using CRTP" << "\n";
 
     Point p1(1, 1), p2(1, 2);
-    cout << (p1 == p1) << ", " << (p1 != p1) << endl;
-    cout << (p1 == p2) << ", " << (p1 != p2) << endl;
+    cout << (p1 == p1) << ", " << (p1 != p1) << "\n";
+    cout << (p1 == p2) << ", " << (p1 != p2) << "\n";
 
     Rectangle r1(p1, p2), r2({1, 2}, p2);
-    cout << (r1 == r1) << ", " << (r1 != r1) << endl;
-    cout << (r1 == r2) << ", " << (r1 != r2) << endl;
-    cout << endl;
+    cout << (r1 == r1) << ", " << (r1 != r1) << "\n";
+    cout << (r1 == r2) << ", " << (r1 != r2) << "\n";
+    cout << "\n";
   }
 }

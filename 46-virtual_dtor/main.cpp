@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/46-virtualdtor
+
 #include <iostream>
 #include <memory>
 
@@ -8,7 +10,7 @@ using namespace std;
 
 class A {
 public:
-  virtual ~A() { cout << "~A()" << endl; };
+  virtual ~A() { cout << "~A()" << "\n"; };
 };
 
 class B {
@@ -22,13 +24,13 @@ class C : public B {
 };
 
 int main() {
-  cout << "Case 1" << endl;
+  cout << "Case 1" << "\n";
   // With the pointer type the same as the actual type
   // correct destructor will be selected always.
   C *c = new C;
   delete c;
 
-  cout << "Case 2" << endl;
+  cout << "Case 2" << "\n";
   B *b = new C;
   // if we don't make ~B as virtual, b will be destructed as class B.
   // a is not destructed so no print of "A::~A()"
@@ -36,10 +38,10 @@ int main() {
 
   // unique_ptr will automatically call delete when object is destroyed.
   // RAII
-  cout << "Case 3" << endl;
+  cout << "Case 3" << "\n";
   unique_ptr<B> b1{make_unique<C>()};
 
-  cout << "Case 4" << endl;
+  cout << "Case 4" << "\n";
   unique_ptr<C> c1{make_unique<C>()};
 
   return 0;

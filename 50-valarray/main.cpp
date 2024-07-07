@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/50-valarray
+
 #include <algorithm>
 #include <iostream>
 #include <iterator>

@@ -55,7 +55,7 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
   int end = 0, start = 0;
   for (int i = 0; i < n_thread; ++i) {
     mcs[i].gen = mts[i];
-    // cout << mts[i] << ", " << uid(mcs[i].gen) << endl;
+    // cout << mts[i] << ", " << uid(mcs[i].gen) << "\n";
     start = end;
     if (i < n_thread - 1) {
       mcs[i].paths = mcs[i].paths / n_thread;
@@ -77,7 +77,7 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
         [&gbm, mc = mcs[i], &mkt, &eval, &vs, start, end]() {
       gbm_multipath_opt_inc(gbm, mc, mkt, eval, vs, start, end);
         }); */
-    // cout << mc.paths << ": " << mcs[i].paths << ", " << &mcs[i] << endl;
+    // cout << mc.paths << ": " << mcs[i].paths << ", " << &mcs[i] << "\n";
   }
 
   for (auto &f : futures) {

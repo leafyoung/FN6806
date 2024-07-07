@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/3a-uniqueptr?v=1
+// https://replit.com/@YeKunlun/3a-uniqueptr
 
 #include <array>
 #include <iostream>

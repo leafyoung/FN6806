@@ -10,7 +10,7 @@ namespace TypeErasure {
 template <typename Vehicle> void call_drive(Vehicle v) { v.drive(); }
 
 void test_type_erasure() {
-  cout << "Call from function<void()>" << endl;
+  cout << "Call from function<void()>" << "\n";
   vector<function<void()>> vehicles_drive;
   vehicles_drive.emplace_back([]() { Car().drive(); });
   vehicles_drive.emplace_back([]() { Truck().drive(); });
@@ -19,12 +19,12 @@ void test_type_erasure() {
   for (auto &v : vehicles_drive) {
     v();
   }
-  cout << endl;
+  cout << "\n";
 
-  cout << "Call from function template" << endl;
+  cout << "Call from function template" << "\n";
   call_drive(Car());
   call_drive(Truck());
   call_drive(Plane());
-  cout << endl;
+  cout << "\n";
 }
 } // namespace TypeErasure

@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/31-printcontainertemplate
+
 #include <array>
 #include <iostream>
 #include <list>
@@ -14,7 +16,9 @@ struct DEF {
   void def() const {}
 };
 
-template <int Days> struct DayCount { const int day_count = Days; };
+template <int Days> struct DayCount {
+  const int day_count = Days;
+};
 
 using DayCount360 = DayCount<360>;
 using DayCount365 = DayCount<365>;
@@ -133,23 +137,20 @@ int main() {
     cout << larger_than_x<int, 6>(5) << "\n";
   }
   {
-    cout << "test print_container_basic()"
-         << "\n";
+    cout << "test print_container_basic()" << "\n";
     print_container_basic(vector<int>{3, 4});
     print_container_basic(vector<string>{"def", "abc"});
     print_container_basic(list<double>{3.0, 4.0});
     cout << "\n";
 
-    cout << "test print_container_auto()"
-         << "\n";
+    cout << "test print_container_auto()" << "\n";
     print_container_auto(vector<int>{3, 4});
     print_container_auto(vector<string>{"def", "abc"});
     print_container_auto(list<double>{3.0, 4.0});
     cout << "\n";
   }
   {
-    cout << "test print_container()"
-         << "\n";
+    cout << "test print_container()" << "\n";
     vector<double> vd{3.14, 8.1, 3.2, 1.0};
     print_container(vd);
 

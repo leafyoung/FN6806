@@ -30,19 +30,19 @@ int main() {
   Rectangle rec;
   rec.set_height(3.0);
   rec.set_width(4.0);
-  cout << rec.get_height() << ", " << rec.get_width() << endl;
-  cout << rec.area() << ", " << rec.perimeter() << endl;
+  cout << rec.get_height() << ", " << rec.get_width() << "\n";
+  cout << rec.area() << ", " << rec.perimeter() << "\n";
 
   Rectangle rec2;
   rec2.set_height(2.0);
   rec2.set_width(5.0);
-  cout << rec2.area() << ", " << rec2.perimeter() << endl;
+  cout << rec2.area() << ", " << rec2.perimeter() << "\n";
 
   /*
   {
     using namespace RectangleAtomic;
     RectangleAtomic::Rectangle rec(3, 44);
-    cout << rec.area() << endl;
+    cout << rec.area() << "\n";
   }
   */
 }

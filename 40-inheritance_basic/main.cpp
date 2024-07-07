@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/40-inheritancebasic
+
 #include "interpolator.h"
 #include "zcb.h"
 #include <iostream>
@@ -14,23 +16,23 @@ struct CPP : public C {
   int c{1};
   int get_c() { return c; }
   void print() {
-    cout << c << endl;          // derived class' member
-    cout << C::c << endl;       // base class' member
-    cout << get_c() << endl;    // derived class' member
-    cout << C::get_c() << endl; // base class' member
+    cout << c << "\n";          // derived class' member
+    cout << C::c << "\n";       // base class' member
+    cout << get_c() << "\n";    // derived class' member
+    cout << C::get_c() << "\n"; // base class' member
   }
 };
 
 /* ============================================== */
 
 struct A {
-  A() { cout << "A" << endl; }
-  ~A() { cout << "~A" << endl; }
+  A() { cout << "A" << "\n"; }
+  ~A() { cout << "~A" << "\n"; }
 };
 
 struct B : public A {
-  B() { cout << "B" << endl; }
-  ~B() { cout << "~B" << endl; }
+  B() { cout << "B" << "\n"; }
+  ~B() { cout << "~B" << "\n"; }
 };
 
 /* ============================================== */
@@ -62,7 +64,7 @@ public:
     cout << access_private() << "," << data_protected
          << ","
          // Access base class' member with the same name
-         << K::data_public << "," << data_public << endl;
+         << K::data_public << "," << data_public << "\n";
   }
 };
 
@@ -70,40 +72,40 @@ public:
 
 int main() {
   {
-    cout << "Test CPP: " << endl;
+    cout << "Test CPP: " << "\n";
     CPP cpp;
     cpp.print();
-    cout << endl;
+    cout << "\n";
   }
   {
-    cout << "Test B: " << endl;
+    cout << "Test B: " << "\n";
     B b; // initialize
-  }      // destroy
-  cout << endl;
+  } // destroy
+  cout << "\n";
 
   {
-    cout << "Test Ksub: " << endl;
+    cout << "Test Ksub: " << "\n";
     Ksub kk;
     kk.print();
     kk.access_private(30);
     kk.print();
-    cout << endl;
+    cout << "\n";
   }
   {
-    cout << "Test ZCB: " << endl;
+    cout << "Test ZCB: " << "\n";
     ZCB z{100, 0.01};
-    cout << z.npv(1.5) << endl;
+    cout << z.npv(1.5) << "\n";
     CouponBond cb{100, 0.01, 0.005};
-    cout << cb.npv(1.5) << endl;
-    cout << endl;
+    cout << cb.npv(1.5) << "\n";
+    cout << "\n";
   }
   {
-    cout << "Test Interpolator: " << endl;
+    cout << "Test Interpolator: " << "\n";
     LinearInterpolator linint({1.0, 2.0}, {1.0, 2.0});
-    cout << linint.interpolate(1.5) << endl;
+    cout << linint.interpolate(1.5) << "\n";
 
     SquaredInterpolator sqint({1.0, 2.0}, {1.0, 2.0});
-    cout << sqint.interpolate(1.5) << endl;
-    cout << endl;
+    cout << sqint.interpolate(1.5) << "\n";
+    cout << "\n";
   }
 }

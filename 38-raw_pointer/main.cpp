@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/38-rawpointer
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -29,7 +31,7 @@ int main() {
     ABC *p2 = new ABC();
     cout << ++(p2->a) << "\n";
     delete p2; // <2>
-  }            // if no delete at <1> and <2>, there is memory leak.
+  } // if no delete at <1> and <2>, there is memory leak.
 
   {
     // Use while loop simulate for

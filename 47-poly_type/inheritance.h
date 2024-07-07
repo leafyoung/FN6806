@@ -10,30 +10,30 @@ public:
   virtual void drive() = 0;
   virtual void speedup() = 0;
   // FIXME:
-  void stop() { cout << "stop" << endl; }
+  void stop() { cout << "stop" << "\n"; }
   virtual Vehicle &self() { return *this; }
   virtual ~Vehicle() = default;
 };
 
 class Car : public Vehicle {
 public:
-  void drive() override { cout << "Car~" << endl; }
-  void speedup() override { cout << "Car++~" << endl; }
-  void stop() { cout << "Car--|" << endl; }
+  void drive() override { cout << "Car~" << "\n"; }
+  void speedup() override { cout << "Car++~" << "\n"; }
+  void stop() { cout << "Car--|" << "\n"; }
   Car &self() override { return *this; }
 };
 class Truck : public Vehicle {
 public:
-  void drive() override { cout << "Truck>" << endl; }
-  void speedup() override { cout << "Truck++>" << endl; }
-  void stop() { cout << "Truck--<" << endl; }
+  void drive() override { cout << "Truck>" << "\n"; }
+  void speedup() override { cout << "Truck++>" << "\n"; }
+  void stop() { cout << "Truck--<" << "\n"; }
   Truck &self() override { return *this; }
 };
 class Plane : public Vehicle {
 public:
-  void drive() override { cout << "Plane/" << endl; }
-  void speedup() override { cout << "Plane++/" << endl; }
-  void stop() { cout << "Plane--\\" << endl; }
+  void drive() override { cout << "Plane/" << "\n"; }
+  void speedup() override { cout << "Plane++/" << "\n"; }
+  void stop() { cout << "Plane--\\" << "\n"; }
   Plane &self() override { return *this; }
 };
 
