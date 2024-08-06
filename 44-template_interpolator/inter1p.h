@@ -36,7 +36,7 @@ protected:
       return v;
     size_t i = 0;
     while (date > dates[i])
-      i++;
+      ++i;
     const T2 values_i1_up = op_up(values[i - 1]);
     const T2 values_i_up = op_up(values[i]);
     const T2 ratio = (date - dates[i - 1]) / (this->dates[i] - dates[i - 1]);

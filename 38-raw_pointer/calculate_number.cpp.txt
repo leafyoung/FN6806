@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/38-rawpointer
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,7 +16,7 @@ double calculate_numbers() {
   while (inputFile >> currentNumber) {
       int* temp = new int[count + 1];
       // Copy existing elements to the temporary array
-      for (int i = 0; i < count; i++) {
+      for (int i = 0; i < count; ++i) {
           temp[i] = numbers[i];
       }
       // Add the new number to the end of the array

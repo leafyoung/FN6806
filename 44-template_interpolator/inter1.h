@@ -52,7 +52,7 @@ public:
       return v;
     size_t i = 0;
     while (date > this->dates[i])
-      i++;
+      ++i;
     return this->values[i - 1] + (this->values[i] - this->values[i - 1]) /
                                      (this->dates[i] - this->dates[i - 1]) *
                                      (date - this->dates[i - 1]);
@@ -70,7 +70,7 @@ public:
       return v;
     size_t i = 0;
     while (date > this->dates[i])
-      i++;
+      ++i;
     const T2 values_i1_s = this->values[i - 1] * this->values[i - 1];
     const T2 values_i_s = this->values[i] * this->values[i];
     return sqrt(values_i1_s + (values_i_s - values_i1_s) /
