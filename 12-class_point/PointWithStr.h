@@ -4,6 +4,7 @@
 using namespace std;
 
 class PointWithStrNoCtor {
+public:
   int x, y;          // not initialized
   string name;       // s is initialized
   vector<double> vd; // vd is initialized
