@@ -1,7 +1,7 @@
 ## github - replit
 
 rm main main.o main-debug
-mkdir 12-class_point
+mkdir 22-operator
 mv *.h *.cpp 12-class_point/
 git config pull.rebase true
 git init
