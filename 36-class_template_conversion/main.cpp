@@ -59,12 +59,12 @@ int main() {
 
   // Copy from <double> to <string>
   Widget<string> w_str = w_double.copy<string>();
-  cout << "Widget<string> copy from double: " << w_str.get() << "\n";
+  cout << "Widget<string> copied from double: " << w_str.get() << "\n";
 
   // Copy from <int> to <string>
   Widget<string> w_str2 = w_int.copy<string>();
-  cout << "Widget<string> copy from int: " << w_str2.get() << "\n";
+  cout << "Widget<string> copied from int: " << w_str2.get() << "\n";
 
   Widget<double> w_double2 = w_int.copy<double>();
-  cout << "Widget<double> copy from int: " << w_double2.get() << "\n";
+  cout << "Widget<double> copied from int: " << w_double2.get() << "\n";
 }
