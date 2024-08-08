@@ -16,15 +16,33 @@ struct KeepAdd {
   void operator()(int a) const { sum += a; }
 };
 
-int main() {
-  auto varr = std::array<int, 3>{{2, 3, 4}};
-  int factorial = std::accumulate(varr.begin(), varr.end(), 1, Multiply{});
-  cout << factorial << endl; // 24
+class MyBool {
+  int x;
 
-  KeepAdd keepadd;
-  for_each(varr.begin(), varr.end(),
-           [keepadd = keepadd](auto x) { keepadd(x); });
-  cout << keepadd.sum << "\n"; // 9
-  for_each(varr.begin(), varr.end(), keepadd);
-  cout << keepadd.sum << "\n"; // 18
+public:
+  MyBool(int x1) : x{x1} {}
+  operator bool() const { return x == 0; }
+};
+
+int main() {
+  // Functor
+  {
+    auto varr = std::array<int, 3>{{2, 3, 4}};
+    int factorial = std::accumulate(varr.begin(), varr.end(), 1, Multiply{});
+    cout << factorial << endl; // 24
+
+    KeepAdd keepadd;
+    for_each(varr.begin(), varr.end(),
+             [keepadd = keepadd](auto x) { keepadd(x); });
+    cout << keepadd.sum << "\n"; // 9
+    for_each(varr.begin(), varr.end(), keepadd);
+    cout << keepadd.sum << "\n"; // 18
+  }
+
+  {
+    MyBool my_bool{3};
+    // calls operator bool(), b = false
+    bool b = static_cast<bool>(my_bool);
+    cout << b << endl;
+  }
 }
