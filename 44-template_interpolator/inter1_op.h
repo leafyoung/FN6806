@@ -9,7 +9,7 @@ using std::size_t;
 using std::tuple;
 using std::vector;
 
-namespace T1p {
+namespace T1op {
 
 template <typename T1, typename T2> class Interpolator {
 public:
@@ -81,4 +81,4 @@ public:
   T2 interpolate(const T1 &date) const { return interpolator(date); }
 };
 
-} // namespace T1p
+} // namespace T1op
