@@ -18,15 +18,18 @@ template <typename T1, typename T2> class Interpolator {
 public:
   using T1_type = T1;
   using T2_type = T2;
-  Interpolator(const vector<T1> &dates, const vector<T2> &values)
+  using Series1 = vector<T1_type>;
+  using Series2 = vector<T2_type>;
+
+  Interpolator(const Series1 &dates, const Series2 &values)
       : dates(dates), values(values) {
     if (dates.size() != values.size())
       throw logic_error("unequal length x and y");
   }
 
 protected:
-  vector<T1> dates;
-  vector<T2> values;
+  Series1 dates;
+  Series2 values;
   tuple<bool, T2> flat_extrapolate(const T1 &date) const {
     if (date <= dates.front())
       return {true, values.front()};
@@ -53,12 +56,8 @@ protected:
 template <typename T1, typename T2>
 class LinearInterpolator : public Interpolator<T1, T2> {
 public:
-  // Same as parent class's constructor, use using.
-  // LinearInterpolator(const vector<T1> &dates, const vector<T1> &values)
-  //    : dates(dates), values(values) {}
   using Interpolator<T1, T2>::Interpolator;
 
-  // overload operator() to make the object to be called like a function.
   T2 operator()(const T1 &date) const {
     return this->with_op(
         date, [](auto x) { return x; }, [](auto x) { return x; });

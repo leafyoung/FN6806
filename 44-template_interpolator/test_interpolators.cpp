@@ -11,70 +11,84 @@ using std::sqrt;
 void test_interpolators() {
   {
     using namespace InterpolatorInheritance;
+    using YieldTermStructure = TermStructure<LinearInterpolator>;
+    using VolatilityTermStructure = TermStructure<SquaredInterpolator>;
+
     cout << "InterpolatorInheritance with TermStructure:\n";
-    TermStructureWithoutType<LinearInterpolator> linear({1, 2, 3}, {1, 2, 3});
-
+    YieldTermStructure linear({1, 2, 3}, {1, 2, 3});
     cout << linear.interpolate(0.5) << ", " << linear.interpolate(3.5) << ", "
          << linear.interpolate(2.3) << "\n";
 
-    TermStructureWithoutType<SquaredInterpolator> squared({1, 2, 3}, {1, 2, 3});
+    VolatilityTermStructure squared({1, 2, 3}, {1, 2, 3});
     cout << squared.interpolate(0.5) << ", " << squared.interpolate(3.5) << ", "
          << squared.interpolate(2.3) << "\n";
     cout << "\n";
   }
   {
     using namespace InterpolatorTemplate;
+    using YieldTermStructure =
+        TermStructure<LinearInterpolator<double, double>>;
+    using VolatilityTermStructure =
+        TermStructure<SquaredInterpolator<double, double>>;
+
     cout << "InterpolatorTemplate with TermStructure:\n";
-    TermStructure<LinearInterpolator, double, double> linear({1, 2, 3},
-                                                             {1, 2, 3});
-
+    YieldTermStructure linear({1, 2, 3}, {1, 2, 3});
     cout << linear.interpolate(0.5) << ", " << linear.interpolate(3.5) << ", "
          << linear.interpolate(2.3) << "\n";
 
-    TermStructure<SquaredInterpolator, double, double> squared({1, 2, 3},
-                                                               {1, 2, 3});
+    VolatilityTermStructure squared({1, 2, 3}, {1, 2, 3});
     cout << squared.interpolate(0.5) << ", " << squared.interpolate(3.5) << ", "
          << squared.interpolate(2.3) << "\n";
     cout << "\n";
   }
   {
     using namespace InterpolatorTemplate;
-    cout << "InterpolatorTemplate with TermStructureWithoutType:\n";
-    TermStructureWithoutType<LinearInterpolator<double, double>> linear(
-        {1, 2, 3}, {1, 2, 3});
+    using YieldTermStructure =
+        TermStructureWithType<LinearInterpolator, double, double>;
+    using VolatilityTermStructure =
+        TermStructureWithType<SquaredInterpolator, double, double>;
+
+    cout << "InterpolatorTemplate with TermStructure:\n";
+    YieldTermStructure linear({1, 2, 3}, {1, 2, 3});
+
     cout << linear.interpolate(0.5) << ", " << linear.interpolate(3.5) << ", "
          << linear.interpolate(2.3) << "\n";
 
-    TermStructureWithoutType<SquaredInterpolator<double, double>> squared(
-        {1, 2, 3}, {1, 2, 3});
+    VolatilityTermStructure squared({1, 2, 3}, {1, 2, 3});
     cout << squared.interpolate(0.5) << ", " << squared.interpolate(3.5) << ", "
          << squared.interpolate(2.3) << "\n";
     cout << "\n";
   }
   {
     using namespace InterpolatorTemplateWithOp;
+    using YieldTermStructure =
+        TermStructureWithType<LinearInterpolator, double, double>;
+    using VolatilityTermStructure =
+        TermStructureWithType<SquaredInterpolator, double, double>;
+
     cout << "InterpolatorTemplateWithO with TermStructure:\n";
-    TermStructure<LinearInterpolator, double, double> linear({1, 2, 3},
-                                                             {1, 2, 3});
+    YieldTermStructure linear({1, 2, 3}, {1, 2, 3});
     cout << linear.interpolate(0.5) << ", " << linear.interpolate(3.5) << ", "
          << linear.interpolate(2.3) << "\n";
 
-    TermStructure<SquaredInterpolator, double, double> squared({1, 2, 3},
-                                                               {1, 2, 3});
+    VolatilityTermStructure squared({1, 2, 3}, {1, 2, 3});
     cout << squared.interpolate(0.5) << ", " << squared.interpolate(3.5) << ", "
          << squared.interpolate(2.3) << "\n";
     cout << "\n";
   }
   {
     using namespace InterpolatorTemplateWithOp;
-    cout << "InterpolatorTemplateWithOp with TermStructureWithoutType:\n";
-    TermStructureWithoutType<LinearInterpolator<double, double>> linear(
-        {1, 2, 3}, {1, 2, 3});
+    using YieldTermStructure =
+        TermStructure<LinearInterpolator<double, double>>;
+    using VolatilityTermStructure =
+        TermStructure<SquaredInterpolator<double, double>>;
+
+    cout << "InterpolatorTemplateWithOp with TermStructure:\n";
+    YieldTermStructure linear({1, 2, 3}, {1, 2, 3});
     cout << linear.interpolate(0.5) << ", " << linear.interpolate(3.5) << ", "
          << linear.interpolate(2.3) << "\n";
 
-    TermStructureWithoutType<SquaredInterpolator<double, double>> squared(
-        {1, 2, 3}, {1, 2, 3});
+    VolatilityTermStructure squared({1, 2, 3}, {1, 2, 3});
     cout << squared.interpolate(0.5) << ", " << squared.interpolate(3.5) << ", "
          << squared.interpolate(2.3) << "\n";
     cout << "\n";
