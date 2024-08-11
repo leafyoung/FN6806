@@ -11,13 +11,10 @@ template <typename X> struct X4 : public X2<X> {
   X x4() { return this->x; }
 };
 
-int main2() {
-  {
-    X3 x3;
-    cout << x3.x3() << "\\n";
+void test_template_class() {
+  X3 x3;
+  cout << x3.x3() << "\\n";
 
-    X4<int> x4;
-    cout << x4.x4() << "\\n";
-  }
-  return 0;
+  X4<int> x4;
+  cout << x4.x4() << "\\n";
 }

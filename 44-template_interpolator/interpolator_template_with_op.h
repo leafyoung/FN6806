@@ -1,22 +1,28 @@
 #pragma once
 
 #include <functional>
+#include <stdexcept>
 #include <tuple>
 #include <vector>
+
 using std::function;
+using std::logic_error;
 using std::make_tuple;
 using std::size_t;
 using std::tuple;
 using std::vector;
 
-namespace T1op {
+namespace InterpolatorTemplateWithOp {
 
 template <typename T1, typename T2> class Interpolator {
 public:
   using T1_type = T1;
   using T2_type = T2;
   Interpolator(const vector<T1> &dates, const vector<T2> &values)
-      : dates(dates), values(values) {}
+      : dates(dates), values(values) {
+    if (dates.size() != values.size())
+      throw logic_error("unequal length x and y");
+  }
 
 protected:
   vector<T1> dates;
@@ -70,15 +76,4 @@ public:
   }
 };
 
-template <template <typename, typename> class Interpolator, typename T1,
-          typename T2>
-class TermStructure {
-  Interpolator<T1, T2> interpolator;
-
-public:
-  TermStructure(const vector<T1> &dates, const vector<T2> &values)
-      : interpolator(dates, values) {}
-  T2 interpolate(const T1 &date) const { return interpolator(date); }
-};
-
-} // namespace T1op
+} // namespace InterpolatorTemplateWithOp
