@@ -2,7 +2,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
-using namespace std;
+using std::cout;
+using std::logic_error;
+using std::vector;
 
 using Series = vector<double>;
 
