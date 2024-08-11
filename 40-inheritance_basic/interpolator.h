@@ -29,7 +29,7 @@ public:
   // class
   using Interpolator::Interpolator;
 
-  double interpolate(double d) const {
+  double operator()(double d) const {
     cout << "linint: " << x.size() << ", " << y.size() << "\n";
     // 3. We need to access x and y here so they are protected.
     // dummy return value. not real implementation
@@ -40,7 +40,7 @@ public:
 class SquaredInterpolator : public Interpolator {
 public:
   using Interpolator::Interpolator;
-  double interpolate(double x) const {
+  double operator()(double x) const {
     // dummy return value. not real implementation
     return 0.2;
   }
