@@ -8,8 +8,6 @@
 
 using std::cout;
 using std::logic_error;
-using std::make_tuple;
-using std::size_t;
 using std::tuple;
 using std::vector;
 
