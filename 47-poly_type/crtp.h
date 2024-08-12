@@ -28,22 +28,22 @@ public:
 
 class Car : public Vehicle<Car> {
 public:
-  void drive_impl() { cout << "Car~" << "\n"; }
-  void speedup_impl() { cout << "Car++~" << "\n"; }
-  void stop_impl() { cout << "Car--|" << "\n"; }
+  void drive_impl() { cout << "Car~\n"; }
+  void speedup_impl() { cout << "Car++~\n"; }
+  void stop_impl() { cout << "Car--|\n"; }
 };
 
 class Truck : public Vehicle<Truck> {
 public:
-  void drive_impl() { cout << "Truck>" << "\n"; }
-  void speedup_impl() { cout << "Truck++>" << "\n"; }
-  void stop_impl() { cout << "Truck--<" << "\n"; }
+  void drive_impl() { cout << "Truck>\n"; }
+  void speedup_impl() { cout << "Truck++>\n"; }
+  void stop_impl() { cout << "Truck--<\n"; }
 };
 class Plane : public Vehicle<Plane> {
 public:
-  void drive_impl() { cout << "Plane/" << "\n"; }
-  void speedup_impl() { cout << "Plane++/" << "\n"; }
-  void stop_impl() { cout << "Plane--\\" << "\n"; }
+  void drive_impl() { cout << "Plane/\n"; }
+  void speedup_impl() { cout << "Plane++/\n"; }
+  void stop_impl() { cout << "Plane--\\\n"; }
 };
 
 void test_crtp();
