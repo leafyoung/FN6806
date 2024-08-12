@@ -3,19 +3,16 @@ using namespace std;
 
 namespace pricing {
 template <typename T> class HasDelta {
-protected:
-  const double bump_size = 0.0001;
-
 public:
   T &self() { return static_cast<T &>(*this); }
   const T &self() const { return static_cast<const T &>(*this); }
 
   // common method shared by all
-  double delta() const {
+  double delta(double bump_size) const {
     const double underlying = self().get_underlying();
-    const double bump_up = self().pv(underlying + self().bump_size);
-    const double bump_down = self().pv(underlying - self().bump_size);
-    const double delta = (bump_up - bump_down) / self().bump_size / 2;
+    const double bump_up = self().pv(underlying + bump_size);
+    const double bump_down = self().pv(underlying - bump_size);
+    const double delta = (bump_up - bump_down) / bump_size / 2;
     return delta;
   };
 };

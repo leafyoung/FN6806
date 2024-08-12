@@ -9,7 +9,8 @@ using namespace std;
 int main() {
   { test_comparable(); }
   {
-    cout << "Test Pricing (hasDelta)" << "\n";
+    cout << "Test Pricing (hasDelta)"
+         << "\n";
     using pricing::Futures;
     using pricing::Swaps;
 
@@ -18,11 +19,11 @@ int main() {
     Futures f(1000, 100, 95, 1);
     cout << "Futures: underlying: " << f.get_underlying() << "\n";
     cout << "Futures: pv: " << f.pv(f.get_underlying()) << "\n";
-    cout << "Futures: delta: " << f.delta() << "\n";
+    cout << "Futures: delta: " << f.delta(0.0001) << "\n";
 
     Swaps s(1000, 100, 95, 80, 0.3, 1);
     cout << "Swap: underlying: " << s.get_underlying() << "\n";
     cout << "Swap: pv: " << s.pv(s.get_underlying()) << "\n";
-    cout << "Swap: delta: " << s.delta() << "\n";
+    cout << "Swap: delta: " << s.delta(0.0001) << "\n";
   }
 }
