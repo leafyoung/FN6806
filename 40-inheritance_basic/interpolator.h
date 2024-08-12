@@ -35,12 +35,3 @@ public:
     return 0.1;
   }
 };
-
-class SquaredInterpolator : public Interpolator {
-public:
-  using Interpolator::Interpolator;
-  double operator()(double x) const {
-    // dummy return value. not real implementation
-    return 0.2;
-  }
-};
