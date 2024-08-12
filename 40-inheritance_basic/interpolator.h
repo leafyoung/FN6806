@@ -24,9 +24,8 @@ public:
   // 1. ctor in derived class can call the base class' ctor
   // LinearInterpolator(const Series &x, const Series &y) : Interpolator(x, y)
   // {}
-  // 2. Because the ctor is the same as base class
-  // We can call using to bring base class's ctor into the scope of derived
-  // class
+  // 2. When the ctor is the same as base class
+  // Use `using` to bring base class's ctor into derived class.
   using Interpolator::Interpolator;
 
   double operator()(double d) const {
