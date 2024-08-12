@@ -3,6 +3,7 @@
 #include <vector>
 using std::vector;
 
+// Improved version of internalize the types
 template <typename Interpolator> class TermStructure {
   Interpolator interpolator;
 
