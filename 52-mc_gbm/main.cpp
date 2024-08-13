@@ -45,7 +45,8 @@ void test_end_values(valarray<double> vals, double expected_mean,
   auto mean_diff = (mean - expected_mean) / expected_mean;
   auto stdev_diff = (stdev - expected_stdev) / expected_stdev;
   cout << "[n]: " << vals.size() << " mean: " << mean << " (" << mean_diff
-       << "), stdev: " << stdev << " (" << stdev_diff << ")" << "\n";
+       << "), stdev: " << stdev << " (" << stdev_diff << ")"
+       << "\n";
 }
 
 int main(int argc, char **argv) {
@@ -86,7 +87,7 @@ int main(int argc, char **argv) {
     cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
          << "\n";
     write_all(traj, "output/gbm_single_path_demo.csv");
-    cout << "gbm_single_path_demo" << "\n";
+    cout << "gbm_single_path_demo\n";
     test_end_values(end_values, expected_mean, expected_stdev);
   }
 
@@ -101,7 +102,7 @@ int main(int argc, char **argv) {
   cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
        << "\n";
   write_all(traj, "output/gbm_single_path.csv");
-  cout << "gbm_single_path" << "\n";
+  cout << "gbm_single_path\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
   gen.seed(seed);
@@ -115,7 +116,7 @@ int main(int argc, char **argv) {
   cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
        << "\n";
   write_all(traj, "output/gbm_single_path_v2.csv");
-  cout << "gbm_single_path_v2" << "\n";
+  cout << "gbm_single_path_v2\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
   gen.seed(seed);
@@ -129,7 +130,8 @@ int main(int argc, char **argv) {
   cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
        << "\n";
   write_all(traj, "output/gbm_single_path_exp.csv");
-  cout << "gbm_single_path_exp" << "\n";
+  cout << "gbm_single_path_exp"
+       << "\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
   gen.seed(seed);
@@ -142,7 +144,7 @@ int main(int argc, char **argv) {
   transform(traj.begin(), traj.end(), begin(end_values),
             [](const auto &v) { return v.back(); });
   // write_all(traj, "output/gbm_multipath.csv");
-  cout << "gbm_multipath" << "\n";
+  cout << "gbm_multipath\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
   gen.seed(seed);
@@ -157,7 +159,7 @@ int main(int argc, char **argv) {
   transform(traj.begin(), traj.end(), begin(end_values),
             [](const auto &v) { return v.back(); });
   // write_all(traj, "output/gbm_multipath.csv");
-  cout << "gbm_multipath_opt" << "\n";
+  cout << "gbm_multipath_opt\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
   const int multiplier = 10;
@@ -206,8 +208,8 @@ int main(int argc, char **argv) {
          << "\n";
     cout << "gbm_multipath_opt_thread_eigen for " << paths * multiplier << "\n";
     end_values.resize(paths * multiplier);
-    Eigen::VectorXd lastRow = traj3.row(traj3.rows() - 1);
-    end_values = valarray<double>(lastRow.data(), lastRow.size());
+    Eigen::VectorXd last_row = traj3.row(traj3.rows() - 1);
+    end_values = valarray<double>(last_row.data(), last_row.size());
     test_end_values(end_values, expected_mean, expected_stdev);
     // writeToCSVfile("output/test.csv", traj3);
   }

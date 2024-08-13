@@ -35,17 +35,22 @@ void gbm_multipath_opt_inc(const GBMParam &gbm, const MCParam &mc,
 multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
                                    const Market &mkt, const Eval &eval,
                                    const int &n_thread) {
+  // use incoming seed to initialize the seed
   uniform_int_distribution<unsigned int> uid;
-
   seed_seq seed{uid(mc.gen)};
+  // generate a vector of seeds
   std::vector<std::uint32_t> seeds(n_thread);
   seed.generate(seeds.begin(), seeds.end());
+  // create a vector of mt19937 from different seeds
   vector<mt19937> mts;
   for (auto seed : seeds)
     mts.emplace_back(seed);
 
+  // allocate for all the MCParam for each thread
   vector<MCParam> mcs(n_thread, mc);
   const int n_dt = round(eval.T / mc.dt);
+
+  // allocate for all the paths data
   multipath vs(mc.paths, path(n_dt + 1, 0.0));
 
   vector<packaged_task<void()>> tasks;
