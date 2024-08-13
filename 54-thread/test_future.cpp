@@ -20,4 +20,5 @@ void test_future() {
 
   if (t.joinable())
     t.join();
+  cout << "\n";
 }
