@@ -15,11 +15,10 @@ public:
 void test_launch() {
   cout << "test_launch:\n";
   cout << "ForThread\n";
-  ForThread for_thread2(3);
-  thread t2(&ForThread::add, &for_thread2, 4);
+  ForThread for_thread(3);
+  thread t2(&ForThread::add, &for_thread, 4);
   t2.join();
-  cout << for_thread2.get_output() << "\n";
-  cout << "\n";
+  cout << for_thread.get_output() << "\n\n";
   /*
   {
   cout << "ForThread" << "\n";
