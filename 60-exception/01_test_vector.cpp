@@ -5,8 +5,11 @@
 #include <string>
 #include <tuple>
 #include <vector>
+using namespace std;
 
 void test_vector_exception_demo() {
+  cout << __FUNCTION__ << ":\n";
+
   std::vector<int> v(10);
   try {
     v.at(10) = 100;
@@ -26,6 +29,7 @@ void test_vector_exception_demo() {
   } catch (const std::bad_alloc &e) {
     std::cout << "Caught bad_alloc: " << e.what() << '\n';
   }
+  cout << "\n";
 }
 
 // -------------------------------------------------
@@ -54,6 +58,7 @@ void handle_exception(const char *time, const char *file, int line,
 }
 
 void test_vector_exception() {
+  cout << __FUNCTION__ << ":\n";
   std::vector<int> v(10);
   try {
     v.at(10) = 100;
@@ -73,4 +78,5 @@ void test_vector_exception() {
   } catch (...) {
     handle_exception(__TIME__, __FILE__, __LINE__, __FUNCTION__);
   }
+  cout << "\n";
 }

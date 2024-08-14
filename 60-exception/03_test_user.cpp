@@ -1,8 +1,10 @@
 #include "03_test_user.h"
 #include <iostream>
 #include <stdexcept>
+using std::cout;
 
 void test_user_exception() {
+  cout << __FUNCTION__ << ":\n";
   try {
     throw 1; // throw an integer
   } catch (const double &i) {
@@ -21,4 +23,5 @@ void test_user_exception() {
     // it can also be caught with it.
     std::cout << "runtime_error: " << e.what() << "\n";
   }
+  cout << "\n";
 }

@@ -5,42 +5,51 @@
 #include <iostream>
 #include <thread>
 
+using std::cout;
+using std::ifstream;
+using std::string;
+
 void test_read_file() {
-  std::string filename = "60-exception/example.txt";
-  std::ifstream file(filename.c_str());
+  cout << __FUNCTION__ << ":\n";
+
+  string filename = "60-exception/example.txt";
+  ifstream file(filename.c_str());
 
   if (!file.is_open()) {
-    std::cout << "File does not exist after 1st attempt!\n";
+    cout << "File does not exist after 1st attempt!\n";
 
     std::this_thread::sleep_for(std::chrono::seconds(3)); // Wait for 3 second
 
     file.open(filename);
     if (file.is_open()) {
-      std::cout << "File successfully read!\n";
+      cout << "File successfully read!\n";
     } else {
-      std::cout << "File does not exist after 2nd attempt!\n";
+      cout << "File does not exist after 2nd attempt!\n";
     }
   } else {
-    std::cout << "File exists!\n";
+    cout << "File exists!\n";
   }
 }
 
 void test_read_file(int max_retries) {
-  std::string filename = "60-exception/example.txt";
-  std::ifstream file(filename.c_str());
+  cout << __FUNCTION__ << "(int max_retries):\n";
+
+  string filename = "60-exception/example.txt";
+  ifstream file(filename.c_str());
   int tries = 0;
   while (tries < max_retries) {
     file.open(filename);
     tries++;
     if (file.is_open()) {
-      std::cout << "File successfully read!\n";
+      cout << "File successfully read!\n";
       break;
     } else {
-      std::cout << "File does not exist after " << tries << " attempt!\n";
+      cout << "File does not exist after " << tries << " attempt!\n";
     }
     std::this_thread::sleep_for(std::chrono::seconds(3)); // Wait for 3 second
   }
   if (tries < max_retries) {
-    std::cout << "processing data\n";
+    cout << "processing data\n";
   }
+  cout << "\n";
 }

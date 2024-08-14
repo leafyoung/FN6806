@@ -1,8 +1,10 @@
 #include "02_test_stream.h"
 #include <fstream>
 #include <iostream>
+using std::cout;
 
 void test_stream() {
+  cout << __FUNCTION__ << ":\n";
   try {
     // Default behavior of stream object is silent of no throwing the exception.
     // After a failure, it will set the failbit data member to a value
@@ -16,4 +18,5 @@ void test_stream() {
               << "Explanatory string: " << e.what() << '\n'
               << "Error code: " << e.code() << '\n';
   }
+  cout << "\n";
 }

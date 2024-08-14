@@ -1,11 +1,13 @@
 #include "05_test_matrix_exception.h"
+using std::cout;
 
 void test_matrix_exception() {
+  cout << __FUNCTION__ << ":\n";
   try {
     throw MatrixExceptionStandalone(
         "Out of bound from MatrixExceptionStandalone");
   } catch (const MatrixExceptionStandalone &e) {
-    std::cout << e.what() << "\n";
+    cout << e.what() << "\n";
   }
 
   try {
@@ -17,12 +19,13 @@ void test_matrix_exception() {
   try {
     throw MatrixOutOfBoundsException(3, 56);
   } catch (const MatrixOutOfBoundsException &e) {
-    std::cout << e.what() << "\n";
+    cout << e.what() << "\n";
   }
 
   try {
     throw MatrixException17("Out of bound from 17");
   } catch (const MatrixException17 &e) {
-    std::cout << e.what() << "\n";
+    cout << e.what() << "\n";
   }
+  cout << "\n";
 }

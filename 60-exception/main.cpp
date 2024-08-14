@@ -36,15 +36,15 @@ int test_exp() {
 
 int main() {
   // { test_exp(); }
-  { test_read_file(3); }
-  { test_stream(); }
-  { test_vector_exception_demo(); }
-  { test_vector_exception(); }
-  { test_zip_vector(); }
-  { test_user_exception(); }
-  { test_dtor(); }
-  { test_matrix_exception(); }
-  { test_user_input(); }
+  test_dtor();
+  test_read_file(3);
+  test_stream();
+  test_vector_exception_demo();
+  test_vector_exception();
+  test_zip_vector();
+  test_user_exception();
+  test_matrix_exception();
+  test_user_input();
 
   return 0;
 }

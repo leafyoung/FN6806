@@ -4,6 +4,7 @@
 using namespace std;
 
 void test_zip_vector() {
+  cout << __FUNCTION__ << ":\n";
   auto zv = zip_vector<int, string>();
 
   zv.push_back(3, "abc"s);
@@ -21,4 +22,5 @@ void test_zip_vector() {
   for (auto v : vector<string>{zv}) {
     cout << v << "\n";
   }
+  cout << "\n";
 }

@@ -4,8 +4,10 @@
 using namespace std;
 
 void test_user_input() {
+  cout << __FUNCTION__ << ":\n";
   int size = -1;
-  cout << "Input size of array: (try type not a number)\n";
+  cout << "Input size of array: (type not a number or a negative number to "
+          "cause exception)\n";
   try {
     cin >> size;
     if (!cin) // if input was not integer, cin becomes false
@@ -16,6 +18,7 @@ void test_user_input() {
     // cerr is the output channel for error messages
     cerr << "caught " << e.what() << "\n";
   }
+  cout << "\n\n";
 }
 
 class ABC {
@@ -24,6 +27,7 @@ public:
 };
 
 void test_dtor() {
+  cout << __FUNCTION__ << ":\n";
   {
     ABC a;
     try {
@@ -32,9 +36,7 @@ void test_dtor() {
     }
     cout << "end of block\n";
   }
-
   {
-
     try {
       ABC a;
       throw logic_error("");
@@ -42,4 +44,5 @@ void test_dtor() {
     }
     cout << "end of block\n";
   }
+  cout << "\n\n";
 }
