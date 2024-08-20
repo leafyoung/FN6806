@@ -1,5 +1,6 @@
 ## github - replit
 
+```
 rm main main.o main-debug
 mkdir 22-operator
 mv *.h *.cpp 22-operator/
@@ -15,3 +16,4 @@ git add 22-operator
 git commit -m "22-operator"
 git rebase origin/main
 git push -u origin main
+```
