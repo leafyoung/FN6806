@@ -1,5 +1,6 @@
 ## github - replit
 
+```
 rm main main.o main-debug
 mkdir 80-hash
 mv *.h *.cpp 80-hash/
@@ -15,3 +16,4 @@ git add 80-hash
 git commit -m "80-hash"
 git rebase origin/main
 git push -u origin main
+```
