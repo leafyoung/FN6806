@@ -24,6 +24,8 @@ template <typename T> void get_abc(const T &coll) {
 
 template <int Days> struct DayCount { const int day_count = Days; };
 
+// Each specialization is a class
+// To use them conveniently, we use the following shortcut
 using DayCount360 = DayCount<360>;
 using DayCount365 = DayCount<365>;
 
