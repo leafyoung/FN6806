@@ -9,6 +9,8 @@
 using namespace std;
 
 void test_ymd() {
+  cout << __func__ << "\n";
+
   const auto now = std::chrono::system_clock::now();
 
   const std::chrono::year_month_day ymd_now{
@@ -33,6 +35,7 @@ void test_ymd() {
 }
 
 void test_duration() {
+  cout << __func__ << "\n";
   using namespace std::chrono_literals;
   using namespace std::chrono;
 
@@ -51,6 +54,8 @@ void test_duration() {
 }
 
 void test_weekday() {
+  cout << __func__ << "\n";
+
   using namespace std::chrono;
 
   weekday{month{6} / 21 / 2016};
@@ -69,21 +74,25 @@ void test_weekday() {
   //          << last_tuesday_in_October_2019 << '\n';
 }
 
-void test_date() {
+void test_date_h() {
+  cout << __func__ << "\n";
+
   using namespace date;
 
   auto d2 = 2015_y / aug / 5;
   auto d3 = d2 - months(3) - years(1);
-  std::cout << d2 << "\n";
+  std::cout << "d2:" << d2 << "\n";
+  std::cout << "d3:" << d3 << "\n";
 
   auto d4 = sys_days(d3);
-  std::cout << d4 << "\n";
+  std::cout << "d4:" << d4 << "\n";
   auto d5 = d4 + days(100);
-  std::cout << d5 << "\n";
+  std::cout << "d5:" << d5 << "\n";
 
-  std::cout << (sys_days(d3) + days(1) - sys_days(d3)).count() << "\n";
+  std::cout << "d3 ops:" << (sys_days(d3) + days(1) - sys_days(d3)).count()
+            << "\n";
 
-  std::cout << year(2015) / sep / 31 << "\n";
+  std::cout << "year(2015):" << year(2015) / sep / 31 << "\n";
 
   std::cout << weekday{year(2015) / sep / 31} << "\n";
   std::cout << (weekday{year(2015) / sep / 31} == Thursday) << "\n";
@@ -94,6 +103,8 @@ void test_date() {
 }
 
 void test_date_adv() {
+  cout << __func__ << "\n";
+
   using namespace date;
   using day_point = std::chrono::time_point<std::chrono::system_clock, days>;
   using time_point =
@@ -131,8 +142,12 @@ void test_date_adv() {
 }
 
 int main() {
-  test_date();
+  test_date_h();
+  cout << "\n";
   test_date_adv();
+  cout << "\n";
   // test_ymd();
+  // cout << "\n";
   // test_duration();
+  // cout << "\n";
 }
