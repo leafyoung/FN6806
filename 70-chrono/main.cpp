@@ -76,30 +76,30 @@ void test_weekday() {
 
 void test_date_h() {
   cout << __func__ << "\n";
-
   using namespace date;
 
-  auto d2 = 2015_y / aug / 5;
-  auto d3 = d2 - months(3) - years(1);
+  auto d2 = 2015_y / aug / 31;
+  auto d3 = d2 + months(1) - years(1);
   std::cout << "d2:" << d2 << "\n";
   std::cout << "d3:" << d3 << "\n";
 
-  auto d4 = sys_days(d3);
+  // sys_days normalizes an ymd to allow +/- days()
+  std::cout << "d3:" << sys_days(d3) << "\n";
+  auto d4 = sys_days(d3) + days(100);
   std::cout << "d4:" << d4 << "\n";
-  auto d5 = d4 + days(100);
-  std::cout << "d5:" << d5 << "\n";
 
   std::cout << "d3 ops:" << (sys_days(d3) + days(1) - sys_days(d3)).count()
             << "\n";
 
   std::cout << "year(2015):" << year(2015) / sep / 31 << "\n";
 
-  std::cout << weekday{year(2015) / sep / 31} << "\n";
-  std::cout << (weekday{year(2015) / sep / 31} == Thursday) << "\n";
+  std::cout << "weekday:" << weekday{year(2015) / sep / 31} << "\n";
+  std::cout << "weekday2:" << (weekday{year(2015) / sep / 31} == Thursday)
+            << "\n";
 
-  std::cout << month(7) / day(4) / year(1994) << "\n";
+  std::cout << "month(7):" << month(7) / day(4) / year(1994) << "\n";
 
-  std::cout << (4 * 24h) + 4h + 33min + 3s << "\n";
+  std::cout << "24h:" << (4 * 24h) + 4h + 33min + 3s << "\n";
 }
 
 void test_date_adv() {
