@@ -82,8 +82,8 @@ void test_date_h() {
   auto d3 = d2 + months(1) - years(1);
   cout << "d2:" << d2 << "\n";
   cout << "d3:" << d3 << "\n";
-
-  // sys_days normalizes an ymd to allow +/- days()
+ 
+  // sys_days normalizes an ymd and it allows +/- days()
   cout << "d3:" << sys_days(d3) << "\n";
   auto d4 = sys_days(d3) + days(100);
   cout << "d4:" << d4 << "\n";
