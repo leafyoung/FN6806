@@ -16,7 +16,7 @@ void test_ymd() {
   const std::chrono::year_month_day ymd_now{
       std::chrono::floor<std::chrono::days>(now)};
 
-  std::cout << static_cast<int>(ymd_now.year()) << "/"
+  cout << static_cast<int>(ymd_now.year()) << "/"
             << static_cast<unsigned>(ymd_now.month()) << "/"
             << static_cast<unsigned>(ymd_now.day()) << "\n";
 
@@ -31,7 +31,7 @@ void test_ymd() {
   auto the_month = static_cast<unsigned>(date1.month());
   auto the_day = static_cast<unsigned>(date1.day());
 
-  std::cout << the_year << "/" << the_month << "/" << the_day << "\n";
+  cout << the_year << "/" << the_month << "/" << the_day << "\n";
 }
 
 void test_duration() {
@@ -44,13 +44,13 @@ void test_duration() {
   const auto end = std::chrono::steady_clock::now();
   const std::chrono::duration<double> elapsed_seconds = end - start;
 
-  std::cout << elapsed_seconds.count()
+  cout << elapsed_seconds.count()
             << '\n'; // C++20: operator<< chrono::duration
 
   auto d = 5min + 10s;
-  std::cout << duration_cast<seconds>(d).count() << "\n";
-  std::cout << duration_cast<milliseconds>(d).count() << "\n";
-  std::cout << duration_cast<days>(d).count() << "\n";
+  cout << duration_cast<seconds>(d).count() << "\n";
+  cout << duration_cast<milliseconds>(d).count() << "\n";
+  cout << duration_cast<days>(d).count() << "\n";
 }
 
 void test_weekday() {
@@ -70,7 +70,7 @@ void test_weekday() {
   constexpr auto last_tuesday_in_October_2019 =
       year_month_day{Tuesday[last] / October / 2019y};
 
-  // std::cout << second_tuesday_in_October_2019<< '\n'
+  // cout << second_tuesday_in_October_2019<< '\n'
   //          << last_tuesday_in_October_2019 << '\n';
 }
 
@@ -80,26 +80,26 @@ void test_date_h() {
 
   auto d2 = 2015_y / aug / 31;
   auto d3 = d2 + months(1) - years(1);
-  std::cout << "d2:" << d2 << "\n";
-  std::cout << "d3:" << d3 << "\n";
+  cout << "d2:" << d2 << "\n";
+  cout << "d3:" << d3 << "\n";
 
   // sys_days normalizes an ymd to allow +/- days()
-  std::cout << "d3:" << sys_days(d3) << "\n";
+  cout << "d3:" << sys_days(d3) << "\n";
   auto d4 = sys_days(d3) + days(100);
-  std::cout << "d4:" << d4 << "\n";
+  cout << "d4:" << d4 << "\n";
 
-  std::cout << "d3 ops:" << (sys_days(d3) + days(1) - sys_days(d3)).count()
+  cout << "d3 ops:" << (sys_days(d3) + days(1) - sys_days(d3)).count()
             << "\n";
 
-  std::cout << "year(2015):" << year(2015) / sep / 31 << "\n";
+  cout << "year(2015):" << year(2015) / sep / 31 << "\n";
 
-  std::cout << "weekday:" << weekday{year(2015) / sep / 31} << "\n";
-  std::cout << "weekday2:" << (weekday{year(2015) / sep / 31} == Thursday)
+  cout << "weekday:" << weekday{year(2015) / sep / 31} << "\n";
+  cout << "weekday2:" << (weekday{year(2015) / sep / 31} == Thursday)
             << "\n";
 
-  std::cout << "month(7):" << month(7) / day(4) / year(1994) << "\n";
+  cout << "month(7):" << month(7) / day(4) / year(1994) << "\n";
 
-  std::cout << "24h:" << (4 * 24h) + 4h + 33min + 3s << "\n";
+  cout << "24h:" << (4 * 24h) + 4h + 33min + 3s << "\n";
 }
 
 void test_date_adv() {
@@ -113,7 +113,7 @@ void test_date_adv() {
   auto d2 = 2015_y / aug / 5;
   auto d3 = d2 - months(3) - years(1);
 
-  std::cout << (floor<days>(day_point{d2} - day_point{d3}) + +days{100}).count()
+  cout << (floor<days>(day_point{d2} - day_point{d3}) + +days{100}).count()
             << "\n";
 
   cout << year(2014) / 2 / 30 << "\\n";
@@ -122,20 +122,20 @@ void test_date_adv() {
   cout << typeid(x).name() << "\\n";
 
   day_point dp = floor<days>(std::chrono::system_clock::now());
-  std::cout << dp.time_since_epoch().count() << "\n";
+  cout << dp.time_since_epoch().count() << "\n";
 
-  std::cout << day_point{jan / 1 / 2000} - day_point{jan / 1 / 1999} << "\n";
+  cout << day_point{jan / 1 / 2000} - day_point{jan / 1 / 1999} << "\n";
 
-  std::cout << day_point{jan / 1 / 2000} - day_point{jan / 1 / 1999} << "\n";
+  cout << day_point{jan / 1 / 2000} - day_point{jan / 1 / 1999} << "\n";
 
-  std::cout << day_point{jan / 1 / 2000}.time_since_epoch() -
+  cout << day_point{jan / 1 / 2000}.time_since_epoch() -
                    day_point{jan / 1 / 1999}.time_since_epoch()
             << "\n";
 
   auto tp = day_point{jan / 1 / 2000} + 144h + 33min + 59s;
-  std::cout << tp << "\n";
+  cout << tp << "\n";
   auto d = floor<days>(tp);
-  std::cout << d << "\n";
+  cout << d << "\n";
 
   auto time = make_time(4h + 33min + 3s);
   cout << time << "\n" << time.seconds() << "\n";
