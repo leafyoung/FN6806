@@ -29,6 +29,7 @@ using DayCount365 = DayCount<365>;
 
 int main() {
   {
+    cout << boolalpha;
     cout << is_same<DayCount<360>, DayCount<365>>::value << "\n";
     DayCount360 dc_360;
     DayCount365 dc_365;
