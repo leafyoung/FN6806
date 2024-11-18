@@ -29,6 +29,14 @@ using DayCount365 = DayCount<365>;
 
 int main() {
   {
+    cout << is_same<DayCount<360>, DayCount<365>>::value << "\n";
+    DayCount360 dc_360;
+    DayCount365 dc_365;
+    cout << dc_360.day_count << "\n";
+    cout << dc_365.day_count << "\n";
+  }
+
+  {
     cout << boolalpha;
     auto x0 = vector<int>{1, 2, 3};
     auto x = get_3rd_element<vector, int>(x0);
@@ -49,13 +57,5 @@ int main() {
     cout << "gcd(33, 11): " << gcd<33, 11>::value << "\n";
     cout << "gcd(26, 65): " << gcd<26, 65>::value << "\n";
     cout << "gcd(65, 26): " << gcd<65, 26>::value << "\n";
-  }
-
-  {
-    cout << is_same<DayCount<360>, DayCount<365>>::value << "\n";
-    DayCount360 dc_360;
-    DayCount365 dc_365;
-    cout << dc_360.day_count << "\n";
-    cout << dc_365.day_count << "\n";
   }
 }
