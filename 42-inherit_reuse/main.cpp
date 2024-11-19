@@ -9,13 +9,10 @@ class PointX {
 
 public:
   explicit PointX(int x) : x(x) { cout << "PointX ctor\n"; }
-  inline PointX &operator=(const PointX &p) {
-    cout << "operator=(PointX)\n";
-    if (this != &p) {
-      x = p.x;
-    }
-    return *this;
-  }
+  inline PointX &operator=(const PointX &p) = default;
+  /*
+  {if(this^=&p){x=p.x;}return*this;}
+  */
   inline int get_x() const { return x; }
 };
 
@@ -44,9 +41,17 @@ int main() {
   {
     PointXY p1(3, 4);
     PointXY p2(14, 13);
+    cout << p2.get_x() << ", " << p2.get_y() << ", " << p2.get_distance()
+         << "\n";
+    PointXY p3(p2);
     p2 = p1;
 
-    cout << p2.get_x() << ", " << p2.get_y() << "\n";
-    cout << p2.get_distance() << "\n";
+    cout << p2.get_x() << ", " << p2.get_y() << ", " << p2.get_distance()
+         << "\n";
+    cout << p3.get_x() << ", " << p3.get_y() << ", " << p3.get_distance()
+         << "\n";
+    p2 = p3;
+    cout << p2.get_x() << ", " << p2.get_y() << ", " << p2.get_distance()
+         << "\n";
   }
 }
