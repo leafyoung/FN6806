@@ -21,14 +21,16 @@ class PointXY : public PointX {
 
 public:
   PointXY(int x, int y) : PointX(x), y(y) { cout << "PointXY ctor\n"; }
-  inline PointXY &operator=(const PointXY &p) {
-    cout << "operator=(PointXY)\n";
-    if (this != &p) {
-      PointX::operator=(p);
-      y = p.y;
+  inline PointXY &operator=(const PointXY &p) = default;
+  /* {
+      cout << "operator=(PointXY)\n";
+      if (this != &p) {
+        PointX::operator=(p);
+        y = p.y;
+      }
+      return *this;
     }
-    return *this;
-  }
+  */
 
   int get_y() const { return y; }
   double get_distance() const {
