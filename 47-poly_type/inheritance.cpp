@@ -37,7 +37,7 @@ void operateVehicle(Vehicle &v) {
 }
 
 void test_inheritance() {
-  cout << "Call from inheritance/reference" << "\n";
+  cout << "Call from inheritance/reference\n";
 
   Car c;
   Truck tr;
@@ -47,7 +47,7 @@ void test_inheritance() {
   v2.drive();
   v3.drive();
 
-  cout << "Call from inheritance/pointer" << "\n";
+  cout << "Call from inheritance/pointer\n";
 
   unique_ptr<Vehicle> vp1 = make_unique<Car>();
   test_drive(*vp1);
@@ -75,10 +75,10 @@ void test_inheritance() {
     v->stop();
   }
 
-  cout << "Call from inheritance/template" << "\n";
+  cout << "Call from inheritance/template\n";
   operateVehicle(getVehicle("car"s));
 
-  cout << "Return from virtual method" << "\n";
+  cout << "Return from virtual method\n";
   auto &r1 = vp1->self();
   r1.drive();
   Vehicle &v = vp1->self();
