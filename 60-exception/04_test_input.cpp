@@ -1,5 +1,6 @@
 #include "04_test_input.h"
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 using namespace std;
 
@@ -10,8 +11,11 @@ void test_user_input() {
           "cause exception)\n";
   try {
     cin >> size;
-    if (!cin) // if input was not integer, cin becomes false
-      throw 1;
+    if (!cin) { // if input was not integer, cin becomes false
+      stringstream ss;
+      ss << "Invalid input: " << size;
+      throw logic_error(ss.str());
+    }
     if (size < 0)
       throw logic_error("negative index!");
   } catch (const logic_error &e) {
