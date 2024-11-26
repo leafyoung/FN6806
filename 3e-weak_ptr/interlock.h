@@ -30,11 +30,16 @@ struct B {
 void test_lock() {
   auto a = make_shared<A>();
   auto b = make_shared<B>();
-  a->pointer = b;
-  b->pointer = a;
+  a->pointer = b; // B is used in A and b
+  cout << a.use_count() << ", " << b.use_count() << "\n";
+  b->pointer = a; // A is used in B and a
+  cout << b->pointer.use_count() << "\n";
 
   // When we use shared_ptr
-  cout << b->pointer->value[9] << "\n";
+  cout << b->pointer->value[9] << ": " << a.use_count() << ", " << b.use_count()
+       << "\n";
+  // a: 2, 1; b: 2, 1
+
   // When we use weak_ptr
   // cout << b->pointer.lock()->value[9] << "\n";
 }

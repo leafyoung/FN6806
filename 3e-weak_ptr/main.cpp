@@ -10,7 +10,8 @@ using namespace std;
 
 int main() {
   {
-    cout << "object is alive" << "\n";
+    cout << "object is alive"
+         << "\n";
     auto x = make_shared<int>(3);
     weak_ptr<int> p = x;
     cout << "x.use_count: " << p.use_count() << "\n";
@@ -20,7 +21,8 @@ int main() {
     }
   }
   {
-    cout << "shared_ptr is no longer alive" << "\n";
+    cout << "shared_ptr is no longer alive"
+         << "\n";
     auto x = make_shared<int>(3);
     weak_ptr<int> p = x;
     cout << "x.use_count: " << p.use_count() << "\n";
@@ -33,13 +35,15 @@ int main() {
   }
 
   {
-    using namespace InterLock;
-    while (true)
+    using namespace NoLock;
+    cout << "NoLock:\n";
+    for (size_t c = 0; c < 30; ++c)
       test_lock();
   }
 
   {
-    using namespace NoLock;
+    cout << "InterLock (memory leak):\n";
+    using namespace InterLock;
     while (true)
       test_lock();
   }
