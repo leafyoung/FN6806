@@ -20,7 +20,7 @@ public:
     return shared_ptr<Y>(this);
   }
 
-  ~Y() { cout << "~Y()" << "\n"; }
+  ~Y() { cout << "~Y()\n"; }
   void incr() { ++data; }
   int get() { return data; }
 };
@@ -37,14 +37,13 @@ int main() {
     // 1. Initialization
     // not preferred
     shared_ptr<Y> pY(new Y);
-    cout << "pY is released after this." << "\n";
+    cout << "pY is released after this.\n";
 
     // preferred with make_shared
     auto p = make_shared<Y>();
     shared_ptr<Y> q{p}; // copy from p
     cout << q.use_count() << "\n";
     cout << p.use_count() << "\n";
-    return 0;
   } // pY is released here
 
   {
@@ -52,7 +51,7 @@ int main() {
     auto p = make_shared<Y>();
     shared_ptr<Y> q{p}; // copy from p
 
-    cout << "We shall have 2 use_count()" << "\n";
+    cout << "We shall have 2 use_count()\n";
     cout << p.use_count() << ", " << q.use_count() << "\n";
     cout << p.get() << ", " << q.get() << "\n";
 
@@ -75,7 +74,7 @@ int main() {
     // return a shared from a shared_ptr
     shared_ptr<Y> x = p;
     shared_ptr<Y> z = p->shared_from_this();
-    cout << "We shall have 3 use_count()" << "\n";
+    cout << "We shall have 3 use_count()\n";
     assert(p == z);
     assert(p == x);
 
@@ -90,10 +89,10 @@ int main() {
     // return a shared from a share_ptr
     shared_ptr<Y> x = p->getY();
     shared_ptr<Y> z = p->getY();
-    cout << p.use_count() << " == " << x.use_count() << " == " << z.use_count()
-         << "\n";
+    cout << x.use_count() << " == " << z.use_count() << "\n";
     cout << p.get() << " == " << z.get() << " == " << x.get() << "\n";
-  } // double free corruption error
+    cout.flush();
+  } // double free corruption error if we replace the above with ->getY2()
     // each shared_ptr think it owns the object and frees it although it has
     // been freed by others already.
 
