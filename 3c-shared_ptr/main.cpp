@@ -83,7 +83,7 @@ int main() {
     cout << p.get() << " == " << z.get() << " == " << x.get() << "\n";
   }
 
-  // below code causes runtime error
+  // below code may cause runtime error
   {
     auto p = make_shared<Y>();
     // return a shared from a share_ptr
