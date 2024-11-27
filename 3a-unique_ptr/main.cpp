@@ -40,11 +40,6 @@ int main() {
     (*p_vec)[0] = 0;
     (*p_vec)[1] = 1;
     (*p_vec)[2] = 2;
-
-    // assignment
-    auto p = make_unique<int>(3);
-    auto p2 = make_unique<int>(3);
-    p = move(p);
   }
 
   {
@@ -59,6 +54,8 @@ int main() {
     auto p3 = make_unique<int>(3);
 
     cout << "p1 (before): " << p1.get() << "\n";
+
+    // assignment
     // p1 = p3; // error, not copyable
     p1 = move(p1); // ok, p1 is moved to p1
     p3 = move(p1); // ok. p1 is moved to p3, p1 is empty
