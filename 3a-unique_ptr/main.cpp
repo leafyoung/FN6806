@@ -52,17 +52,13 @@ int main() {
     unique_ptr<int> p2 = make_unique<int>(3);
     // or, use auto
     auto p3 = make_unique<int>(3);
-
     cout << "p1 (before): " << p1.get() << "\n";
 
     // assignment
     // p1 = p3; // error, not copyable
-    p1 = move(p1); // ok, p1 is moved to p1
-    p3 = move(p1); // ok. p1 is moved to p3, p1 is empty
-    // p3's resource is released
-    // p1's object is transferred to p3
-    // p1 is now nullptr
-    // *p3 is 1
+    p1 = move(p1); // ok, p1's object is moved to p1
+    p3 = move(p1); // ok. p1's object is moved to p3, p1 becomes nullptr
+                   // p3's resource is released
     cout << "p1 (after): " << p1.get() << "\n";
 
     // Pass the value to a function.
