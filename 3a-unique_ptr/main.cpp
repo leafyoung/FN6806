@@ -32,7 +32,6 @@ unique_ptr<int> return_int() { return make_unique<int>(3); }
 int main() {
   {
     // 1. Initialization solo and in container.
-    auto p = make_unique<int>(3);
     auto p_arr = make_unique<array<int, 3>>();
     (*p_arr)[0] = 0;
     (*p_arr)[1] = 1;
@@ -41,6 +40,11 @@ int main() {
     (*p_vec)[0] = 0;
     (*p_vec)[1] = 1;
     (*p_vec)[2] = 2;
+
+    // assignment
+    auto p = make_unique<int>(3);
+    auto p2 = make_unique<int>(3);
+    p = move(p);
   }
 
   {
@@ -52,14 +56,16 @@ int main() {
     // preferred
     unique_ptr<int> p2 = make_unique<int>(3);
     // or, use auto
-    auto p2a = make_unique<int>(3);
+    auto p3 = make_unique<int>(3);
 
     cout << "p1 (before): " << p1.get() << "\n";
-    p2a = move(p1);
-    // p2a's resource is released
-    // p1's object is transferred to p2a
+    // p1 = p3; // error, not copyable
+    p1 = move(p1); // ok, p1 is moved to p1
+    p3 = move(p1); // ok. p1 is moved to p3, p1 is empty
+    // p3's resource is released
+    // p1's object is transferred to p3
     // p1 is now nullptr
-    // *p2a is 1
+    // *p3 is 1
     cout << "p1 (after): " << p1.get() << "\n";
 
     // Pass the value to a function.
@@ -74,10 +80,10 @@ int main() {
     cout << "p2 (after): " << p2.get() << "\n";
 
     // move it in and receive it back
-    p2a = f3(move(p2a));
-    cout << *p2a << "\n";
-    p2a.reset();
-    cout << "p2a (after reset): " << p2a.get() << "\n";
+    p3 = f3(move(p3));
+    cout << *p3 << "\n";
+    p3.reset();
+    cout << "p3 (after reset): " << p3.get() << "\n";
   }
 
   {
