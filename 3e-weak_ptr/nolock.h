@@ -4,10 +4,9 @@
 using namespace std;
 
 namespace NoLock {
-// Forward declaration
-// allows to use the type for pointer
-// without defining it.
 
+// Forward declaration
+// It allows to use B type for the use of pointer in class A.
 struct A;
 struct B;
 
