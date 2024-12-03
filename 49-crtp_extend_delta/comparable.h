@@ -35,7 +35,11 @@ template <typename T, typename U> class ComparableXY {
 
 public:
   ComparableXY(const U &x, const U &y) : x(x), y(y) {}
-  bool operator==(T const &rhs) const { return x == rhs.x && y == rhs.y; }
+  bool operator==(T const &rhs) const {
+    // `tie` from tuple can replace `x == rhs.x && y == rhs.y;`
+    // `tie` can be used to compare any number of members at once.
+    return std::tie(x, y) == std::tie(rhs.x, rhs.y);
+  }
   bool operator!=(T const &rhs) const { return !((*this) == rhs); }
 };
 
