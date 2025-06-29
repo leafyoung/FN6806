@@ -1,7 +1,5 @@
 // https://replit.com/@YeKunlun/54-thread
 
-using namespace std;
-
 void test_thread();
 void test_future();
 void test_launch();
