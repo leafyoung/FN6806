@@ -11,13 +11,13 @@ template <class... Ts> struct overload : Ts... {
 template <class... Ts> overload(Ts...) -> overload<Ts...>;
 
 struct Circle {
-  void Draw() const { cout << "Circle" << "\n"; }
+  void Draw() const { cout << "Circle\n"; }
 };
 struct Square {
-  void Draw() const { cout << "Square" << "\n"; }
+  void Draw() const { cout << "Square\n"; }
 };
 struct Triangle {
-  void Draw() const { cout << "Triangle" << "\n"; }
+  void Draw() const { cout << "Triangle\n"; }
 };
 
 struct PrintVisitor {
@@ -33,11 +33,11 @@ int main() {
     std::variant<int, float, std::string> intFloatString{"Hello"};
     std::visit(
         overload{
-            [](const int &i) { std::cout << "int: " << i << "\n"; },
-            [](const float &f) { std::cout << "float: " << f << "\n"; },
-            [](const std::string &s) { std::cout << "string: " << s << "\n"; }},
+            [](const int &i) { std::cout << "int: " << i << '\n'; },
+            [](const float &f) { std::cout << "float: " << f << '\n'; },
+            [](const std::string &s) { std::cout << "string: " << s << '\n'; }},
         intFloatString);
-    cout << "\n";
+    cout << '\n';
   }
   {
     PrintVisitor p;
@@ -47,7 +47,7 @@ int main() {
     p(i);
     p(j);
     p(s);
-    cout << "\n";
+    cout << '\n';
   }
 
   {

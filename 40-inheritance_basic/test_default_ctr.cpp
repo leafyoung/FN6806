@@ -7,6 +7,7 @@ protected:
   D() { cout << "D()\n"; }
   D(int x) { cout << "D(x)\n"; }
 };
+
 class E : public D {
 public:
   // ctor case 1 :

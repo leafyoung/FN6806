@@ -1,4 +1,9 @@
 #pragma once
+#include <memory>
+#include <stdexcept>
+
+using std::logic_error;
+using std::unique_ptr;
 
 class BaseVirtual {
 public:
@@ -24,10 +29,4 @@ public:
 };
 
 void runVirtualCall(unique_ptr<BaseVirtual> obj, int test_loop,
-                    int expected_result) {
-  for (int i = 0; i < test_loop; ++i) {
-    obj->increment();
-  }
-  if (obj->value() != expected_result)
-    throw logic_error("Failed test");
-}
+                    int expected_result);

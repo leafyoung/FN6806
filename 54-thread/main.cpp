@@ -1,8 +1,5 @@
 // https://replit.com/@YeKunlun/54-thread
 
-#include <chrono>
-#include <iostream>
-#include <thread>
 using namespace std;
 
 void test_thread();

@@ -14,6 +14,6 @@ void test_async() {
     if (y.wait(), true) {
       cout << y.get();
     }
-    cout << "\n";
+    cout << '\n';
   }
 }

@@ -29,7 +29,7 @@ public:
     cout << get_private() << "," << data_protected
          << ","
          // Access base class' member with the same name
-         << K::data_public << "," << data_public << "\n";
+         << K::data_public << "," << data_public << '\n';
   }
 };
 
@@ -37,5 +37,5 @@ void test_delegation() {
   cout << "Test Ksub:\n";
   Ksub kk;
   kk.print();
-  cout << "\n";
+  cout << '\n';
 }

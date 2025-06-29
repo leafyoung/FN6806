@@ -20,7 +20,7 @@ void test_user_input() {
       throw logic_error("negative index!");
   } catch (const logic_error &e) {
     // cerr is the output channel for error messages
-    cerr << "caught " << e.what() << "\n";
+    cerr << "caught " << e.what() << '\n';
   }
   cout << "\n\n";
 }

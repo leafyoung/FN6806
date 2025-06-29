@@ -84,7 +84,7 @@ void test_inheritance() {
   Vehicle &v = vp1->self();
   v.drive();
 
-  cout << "\n";
+  cout << '\n';
 }
 
 } // namespace Inheritance

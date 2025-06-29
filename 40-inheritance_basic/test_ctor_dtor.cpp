@@ -17,5 +17,5 @@ void test_ctor_dtor() {
     B b; // initialize
 
   } // destroy
-  cout << "\n";
+  cout << '\n';
 }

@@ -54,7 +54,7 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam &gbm, const MCParam &mc,
   int end = 0, start = 0;
   for (int i = 0; i < n_thread; ++i) {
     mcs[i].gen = mts[i];
-    // cout << mts[i] << ", " << uid(mcs[i].gen) << "\n";
+    // cout << mts[i] << ", " << uid(mcs[i].gen) << '\n';
     start = end;
     if (i < n_thread - 1) {
       mcs[i].paths = mcs[i].paths / n_thread;

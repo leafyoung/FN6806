@@ -29,7 +29,7 @@ void test_vector_exception_demo() {
   } catch (const std::bad_alloc &e) {
     std::cout << "Caught bad_alloc: " << e.what() << '\n';
   }
-  cout << "\n";
+  cout << '\n';
 }
 
 // -------------------------------------------------
@@ -78,5 +78,5 @@ void test_vector_exception() {
   } catch (...) {
     handle_exception(__TIME__, __FILE__, __LINE__, __FUNCTION__);
   }
-  cout << "\n";
+  cout << '\n';
 }

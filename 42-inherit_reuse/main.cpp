@@ -44,16 +44,16 @@ int main() {
     PointXY p1(3, 4);
     PointXY p2(14, 13);
     cout << p2.get_x() << ", " << p2.get_y() << ", " << p2.get_distance()
-         << "\n";
+         << '\n';
     PointXY p3(p2);
     p2 = p1;
 
     cout << p2.get_x() << ", " << p2.get_y() << ", " << p2.get_distance()
-         << "\n";
+         << '\n';
     cout << p3.get_x() << ", " << p3.get_y() << ", " << p3.get_distance()
-         << "\n";
+         << '\n';
     p2 = p3;
     cout << p2.get_x() << ", " << p2.get_y() << ", " << p2.get_distance()
-         << "\n";
+         << '\n';
   }
 }

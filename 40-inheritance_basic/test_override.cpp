@@ -10,17 +10,16 @@ struct CPP : public C {
   int c{1};
   int get_c() { return c; }
   void print() {
-    cout << c << "\n";          // derived class' member
-    cout << C::c << "\n";       // base class' member
-    cout << get_c() << "\n";    // derived class' member
-    cout << C::get_c() << "\n"; // base class' member
+    cout << c << '\n';          // derived class' member
+    cout << C::c << '\n';       // base class' member
+    cout << get_c() << '\n';    // derived class' member
+    cout << C::get_c() << '\n'; // base class' member
   }
 };
 
 void test_override() {
-  cout << "Test CPP: "
-       << "\n";
+  cout << "Test CPP: \n";
   CPP cpp;
   cpp.print();
-  cout << "\n";
+  cout << '\n';
 }

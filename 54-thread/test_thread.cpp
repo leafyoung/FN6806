@@ -4,7 +4,7 @@
 using std::cout;
 using std::thread;
 
-void func1() { std::cout << "thread func without params" << '\n'; }
+void func1() { std::cout << "thread func without params\n"; }
 
 void func2(int const i, double const d, std::string const s) {
   std::cout << i << ", " << d << ", " << s << '\n';
@@ -14,7 +14,7 @@ void func3(int &i) { i *= 2; }
 
 void test_thread() {
   cout << "test_thread:\n";
-  cout << "CPU: " << thread::hardware_concurrency() << "\n";
+  cout << "CPU: " << thread::hardware_concurrency() << '\n';
   {
     std::thread t(func1);
     // try either .join() or .detach()
@@ -26,12 +26,12 @@ void test_thread() {
     int i = 0;
     std::thread t;
     t = thread([&i]() {
-      std::cout << "thread func without params using lambda" << '\n';
+      std::cout << "thread func without params using lambda\n";
       i += 1001;
     });
     if (t.joinable())
       t.join();
-    cout << "After thread: " << i << "\n";
+    cout << "After thread: " << i << '\n';
   }
 
   {
@@ -47,5 +47,5 @@ void test_thread() {
       t.join();
     std::cout << "After func3: " << n << '\n'; // 84
   }
-  cout << "\n";
+  cout << '\n';
 }

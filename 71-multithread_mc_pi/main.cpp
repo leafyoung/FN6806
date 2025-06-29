@@ -27,7 +27,7 @@ long random_circle_sampling(long n_samples) {
   auto thread_id = std::this_thread::get_id();
   std::cout << "running thread "
             << *static_cast<unsigned int *>(static_cast<void *>(&thread_id))
-            << "\n";
+            << '\n';
   std::uniform_real_distribution<> dis(0.0, 1.0);
   long points_inside = 0;
   for (long i = 0; i < n_samples; ++i) {
@@ -69,9 +69,9 @@ int main() {
   double pi = 3.14159265358979323846;
   double approx_pi = approximate_pi(tot_samples, n_threads);
   double abs_diff = abs(pi - approx_pi);
-  cout << "pi\t\t" << pi << "\n";
-  cout << "approx_pi\t" << approx_pi << "\n";
-  cout << "abs_diff\t" << abs_diff << "\n";
+  cout << "pi\t\t" << pi << '\n';
+  cout << "approx_pi\t" << approx_pi << '\n';
+  cout << "abs_diff\t" << abs_diff << '\n';
 
   return 0;
 }

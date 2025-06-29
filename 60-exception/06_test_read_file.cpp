@@ -51,5 +51,5 @@ void test_read_file(int max_retries) {
   if (tries < max_retries) {
     cout << "processing data\n";
   }
-  cout << "\n";
+  cout << '\n';
 }

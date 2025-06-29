@@ -10,6 +10,7 @@ double Rectangle::area() const {
   // return this->_area = this->width * this->height;
   return /* this-> */ _area = /* this-> */ width * /* this-> */ height;
 }
+
 double Rectangle::perimeter() const {
   return /* this-> */ _perimeter =
              (/* this-> */ width + /* this-> */ height) * 2;

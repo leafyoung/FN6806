@@ -9,7 +9,7 @@ void func(int *ptr) {
   if (ptr != nullptr)
     std::cout << *ptr << '\n';
   else
-    std::cout << "null" << '\n';
+    std::cout << "null\n";
 }
 
 class controlbase {
@@ -37,18 +37,18 @@ public:
 class button : public control<button> {
 public:
   void erase_background() {
-    std::cout << "erasing " << _name << " background... " << '\n';
+    std::cout << "erasing " << _name << " background... \n";
   }
-  void paint() { std::cout << "painting " << _name << " ... " << '\n'; }
+  void paint() { std::cout << "painting " << _name << " ... \n"; }
   button(std::string name = "button") : control<button>(name) {}
 };
 
 class checkbox : public control<checkbox> {
 public:
   void erase_background() {
-    std::cout << "erasing " << _name << " background... " << '\n';
+    std::cout << "erasing " << _name << " background... \n";
   }
-  void paint() { std::cout << "painting " << _name << " ... " << '\n'; }
+  void paint() { std::cout << "painting " << _name << " ... \n"; }
   checkbox(std::string name = "checkbox") : control<checkbox>(name) {}
 };
 

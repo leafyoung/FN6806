@@ -51,20 +51,20 @@ Widget<S> Widget<T>::copy() const {
 
 int main() {
   auto w_double = Widget<double>(3.14);
-  cout << "Widget<double>: " << w_double.get() << "\n";
+  cout << "Widget<double>: " << w_double.get() << '\n';
 
   // Copy from <double> to <int>
   Widget<int> w_int = w_double.copy<int>();
-  cout << "Widget<int>: " << w_int.get() << "\n";
+  cout << "Widget<int>: " << w_int.get() << '\n';
 
   // Copy from <double> to <string>
   Widget<string> w_str = w_double.copy<string>();
-  cout << "Widget<string> copied from double: " << w_str.get() << "\n";
+  cout << "Widget<string> copied from double: " << w_str.get() << '\n';
 
   // Copy from <int> to <string>
   Widget<string> w_str2 = w_int.copy<string>();
-  cout << "Widget<string> copied from int: " << w_str2.get() << "\n";
+  cout << "Widget<string> copied from int: " << w_str2.get() << '\n';
 
   Widget<double> w_double2 = w_int.copy<double>();
-  cout << "Widget<double> copied from int: " << w_double2.get() << "\n";
+  cout << "Widget<double> copied from int: " << w_double2.get() << '\n';
 }

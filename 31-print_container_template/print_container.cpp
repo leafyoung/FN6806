@@ -10,7 +10,7 @@ void print_container_auto(auto const &coll) {
   for (auto const &v : coll) {
     cout << v << ", ";
   }
-  cout << "\n";
+  cout << '\n';
 }
 
 void test_print_container() {
@@ -20,13 +20,13 @@ void test_print_container() {
     print_container_basic(vector<int>{3, 4});
     print_container_basic(vector<string>{"def", "abc"});
     print_container_basic(list<double>{3.0, 4.0});
-    cout << "\n";
+    cout << '\n';
 
     cout << "test print_container_auto()\n";
     print_container_auto(vector<int>{3, 4});
     print_container_auto(vector<string>{"def", "abc"});
     print_container_auto(list<double>{3.0, 4.0});
-    cout << "\n";
+    cout << '\n';
   }
   {
     cout << "test print_container()\n";
@@ -44,7 +44,7 @@ void test_print_container() {
       cout << p << " ";
       // print_container(p);
     }
-    cout << "\n";
+    cout << '\n';
 
     auto m = map<int, string>{{1, "abc"}, {2, "def"}};
     print_container_var(m);

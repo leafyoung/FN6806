@@ -23,13 +23,13 @@ void f() {
 int main() {
   {
     int *p = new int(3);
-    cout << *p << "\n";
+    cout << *p << '\n';
     delete p;           // <1>
-    cout << *p << "\n"; // <3> use after delete
+    cout << *p << '\n'; // <3> use after delete
     // delete p;        // <4> Error: double delete
 
     ABC *p2 = new ABC();
-    cout << ++(p2->a) << "\n";
+    cout << ++(p2->a) << '\n';
     delete p2; // <2>
   } // if no delete at <1> and <2>, there is memory leak.
 

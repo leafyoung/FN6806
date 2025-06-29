@@ -34,9 +34,9 @@ int main() {
     KeepAdd keepadd;
     for_each(varr.begin(), varr.end(),
              [keepadd = keepadd](auto x) { keepadd(x); });
-    cout << keepadd.sum << "\n"; // 9
+    cout << keepadd.sum << '\n'; // 9
     for_each(varr.begin(), varr.end(), keepadd);
-    cout << keepadd.sum << "\n"; // 18
+    cout << keepadd.sum << '\n'; // 18
   }
 
   {

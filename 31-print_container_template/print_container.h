@@ -12,7 +12,7 @@ template <typename T> void print_container_basic(const T &coll) {
   for (auto const &v : coll) {
     cout << v << ", ";
   }
-  cout << "\n";
+  cout << '\n';
 }
 
 template <template <typename, typename> class ContainerType, typename ValueType,

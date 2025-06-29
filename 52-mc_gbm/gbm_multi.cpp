@@ -98,7 +98,7 @@ void write_all_val(const multipath_val &V, string fn = "output/multiRuns.csv") {
         my_file << "," << v; // print "," from 2nd column onwards
       }
     }
-    my_file << "\n";
+    my_file << '\n';
   }
   my_file.close();
 }

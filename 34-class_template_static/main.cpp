@@ -18,8 +18,8 @@ int main() {
   Widget<int> a;
   Widget<int> b;
   Widget<double> c;
-  cout << a.getCounter() << "\n"; // 2
-  cout << c.getCounter() << "\n"; // 1
+  cout << a.getCounter() << '\n'; // 2
+  cout << c.getCounter() << '\n'; // 1
 
   // Template speciailization, like Widget<int> or Widget<double> can be seen as
   // a standalone class.

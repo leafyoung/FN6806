@@ -7,7 +7,7 @@ using path = vector<double>;
 using multipath = vector<path>;
 
 multipath gbm_multipath(double S0, double mu, double sigma, double T, double dt,
-size_t paths, mt19937 &gen);
+                        size_t paths, mt19937 &gen);
 
 using path_val = valarray<double>;
 
@@ -30,4 +30,5 @@ struct Eval {
   double T;
 };
 
-multipath gbm_multipath_opt(const GBMParam &gbm, const MCParam &mc, const Market &mkt, const Eval &eval);
+multipath gbm_multipath_opt(const GBMParam &gbm, const MCParam &mc,
+                            const Market &mkt, const Eval &eval);

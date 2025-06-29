@@ -1,7 +1,9 @@
 #include <iostream>
 using namespace std;
 
-template <typename X> struct X2 { X x; };
+template <typename X> struct X2 {
+  X x;
+};
 
 struct X3 : public X2<int> {
   int x3() { return x; }

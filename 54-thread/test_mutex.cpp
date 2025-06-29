@@ -14,13 +14,13 @@ void print_block(int n, char c, bool use_guard) {
       std::cout << c;
       cout.flush();
     }
-    std::cout << "\n";
+    std::cout << '\n';
   } else {
     for (int i = 0; i < n; ++i) {
       std::cout << c;
       cout.flush();
     }
-    std::cout << "\n";
+    std::cout << '\n';
   }
 }
 
@@ -41,5 +41,5 @@ void test_mutex() {
     th1.join();
     th2.join();
   }
-  cout << "\n";
+  cout << '\n';
 }

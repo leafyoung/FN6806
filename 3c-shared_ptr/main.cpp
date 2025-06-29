@@ -29,7 +29,7 @@ void f(Y &y) { y.incr(); }
 
 void f(shared_ptr<Y> y) {
   y->incr();
-  cout << "in f: " << y.use_count() << "\n";
+  cout << "in f: " << y.use_count() << '\n';
 }
 
 int main() {
@@ -42,8 +42,8 @@ int main() {
     // preferred with make_shared
     auto p = make_shared<Y>();
     shared_ptr<Y> q{p}; // copy from p
-    cout << q.use_count() << "\n";
-    cout << p.use_count() << "\n";
+    cout << q.use_count() << '\n';
+    cout << p.use_count() << '\n';
   } // pY is released here
 
   {
@@ -52,21 +52,21 @@ int main() {
     shared_ptr<Y> q{p}; // copy from p
 
     cout << "We shall have 2 use_count()\n";
-    cout << p.use_count() << ", " << q.use_count() << "\n";
-    cout << p.get() << ", " << q.get() << "\n";
+    cout << p.use_count() << ", " << q.use_count() << '\n';
+    cout << p.get() << ", " << q.get() << '\n';
 
     // p.reset(); // cause runtime error in later use of p.
 
     // we shall see p.use_count() increase while in f.
     f(p);
-    cout << "after f: " << p.use_count() << "\n";
+    cout << "after f: " << p.use_count() << '\n';
 
     f(*p);
-    cout << "p->get(): " << p->get() << "\n";
+    cout << "p->get(): " << p->get() << '\n';
     f(*q);
-    cout << "p and q->get(): " << p->get() << ", " << q->get() << "\n";
+    cout << "p and q->get(): " << p->get() << ", " << q->get() << '\n';
     q.reset();
-    cout << "after q.reset(): " << p.use_count() << "\n";
+    cout << "after q.reset(): " << p.use_count() << '\n';
   }
 
   {
@@ -79,8 +79,8 @@ int main() {
     assert(p == x);
 
     cout << p.use_count() << " == " << x.use_count() << " == " << z.use_count()
-         << "\n";
-    cout << p.get() << " == " << z.get() << " == " << x.get() << "\n";
+         << '\n';
+    cout << p.get() << " == " << z.get() << " == " << x.get() << '\n';
   }
 
   // below code may cause runtime error
@@ -89,8 +89,8 @@ int main() {
     // return a shared from a share_ptr
     shared_ptr<Y> x = p->getY();
     shared_ptr<Y> z = p->getY();
-    cout << x.use_count() << " == " << z.use_count() << "\n";
-    cout << p.get() << " == " << z.get() << " == " << x.get() << "\n";
+    cout << x.use_count() << " == " << z.use_count() << '\n';
+    cout << p.get() << " == " << z.get() << " == " << x.get() << '\n';
     cout.flush();
   } // double free corruption error if we replace the above with ->getY2()
     // each shared_ptr think it owns the object and frees it although it has

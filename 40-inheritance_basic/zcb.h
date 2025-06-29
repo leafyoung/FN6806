@@ -19,8 +19,5 @@ public:
   CouponBond(double face_value, double r, double c)
       : ZCB(face_value + c, r), c(c) {}
   double npv(double t) const { return ZCB::npv(t); }
-  void print() const {
-    cout << "CouponBond(" << c << ")"
-         << "\n";
-  }
+  void print() const { cout << "CouponBond(" << c << ")\n"; }
 };

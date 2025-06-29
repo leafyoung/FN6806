@@ -22,16 +22,16 @@ int test_exp() {
   1.0 / 0.0;
 
   char x = 3000;
-  cout << x << "\n";
+  cout << x << '\n';
 
   vector<int> xs = {1, 2, 3};
-  cout << xs[3] << "\n";
+  cout << xs[3] << '\n';
 
   string ss = "123";
-  cout << ss.at(0) << "\n";
-  cout << ss.c_str()[10] << "\n";
-  cout << ss[10] << "\n";
-  cout << ss.at(10) << "\n";
+  cout << ss.at(0) << '\n';
+  cout << ss.c_str()[10] << '\n';
+  cout << ss[10] << '\n';
+  cout << ss.at(10) << '\n';
 }
 
 int main() {

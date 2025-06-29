@@ -52,31 +52,31 @@ int main() {
     unique_ptr<int> p2 = make_unique<int>(3);
     // or, use auto
     auto p3 = make_unique<int>(3);
-    cout << "p1 (before): " << p1.get() << "\n";
+    cout << "p1 (before): " << p1.get() << '\n';
 
     // assignment
     // p1 = p3; // error, not copyable
     p1 = move(p1); // ok, p1's object is moved to p1
     p3 = move(p1); // ok. p1's object is moved to p3, p1 becomes nullptr
                    // p3's resource is released
-    cout << "p1 (after): " << p1.get() << "\n";
+    cout << "p1 (after): " << p1.get() << '\n';
 
     // Pass the value to a function.
     f(*p2);
-    cout << *p2 << "\n";
-    cout << "p2: " << p2.get() << "\n";
+    cout << *p2 << '\n';
+    cout << "p2: " << p2.get() << '\n';
 
     // f2(p2); // error, p2 is not copyable
     //  Use move to transfer ownership
     f2(move(p2)); // ok, p2 is moved to f2
     // p2 has become nullptr
-    cout << "p2 (after): " << p2.get() << "\n";
+    cout << "p2 (after): " << p2.get() << '\n';
 
     // move it in and receive it back
     p3 = f3(move(p3));
-    cout << *p3 << "\n";
+    cout << *p3 << '\n';
     p3.reset();
-    cout << "p3 (after reset): " << p3.get() << "\n";
+    cout << "p3 (after reset): " << p3.get() << '\n';
   }
 
   {
@@ -99,16 +99,16 @@ int main() {
     for (auto const &v : vs) {
       cout << *v << ", ";
     }
-    cout << "\n";
+    cout << '\n';
   }
 
   Widget w{315};
-  cout << w.get() << "\n";
+  cout << w.get() << '\n';
 
   {
     cout << "return unique_ptr from a function\n";
     auto x = return_int();
-    cout << *x << "\n";
-    cout << x.get() << "\n";
+    cout << *x << '\n';
+    cout << x.get() << '\n';
   }
 }

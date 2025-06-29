@@ -13,6 +13,15 @@ using namespace std;
 const int TEST_RUN = 50000;
 const double TEST_RUN_D = static_cast<double>(TEST_RUN);
 
+void runVirtualCall(unique_ptr<BaseVirtual> obj, int test_loop,
+                    int expected_result) {
+  for (int i = 0; i < test_loop; ++i) {
+    obj->increment();
+  }
+  if (obj->value() != expected_result)
+    throw logic_error("Failed test");
+}
+
 int main() {
   {
     auto obj = make_unique<VirtualBy1>();
@@ -37,7 +46,7 @@ int main() {
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runVirtualCall(): "
          << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns" << "\n";
+         << "ns\n";
   }
   {
     unique_ptr<CRTPBase<CRTPBy1>> obj = make_unique<CRTPBy1>();
@@ -46,6 +55,6 @@ int main() {
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runCRTPCall(): "
          << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns" << "\n";
+         << "ns\n";
   }
 }

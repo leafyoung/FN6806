@@ -16,7 +16,7 @@ public:
 
 class MatrixException : public std::logic_error {
 public:
-  MatrixException() : MatrixException(""){};
+  MatrixException() : MatrixException("") {};
   explicit MatrixException(const std::string &message)
       : std::logic_error(message) {}
 };

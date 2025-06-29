@@ -16,7 +16,7 @@ int main() {
     Point p(3, 4);
     Point p2{p};
     p2 = p;
-    cout << "p2 == p: " << (p2 == p) << "\n";
+    cout << "p2 == p: " << (p2 == p) << '\n';
   }
 
   {
@@ -36,41 +36,41 @@ int main() {
     cout << "PointWithStrNoCtor\n";
     PointWithStrNoCtor p;
     cout << p.get_x() << ", " << p.get_y() << ", " << p.get_x() + p.get_y()
-         << p.get_name() << "\n";
+         << p.get_name() << '\n';
 
     for (auto v : p.get_vd()) {
       cout << v << ", ";
     }
-    cout << "\n";
+    cout << '\n';
   }
 
   {
     cout << "PointWithStr(...)\n";
     PointWithStr p(42, 43, "a point", {1, 2});
-    cout << p.get_x() << ", " << p.get_y() << ", " << p.get_name() << "\n";
+    cout << p.get_x() << ", " << p.get_y() << ", " << p.get_name() << '\n';
 
     for (auto v : p.get_vd()) {
       cout << v << ", ";
     }
-    cout << "\n";
+    cout << '\n';
   }
 
   {
     cout << "PointWithStr(empty)\n";
     PointWithStr p;
-    cout << p.get_x() << ", " << p.get_y() << ", " << p.get_name() << "\n";
+    cout << p.get_x() << ", " << p.get_y() << ", " << p.get_name() << '\n';
 
     for (auto v : p.get_vd()) {
       cout << v << ", ";
     }
-    cout << "\n";
+    cout << '\n';
   }
   {
     // f(1); // implicit conversion, compiler error
     // Below will work with or without explicit copy ctor.
     f(PointWithNDC(1)); // also, explicit conversion
     auto x = static_cast<PointWithNDC>(13);
-    cout << x.get_x() << "\n";           // int => PointWithNDC
-    cout << static_cast<int>(x) << "\n"; // PointWithNDC => int
+    cout << x.get_x() << '\n';           // int => PointWithNDC
+    cout << static_cast<int>(x) << '\n'; // PointWithNDC => int
   }
 }

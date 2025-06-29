@@ -17,7 +17,7 @@ int main() {
 
   {
     using namespace Inheritance;
-    cout << "More tests from inheritance" << "\n";
+    cout << "More tests from inheritance\n";
     unique_ptr<Vehicle> v = make_unique<Car>();
     v->drive();
     v->speedup();
@@ -26,7 +26,7 @@ int main() {
     if (false) {
       unique_ptr<Vehicle> v2;
       string input;
-      cout << "input your choice: " << "\n";
+      cout << "input your choice: \n";
       if (cin >> input) {
         v2 = getVehicle(input);
         v2->drive();
@@ -39,11 +39,11 @@ int main() {
     test_crtp();
   }
 
-  cout << "Test K/Ksub" << "\n";
+  cout << "Test K/Ksub\n";
   test_k();
 
   if (false) {
-    cout << "Test K/Ksub: waiting to crash" << "\n";
+    cout << "Test K/Ksub: waiting to crash\n";
     test_k_loop();
   }
 }

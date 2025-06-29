@@ -32,13 +32,13 @@ void test_type_erasure() {
   for (auto &v : vehicles_drive) {
     v();
   }
-  cout << "\n";
+  cout << '\n';
 
   cout << "Call from function template\n";
   // call_drive(get_vehicle<Car>("car"s));
   call_drive(Car());
   call_drive(Truck());
   call_drive(Plane());
-  cout << "\n";
+  cout << '\n';
 }
 } // namespace TypeErasure

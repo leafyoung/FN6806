@@ -18,7 +18,7 @@ public:
     for (const auto &value : data) {
       cout << value << " ";
     }
-    cout << "\n";
+    cout << '\n';
   }
 };
 
@@ -33,7 +33,7 @@ public:
     for (const auto &value : data) {
       cout << value << ", ";
     }
-    cout << "\n";
+    cout << '\n';
   }
 };
 
