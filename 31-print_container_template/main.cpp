@@ -1,6 +1,7 @@
 // https://replit.com/@YeKunlun/31-printcontainertemplate
 
 #include <iostream>
+#include <string>
 #include <type_traits>
 using namespace std;
 
@@ -15,7 +16,8 @@ struct DEF {
   void def() const {}
 };
 
-template <typename T, T x> bool larger_than_x(const T &a) { return a > x; }
+template <typename T, T x> bool larger_than_x(const T a) { return a > x; }
+// template <typename T, T x> bool larger_than_x(const T &a) { return a > x; }
 
 template <typename T> void get_abc(const T &coll) {
   static_assert(is_same<T, ABC>::value, "T must be of type ABC.");
@@ -49,7 +51,11 @@ int main() {
     get_abc(abc); // OK
                   //  get_abc(DEF()); // ERROR
 
-    cout << larger_than_x<int, 3>(5) << '\n';
+    /*    cout << larger_than_x<double, static_cast<double>(3.0)>(
+                    static_cast<double>(5.0))
+             << '\n';
+        */
+
     cout << larger_than_x<int, 6>(5) << '\n';
   }
 
