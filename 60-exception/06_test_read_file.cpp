@@ -46,7 +46,8 @@ void test_read_file(int max_retries) {
     } else {
       cout << "File does not exist after " << tries << " attempt!\n";
     }
-    std::this_thread::sleep_for(std::chrono::seconds(3)); // Wait for 3 second
+    // Wait for some time with increasing duration
+    std::this_thread::sleep_for(std::chrono::seconds(1 * tries));
   }
   if (tries < max_retries) {
     cout << "processing data\n";
