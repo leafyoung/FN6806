@@ -111,4 +111,22 @@ int main() {
     cout << *x << '\n';
     cout << x.get() << '\n';
   }
+
+  {
+    int *p_x{nullptr};
+    {
+      int x{3};
+      p_x = &x;
+      cout << *p_x << '\n';
+      cout << p_x << '\n';
+    }
+    {
+      int y{4};
+      cout << &y << '\n';
+    }
+    // p_x points to a memory location that does not belong to x anymore.
+    // The same location could be overwritten by another variable
+    // Note: compiler optimization may allocate y to another location.
+    cout << *p_x << '\n';
+  }
 }
