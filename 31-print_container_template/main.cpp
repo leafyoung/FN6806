@@ -16,7 +16,7 @@ struct DEF {
   void def() const {}
 };
 
-template <typename T, T x> bool larger_than_x(const T a) { return a > x; }
+template <typename T, T x> bool larger_than_x(const T &a) { return a > x; }
 
 template <typename T> void get_abc(const T &coll) {
   static_assert(is_same<T, ABC>::value, "T must be of type ABC.");
@@ -53,6 +53,7 @@ int main() {
                   //  get_abc(DEF()); // ERROR
 
     cout << larger_than_x<int, 6>(5) << '\n';
+
     // Not yet support double as non-type parameter/constant parameter
     // cout << larger_than_x<6.0>(5.0) << '\n';
   }
