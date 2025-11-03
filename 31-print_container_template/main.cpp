@@ -1,8 +1,10 @@
 // https://replit.com/@YeKunlun/31-printcontainertemplate
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <type_traits>
+
 using namespace std;
 
 #include "gcd.h"
