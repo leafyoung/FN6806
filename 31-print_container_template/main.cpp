@@ -22,9 +22,7 @@ template <typename T> void get_abc(const T &coll) {
   coll.abc();
 }
 
-template <int Days> struct DayCount {
-  const int day_count = Days;
-};
+template <int Days> struct DayCount { const int day_count = Days; };
 
 // Each specialization is a class
 // To use them conveniently, we use the following shortcut
