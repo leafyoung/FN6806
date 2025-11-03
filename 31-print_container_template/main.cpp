@@ -1,5 +1,6 @@
 // https://replit.com/@YeKunlun/31-printcontainertemplate
 
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -19,6 +20,10 @@ struct DEF {
 };
 
 template <typename T, T x> bool larger_than_x(const T &a) { return a > x; }
+// alt, use decltype to derive types
+template <typename T, T x> bool larger_than_x2(const decltype(x) &a) {
+  return a > x;
+}
 
 template <typename T> void get_abc(const T &coll) {
   static_assert(is_same<T, ABC>::value, "T must be of type ABC.");
@@ -35,8 +40,8 @@ using DayCount360 = DayCount<360>;
 using DayCount365 = DayCount<365>;
 
 int main() {
+  cout << boolalpha;
   {
-    cout << boolalpha;
     cout << is_same<DayCount<360>, DayCount<365>>::value << '\n';
     DayCount360 dc_360;
     DayCount365 dc_365;
@@ -45,7 +50,6 @@ int main() {
   }
 
   {
-    cout << boolalpha;
     auto x0 = vector<int>{1, 2, 3};
     auto x = get_3rd_element<vector, int>(x0);
     cout << x << '\n';
@@ -55,6 +59,9 @@ int main() {
                   //  get_abc(DEF()); // ERROR
 
     cout << larger_than_x<int, 6>(5) << '\n';
+    cout << larger_than_x2<int, 5>(6) << '\n';
+
+    cout << '\n';
 
     // Not yet support double as non-type parameter/constant parameter
     // cout << larger_than_x<6.0>(5.0) << '\n';
