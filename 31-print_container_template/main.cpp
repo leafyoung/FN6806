@@ -17,14 +17,15 @@ struct DEF {
 };
 
 template <typename T, T x> bool larger_than_x(const T a) { return a > x; }
-// template <typename T, T x> bool larger_than_x(const T &a) { return a > x; }
 
 template <typename T> void get_abc(const T &coll) {
   static_assert(is_same<T, ABC>::value, "T must be of type ABC.");
   coll.abc();
 }
 
-template <int Days> struct DayCount { const int day_count = Days; };
+template <int Days> struct DayCount {
+  const int day_count = Days;
+};
 
 // Each specialization is a class
 // To use them conveniently, we use the following shortcut
@@ -51,12 +52,9 @@ int main() {
     get_abc(abc); // OK
                   //  get_abc(DEF()); // ERROR
 
-    /*    cout << larger_than_x<double, static_cast<double>(3.0)>(
-                    static_cast<double>(5.0))
-             << '\n';
-        */
-
     cout << larger_than_x<int, 6>(5) << '\n';
+    // Not yet support double as non-type parameter/constant parameter
+    // cout << larger_than_x<6.0>(5.0) << '\n';
   }
 
   test_print_container();
