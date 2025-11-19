@@ -6,6 +6,9 @@ using namespace std;
 #include "game_class.h"
 #include "game_naive.h"
 
+#include "matrix.h"
+#include "vector.h"
+
 int main() {
   cout << boolalpha;
 
@@ -49,4 +52,6 @@ int main() {
          << g.is_serial({c5c, c4h}) << '\n'
          << g.is_serial({c3h, c5c}) << '\n';
   }
+
+  {}
 }
