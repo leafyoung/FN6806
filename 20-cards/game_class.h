@@ -26,8 +26,6 @@ struct Card {
     return os;
   }
 
-  friend int add() { return 3; }
-
   int c{1};
   Suit s{Suit::Heart};
 
