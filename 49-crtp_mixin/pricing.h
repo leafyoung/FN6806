@@ -14,7 +14,7 @@ public:
     const double bump_down = self().pv(underlying - bump_size);
     const double delta = (bump_up - bump_down) / bump_size / 2;
     return delta;
-  };
+  }
 };
 
 class Futures : public HasDelta<Futures> {
@@ -29,7 +29,7 @@ public:
   double get_underlying() const { return underlying; };
   double pv(double underlying) const {
     return amount * (underlying - strike) * df;
-  };
+  }
 };
 
 class Swaps : public HasDelta<Swaps> {

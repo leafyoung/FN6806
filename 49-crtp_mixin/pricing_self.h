@@ -15,7 +15,7 @@ public:
     const double bump_down = self.pv(underlying - bump_size);
     const double delta = (bump_up - bump_down) / bump_size / 2;
     return delta;
-  };
+  }
 };
 
 class Futures : public HasDelta {
