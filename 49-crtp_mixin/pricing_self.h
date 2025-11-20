@@ -9,7 +9,7 @@ namespace pricing_self {
 class HasDelta {
 public:
   // common method shared by all
-  double delta(this const HasDelta &self, double bump_size) const {
+  double delta(this auto &&self, double bump_size) const {
     const double underlying = self.get_underlying();
     const double bump_up = self.pv(underlying + bump_size);
     const double bump_down = self.pv(underlying - bump_size);
