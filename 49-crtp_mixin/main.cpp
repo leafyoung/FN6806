@@ -5,6 +5,7 @@ using namespace std;
 
 #include "comparable.h"
 #include "pricing.h"
+// #include "pricing_self.h"
 
 int main() {
   {
