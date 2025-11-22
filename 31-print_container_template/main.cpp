@@ -31,7 +31,7 @@ template <typename T> void get_abc(const T &coll) {
 }
 
 template <int Days> struct DayCount {
-  const int day_count = Days;
+  static const int value = Days;
 };
 
 // Each specialization is a class
@@ -43,10 +43,8 @@ int main() {
   cout << boolalpha;
   {
     cout << is_same<DayCount<360>, DayCount<365>>::value << '\n';
-    DayCount360 dc_360;
-    DayCount365 dc_365;
-    cout << dc_360.day_count << '\n';
-    cout << dc_365.day_count << '\n';
+    cout << DayCount360::value << '\n'; // 360
+    cout << DayCount365::value << '\n'; // 365
   }
 
   {
