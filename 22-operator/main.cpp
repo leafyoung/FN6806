@@ -7,7 +7,8 @@
 using namespace std;
 
 struct Multiply {
-  int operator()(int a, int b) const { return a * b; }
+  int prev_result = 0;
+  int operator()(int a, int b) { return prev_result += a * b; }
 };
 
 // Enable C++17
