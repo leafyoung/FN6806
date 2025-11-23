@@ -26,7 +26,7 @@ public:
 };
 
 int main() {
-  // Functor
+  // Stateful function with callable class
   {
     auto varr = std::array<int, 3>{{2, 3, 4}};
     int factorial = std::accumulate(varr.begin(), varr.end(), 1, Multiply{});
