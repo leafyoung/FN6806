@@ -5,6 +5,7 @@ using namespace std;
 
 #include "game_class.h"
 #include "game_naive.h"
+#include "game_with_card.h"
 
 int main() {
   cout << boolalpha;
@@ -48,5 +49,11 @@ int main() {
          << g.is_serial({c3h, c4d, c5c}) << '\n'
          << g.is_serial({c5c, c4h}) << '\n'
          << g.is_serial({c3h, c5c}) << '\n';
+  }
+  {
+    using namespace GameWithCard;
+    auto g = Game();
+    Game::Card c('H');
+    c.game(g);
   }
 }
