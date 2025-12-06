@@ -36,7 +36,9 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam &gbm, const MCParam &mc,
                                         const int &n_thread) {
   uniform_int_distribution<unsigned int> uid;
 
-  seed_seq seed{uid(mc.gen)};
+  seed_seq seed{uid(mc.gen), uid(mc.gen), uid(mc.gen), uid(mc.gen),
+                uid(mc.gen), uid(mc.gen), uid(mc.gen), uid(mc.gen)};
+
   std::vector<std::uint32_t> seeds(n_thread);
   seed.generate(seeds.begin(), seeds.end());
   vector<mt19937> mts;

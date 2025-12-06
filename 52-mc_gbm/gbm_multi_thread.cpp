@@ -37,10 +37,13 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
                                    const int &n_thread) {
   // use incoming seed to initialize the seed
   uniform_int_distribution<unsigned int> uid;
-  seed_seq seed{uid(mc.gen)};
+  seed_seq seed{uid(mc.gen), uid(mc.gen), uid(mc.gen), uid(mc.gen),
+                uid(mc.gen), uid(mc.gen), uid(mc.gen), uid(mc.gen)};
+
   // generate a vector of seeds
   std::vector<std::uint32_t> seeds(n_thread);
   seed.generate(seeds.begin(), seeds.end());
+
   // create a vector of mt19937 from different seeds
   vector<mt19937> mts;
   for (auto seed : seeds)

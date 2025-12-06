@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
   cout << "expected mean: " << expected_mean << '\n';
   cout << "expected stdev: " << expected_stdev << '\n';
 
-  seed_seq seed{1238982};
+  seed_seq seed{1238982123178};
   mt19937 gen{seed};
 
   valarray<double> end_values(0.0, paths);
@@ -145,22 +145,43 @@ int main(int argc, char **argv) {
   cout << "gbm_multipath\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
-  gen.seed(seed);
-  traj.clear();
-  start = high_resolution_clock::now();
-  traj = gbm_multipath_opt({.mu = mu, .sigma = sigma},
-                           {.dt = 1.0 / 365.0, .paths = paths, .gen = gen},
-                           {.S = S0}, {.T = T});
-  end = high_resolution_clock::now();
-  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-       << '\n';
-  transform(traj.begin(), traj.end(), begin(end_values),
-            [](const auto &v) { return v.back(); });
-  // write_all(traj, "output/gbm_multipath.csv");
-  cout << "gbm_multipath_opt\n";
-  test_end_values(end_values, expected_mean, expected_stdev);
+  {
+    gen.seed(seed);
+    traj.clear();
+    start = high_resolution_clock::now();
+    traj = gbm_multipath_opt({.mu = mu, .sigma = sigma},
+                             {.dt = 1.0 / 365.0, .paths = paths, .gen = gen},
+                             {.S = S0}, {.T = T});
+    end = high_resolution_clock::now();
+    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
+         << "\n";
+    transform(traj.begin(), traj.end(), begin(end_values),
+              [](const auto &v) { return v.back(); });
+    // write_all(traj, "output/gbm_multipath.csv");
+    cout << "gbm_multipath_opt\n";
+    test_end_values(end_values, expected_mean, expected_stdev);
+  }
 
-  const int multiplier = 10;
+  {
+    gen.seed(seed);
+    traj.clear();
+    start = high_resolution_clock::now();
+    auto traj = gbm_multipath_opt2(
+        {.mu = mu, .sigma = sigma},
+        {.dt = 1.0 / 365.0, .paths = paths, .gen = gen}, {.S = S0}, {.T = T});
+    end = high_resolution_clock::now();
+    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
+         << "\n";
+
+    valarray<double> end_values(0.0, paths);
+    transform(traj.begin(traj.n_points() - 1), traj.end(traj.n_points() - 1),
+              begin(end_values), [](const auto &v) { return v; });
+    // write_all(traj, "output/gbm_multipath.csv");
+    cout << "gbm_multipath_opt2\n";
+    test_end_values(end_values, expected_mean, expected_stdev);
+  }
+
+  const size_t multiplier = 1;
 
   {
     gen.seed(seed);
