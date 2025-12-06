@@ -14,7 +14,7 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam &gbm, const MCParam &mc,
 // define the format you want, you only need one instance of this...
 // see https://eigen.tuxfamily.org/dox/structEigen_1_1IOFormat.html
 const static Eigen::IOFormat CSVFormat(Eigen::StreamPrecision,
-                                       Eigen::DontAlignCols, ", ", '\n');
+                                       Eigen::DontAlignCols, ", ", "\n");
 
 // writing functions taking Eigen types as parameters,
 // see https://eigen.tuxfamily.org/dox/TopicFunctionTakingEigenTypes.html

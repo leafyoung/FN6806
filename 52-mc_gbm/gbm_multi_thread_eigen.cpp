@@ -1,5 +1,5 @@
 #include "gbm_multi_thread_eigen.h"
-#include "eigen3/Eigen/Dense"
+#include "eigen3//Eigen/Dense"
 #include <algorithm>
 #include <functional>
 #include <future>
