@@ -66,7 +66,7 @@ void test_interpolators() {
     using VolatilityTermStructure =
         TermStructureWithType<SquaredInterpolator, double, double>;
 
-    cout << "InterpolatorTemplateWithO with TermStructure:\n";
+    cout << "InterpolatorTemplateWithOp with TermStructure:\n";
     YieldTermStructure linear({1, 2, 3}, {1, 2, 3});
     cout << linear.interpolate(0.5) << ", " << linear.interpolate(3.5) << ", "
          << linear.interpolate(2.3) << '\n';

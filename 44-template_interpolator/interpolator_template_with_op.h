@@ -14,6 +14,13 @@ using std::vector;
 
 namespace InterpolatorTemplateWithOp {
 
+// Both LinearInterpolator and SquaredInterpolator are localized interpolator.
+// They only uses two points that contains the value to be interpolator. We can
+// extract this to be a function in the base class.
+
+// Some other interpolation method, like CubicSpline, would involve all points.
+// Such method would not use the local_with_op function.
+
 template <typename T1, typename T2> class Interpolator {
 public:
   using T1_type = T1;
@@ -38,8 +45,8 @@ protected:
     return {false, 0.0};
   }
 
-  T2 with_op(const T1 &date, function<T2(T2)> op_up,
-             function<T2(T2)> op_down) const {
+  T2 local_with_op(const T1 &date, function<T2(T2)> op_up,
+                   function<T2(T2)> op_down) const {
     auto [b, v] = flat_extrapolate(date);
     if (b)
       return v;
@@ -59,7 +66,7 @@ public:
   using Interpolator<T1, T2>::Interpolator;
 
   T2 operator()(const T1 &date) const {
-    return this->with_op(
+    return this->local_with_op(
         date, [](auto x) { return x; }, [](auto x) { return x; });
   }
 };
@@ -70,7 +77,7 @@ public:
   using Interpolator<T1, T2>::Interpolator;
 
   T2 operator()(const T1 &date) const {
-    return this->with_op(
+    return this->local_with_op(
         date, [](auto x) { return x * x; }, [](auto x) { return sqrt(x); });
   }
 };

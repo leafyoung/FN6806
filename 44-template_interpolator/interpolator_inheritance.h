@@ -61,6 +61,7 @@ public:
 class SquaredInterpolator : public Interpolator {
 public:
   using Interpolator::Interpolator;
+
   T2_type operator()(T1_type date) const {
     auto [b, v] = this->flat_extrapolate(date);
     if (b)
