@@ -9,19 +9,6 @@
 #include "task.h"
 
 // Use one timer to count for multipler stops.
-
-// Start
-// wake me in 10 seconds.
-// wake me in 3 seconds.
-// wake me in 2 seconds.
-// wake me in 5 seconds.
-
-// After 4 seconds
-// wake me in 6 seconds - updated
-// wake me in 1 seconds - updated
-// wake me in 15 seconds - new
-// wake me in 4 seconds - new
-
 class MultipleTask {
   static const bool DEBUG = true;
   std::vector<std::unique_ptr<Task>> tasks;
@@ -30,10 +17,11 @@ class MultipleTask {
   std::thread t;
   std::mutex mtx;
   std::condition_variable cv;
-  bool wait_to_finish;
   bool should_update_timer = false;
   bool can_exit = false;
-  bool done = false;
+
+  // in dtor, shall wait to finish or not
+  bool wait_to_finish;
 
 public:
   MultipleTask(bool wait_to_finish) : wait_to_finish(wait_to_finish) {
@@ -43,18 +31,15 @@ public:
 private:
   void cycle() {
     // start cycle
-
     while (true) {
       std::unique_lock<std::mutex> lock(mtx);
-      if (this->tasks.empty()) {
-        while (this->tasks.empty() && !this->can_exit) {
-          if (DEBUG)
-            std::cout << "wait for task\n";
-          cv.wait(lock);
-        }
-        if (this->can_exit)
-          return;
+      while (this->tasks.empty() && !this->can_exit) {
+        if (DEBUG)
+          std::cout << "wait for task\n";
+        cv.wait(lock);
       }
+      if (this->tasks.empty() && this->can_exit)
+        return;
 
       auto &first_task = *(this->tasks.back());
       auto first_task_start_time = first_task.start_time;
@@ -84,17 +69,23 @@ private:
 public:
   void add(std::function<void(void)> task, size_t sleep_in_ms) {
     std::lock_guard<std::mutex> lock(mtx);
-    this->tasks.emplace_back(std::make_unique<Task>(task, sleep_in_ms));
-    if (tasks.back()->wake_time < tasks.front()->wake_time) {
-      // need to check is in processing and not yet run.
-      // lock ensures this
-      // need to notify to cancel current.
+    if (tasks.empty()) {
+      this->tasks.emplace_back(std::make_unique<Task>(task, sleep_in_ms));
       this->should_update_timer = true;
+    } else {
+      auto prev_wake_time = tasks.back()->wake_time;
+      this->tasks.emplace_back(std::make_unique<Task>(task, sleep_in_ms));
+      auto updated_wake_time = tasks.back()->wake_time;
+      if (prev_wake_time < updated_wake_time) {
+        // need to check is in processing and not yet run.
+        // lock ensures this
+        // need to notify to cancel current.
+        this->should_update_timer = true;
+      }
+      std::sort(tasks.begin(), tasks.end(), [](const auto &t1, const auto &t2) {
+        return t1->wake_time > t2->wake_time;
+      });
     }
-    std::sort(tasks.begin(), tasks.end(), [](const auto &t1, const auto &t2) {
-      return t1->wake_time > t2->wake_time;
-    });
-
     if (DEBUG)
       std::cout << "added task with sleep: " << sleep_in_ms << "\n";
 
@@ -107,32 +98,31 @@ public:
   }
 
   void signal_exit() {
-    if (DEBUG)
-      std::cout << "try exit when empty\n";
-
     std::lock_guard<std::mutex> lock(mtx);
+    if (DEBUG)
+      std::cout << "try exit\n";
     this->can_exit = true;
     cv.notify_one();
   }
 
   ~MultipleTask() {
-    if (done) {
-      if (DEBUG)
-        std::cout << "done when exit!\n";
-    } else {
-      if (!wait_to_finish) {
-        if (DEBUG)
-          std::cout << "cancelling\n";
-        signal_exit();
+    // First join sub_tasks to avoid race condition
+    if (wait_to_finish) {
+      for (auto &t : this->sub_tasks) {
+        if (t->joinable()) {
+          t->join();
+        }
       }
     }
 
-    // Always join to ensure thread cleanup
+    // Always signal exit to wake cycle thread from cv.wait()
+    signal_exit();
+
     if (t.joinable()) {
-      signal_exit();
       t.join();
     }
 
+    // Finally, join any remaining sub_tasks
     for (auto &t : this->sub_tasks) {
       if (t->joinable()) {
         t->join();

@@ -1,4 +1,6 @@
+
 #include "scheduled_task.h"
+#include <vector>
 
 void test_scheduled_task() {
   std::cout << "=== test scheduled task ===\n";
