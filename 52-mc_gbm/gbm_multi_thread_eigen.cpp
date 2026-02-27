@@ -46,7 +46,7 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam &gbm, const MCParam &mc,
     mts.emplace_back(seed);
 
   vector<MCParam> mcs(n_thread, mc);
-  const int n_dt = round(eval.T / mc.dt);
+  const size_t n_dt = round(eval.T / mc.dt);
   MatrixXd vs(n_dt + 1, mc.paths);
 
   vector<packaged_task<void()>> tasks;

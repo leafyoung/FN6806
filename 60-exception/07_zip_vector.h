@@ -9,8 +9,8 @@ template <class T, class U> class zip_vector {
 
 public:
   void push_back(T &&v, U &&u) {
-    _vs.push_back(move(v));
-    _us.push_back(move(u));
+    _vs.push_back(std::move(v));
+    _us.push_back(std::move(u));
   }
   auto operator()(size_t i) { return make_tuple(_vs[i], _us[i]); }
   auto operator()(size_t i, const T &v, const U &u) {

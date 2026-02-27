@@ -38,7 +38,7 @@ class CRTPBy10 : public CRTPBase<CRTPBy10> {
   int i = 0;
 
 public:
-  void increment() { i += 10.0; };
+  void increment() { i += 10; };
   int value() const { return i; }
 };
 

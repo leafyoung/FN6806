@@ -14,7 +14,7 @@ using nd_double = normal_distribution<double>;
 
 void gbm_multipath_opt_inc(const GBMParam &gbm, const MCParam &mc,
                            const Market &mkt, const Eval &eval, multipath &v,
-                           int start, int end) {
+                           size_t start, size_t end) {
   static nd_double nd(0.0, 1.0);
   const auto drift = (gbm.mu - gbm.sigma * gbm.sigma / 2.0) * mc.dt;
   const auto diffusion = sqrt(mc.dt) * gbm.sigma;
@@ -51,7 +51,7 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
 
   // allocate for all the MCParam for each thread
   vector<MCParam> mcs(n_thread, mc);
-  const int n_dt = round(eval.T / mc.dt);
+  const size_t n_dt = round(eval.T / mc.dt);
 
   // allocate for all the paths data
   multipath vs(mc.paths, path(n_dt + 1, 0.0));
@@ -60,7 +60,7 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
   vector<future<void>> futures;
   vector<thread> threads;
 
-  int end = 0, start = 0;
+  size_t end = 0, start = 0;
   for (int i = 0; i < n_thread; ++i) {
     mcs[i].gen = mts[i];
     // cout << mts[i] << ", " << uid(mcs[i].gen) << '\n';
@@ -78,7 +78,7 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
 
     // if we use packaged_task/future
     futures.emplace_back(tasks.back().get_future());
-    threads.emplace_back(move(tasks.back()));
+    threads.emplace_back(std::move(tasks.back()));
 
     // if we only use thread
     /* threads.emplace_back(

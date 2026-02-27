@@ -17,10 +17,10 @@ path gbm_single_path(double S0, double mu, double sigma, double T, double dt,
                      mt19937 &gen) {
   static normal_distribution<double> nd(0.0, 1.0);
 
-  const int n_dt = round(T / dt);
+  const size_t n_dt = round(T / dt);
   path v(n_dt + 1, S0);
 
-  for (int i = 1; i <= n_dt; ++i) {
+  for (size_t i = 1; i <= n_dt; ++i) {
     v[i] = v[i - 1] * (1 + mu * dt + sigma * sqrt(dt) * nd(gen));
   }
   return v;
@@ -28,7 +28,7 @@ path gbm_single_path(double S0, double mu, double sigma, double T, double dt,
 
 path gbm_single_path_v2(double S0, double mu, double sigma, double T, double dt,
                         mt19937 &gen) {
-  const int n_dt = round(T / dt);
+  const size_t n_dt = round(T / dt);
   path v(n_dt + 1, S0);
 
   const double drift = 1 + mu * dt;
@@ -45,7 +45,7 @@ path gbm_single_path_v2(double S0, double mu, double sigma, double T, double dt,
 
 path gbm_single_path_exp(double S0, double mu, double sigma, double T,
                          double dt, mt19937 &gen) {
-  const int n_dt = round(T / dt);
+  const size_t n_dt = round(T / dt);
   path v(n_dt + 1, S0);
 
   const double drift = (mu - sigma * sigma / 2) * dt;
@@ -62,7 +62,7 @@ path gbm_single_path_exp(double S0, double mu, double sigma, double T,
 
 path gbm_single_path_exp_cumsum(double S0, double mu, double sigma, double T,
                                 double dt, mt19937 &gen) {
-  const int n_dt = round(T / dt);
+  const size_t n_dt = round(T / dt);
   path v(n_dt + 1, S0);
 
   static normal_distribution<double> nd(0.0, 1.0);

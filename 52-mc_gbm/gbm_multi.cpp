@@ -10,7 +10,7 @@ using nd_double = normal_distribution<double>;
 
 multipath gbm_multipath(double S0, double mu, double sigma, double T, double dt,
                         size_t paths, mt19937 &gen) {
-  const int n_dt = round(T / dt);
+  const size_t n_dt = round(T / dt);
   multipath v(paths, path(n_dt + 1));
   // fill in the first value
   for (auto &v_path : v)
@@ -36,7 +36,7 @@ multipath gbm_multipath(double S0, double mu, double sigma, double T, double dt,
 
 multipath gbm_multipath_opt(const GBMParam &gbm, const MCParam &mc,
                             const Market &mkt, const Eval &eval) {
-  const int n_dt = round(eval.T / mc.dt);
+  const size_t n_dt = round(eval.T / mc.dt);
   multipath v(mc.paths, path(n_dt + 1));
   for (auto &v_path : v)
     v_path[0] = mkt.S;
@@ -64,7 +64,7 @@ multipath gbm_multipath_opt(const GBMParam &gbm, const MCParam &mc,
 
 Multipath gbm_multipath_opt2(const GBMParam &gbm, const MCParam &mc,
                              const Market &mkt, const Eval &eval) {
-  const int n_dt = round(eval.T / mc.dt);
+  const size_t n_dt = round(eval.T / mc.dt);
   Multipath v(mc.paths, n_dt + 1, 0);
 
   generate(v.begin(0), v.end(0), [&mkt]() { return mkt.S; });
@@ -92,7 +92,7 @@ using path_val = valarray<double>;
 using multipath_val = vector<path_val>;
 
 auto gbm_multipath_opt(double S0, double mu, double sigma,
-  const int n_dt = round(T / dt);
+  const size_t n_dt = round(T / dt);
   multipath_val v(n_dt + 1, valarray<double>(S0, paths));
 
   static nd_double nd(0.0, 1.0);

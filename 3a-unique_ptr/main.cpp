@@ -56,8 +56,8 @@ int main() {
 
     // assignment
     // p1 = p3; // error, not copyable
-    p1 = move(p1); // ok, p1's object is moved to p1
-    p3 = move(p1); // ok. p1's object is moved to p3, p1 becomes nullptr
+    // p1 = std::move(p1); // self-move: intentionally avoided; p1 unchanged
+    p3 = std::move(p1); // ok. p1's object is moved to p3, p1 becomes nullptr
                    // p3's resource is released
     cout << "p1 (after): " << p1.get() << '\n';
 
@@ -68,12 +68,12 @@ int main() {
 
     // f2(p2); // error, p2 is not copyable
     //  Use move to transfer ownership
-    f2(move(p2)); // ok, p2 is moved to f2
+    f2(std::move(p2)); // ok, p2 is moved to f2
     // p2 has become nullptr
     cout << "p2 (after): " << p2.get() << '\n';
 
     // move it in and receive it back
-    p3 = f3(move(p3));
+    p3 = f3(std::move(p3));
     cout << *p3 << '\n';
     p3.reset();
     cout << "p3 (after reset): " << p3.get() << '\n';
@@ -88,7 +88,7 @@ int main() {
 
     // if you have a pointer outside, use `move`
     auto e4 = make_unique<int>(6);
-    vs.emplace_back(move(e4));
+    vs.emplace_back(std::move(e4));
 
     // int e5{6}; This will not work.
     // vs.emplace_back(move(e5));

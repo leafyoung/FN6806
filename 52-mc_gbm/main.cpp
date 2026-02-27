@@ -25,8 +25,8 @@ void writeToFile(const path &v, string fn = "output/singlefn.csv") {
 
 void write_all(const multipath &V, string fn = "output/multiRuns.csv") {
   ofstream my_file(fn);
-  for (int t = 0; t < V[0].size(); ++t) {
-    int p = 0;
+  for (size_t t = 0; t < V[0].size(); ++t) {
+    size_t p = 0;
     // write the 1st column without comma
     my_file << V[p++][t];
     // To write CSV file, we need to loop over all series' i element
