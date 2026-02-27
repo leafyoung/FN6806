@@ -69,16 +69,21 @@ int main(int argc, char **argv) {
   cout << "expected mean: " << expected_mean << '\n';
   cout << "expected stdev: " << expected_stdev << '\n';
 
-  seed_seq seed{1238982123178};
-  mt19937 gen{seed};
+  // seed_seq is stateful and non-copyable; create a fresh one each time
+  // we need to reset the generator to reproduce the same sequence.
+  auto make_gen = []() {
+    seed_seq s{1238982123178};
+    return mt19937{s};
+  };
+  mt19937 gen = make_gen();
 
   valarray<double> end_values(0.0, paths);
   multipath traj;
 
   {
     auto start = high_resolution_clock::now();
-    gen.seed(seed);
-    for (int n = 0; n < paths; n++) {
+    gen = make_gen();
+    for (size_t n = 0; n < paths; n++) {
       traj.emplace_back(gbm_single_path_demo(S0, mu, sigma, T, dt, gen));
       end_values[n] = traj[n].back();
     }
@@ -92,8 +97,8 @@ int main(int argc, char **argv) {
 
   auto start = high_resolution_clock::now();
   traj.clear();
-  gen.seed(seed);
-  for (int n = 0; n < paths; n++) {
+  gen = make_gen();
+  for (size_t n = 0; n < paths; n++) {
     traj.emplace_back(gbm_single_path(S0, mu, sigma, T, dt, gen));
     end_values[n] = traj[n].back();
   }
@@ -104,10 +109,10 @@ int main(int argc, char **argv) {
   cout << "gbm_single_path\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
-  gen.seed(seed);
+  gen = make_gen();
   traj.clear();
   start = high_resolution_clock::now();
-  for (int n = 0; n < paths; n++) {
+  for (size_t n = 0; n < paths; n++) {
     traj.emplace_back(gbm_single_path_v2(S0, mu, sigma, T, dt, gen));
     end_values[n] = traj[n].back();
   }
@@ -118,10 +123,10 @@ int main(int argc, char **argv) {
   cout << "gbm_single_path_v2\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
-  gen.seed(seed);
+  gen = make_gen();
   traj.clear();
   start = high_resolution_clock::now();
-  for (int n = 0; n < paths; n++) {
+  for (size_t n = 0; n < paths; n++) {
     traj.emplace_back(gbm_single_path_exp(S0, mu, sigma, T, dt, gen));
     end_values[n] = traj[n].back();
   }
@@ -132,7 +137,7 @@ int main(int argc, char **argv) {
   cout << "gbm_single_path_exp\n";
   test_end_values(end_values, expected_mean, expected_stdev);
 
-  gen.seed(seed);
+  gen = make_gen();
   traj.clear();
   start = high_resolution_clock::now();
   traj = gbm_multipath(S0, mu, sigma, T, dt, paths, gen);
@@ -146,7 +151,7 @@ int main(int argc, char **argv) {
   test_end_values(end_values, expected_mean, expected_stdev);
 
   {
-    gen.seed(seed);
+    gen = make_gen();
     traj.clear();
     start = high_resolution_clock::now();
     traj = gbm_multipath_opt({.mu = mu, .sigma = sigma},
@@ -163,7 +168,7 @@ int main(int argc, char **argv) {
   }
 
   {
-    gen.seed(seed);
+    gen = make_gen();
     traj.clear();
     start = high_resolution_clock::now();
     auto traj = gbm_multipath_opt2(
@@ -184,7 +189,7 @@ int main(int argc, char **argv) {
   const size_t multiplier = 1;
 
   {
-    gen.seed(seed);
+    gen = make_gen();
     start = high_resolution_clock::now();
     auto traj1 = gbm_multipath_opt(
         {.mu = mu, .sigma = sigma},
@@ -199,7 +204,7 @@ int main(int argc, char **argv) {
               [](const auto &v) { return v.back(); });
     test_end_values(end_values, expected_mean, expected_stdev);
 
-    gen.seed(seed);
+    gen = make_gen();
     start = high_resolution_clock::now();
     auto traj2 = gbm_multipath_opt_thread(
         {.mu = mu, .sigma = sigma},
@@ -215,7 +220,7 @@ int main(int argc, char **argv) {
               [](const auto &v) { return v.back(); });
     test_end_values(end_values, expected_mean, expected_stdev);
 
-    gen.seed(seed);
+    gen = make_gen();
     start = high_resolution_clock::now();
     auto traj3 = gbm_multipath_opt_thread_eigen(
         {.mu = mu, .sigma = sigma},
