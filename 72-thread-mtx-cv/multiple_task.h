@@ -106,26 +106,23 @@ public:
   }
 
   ~MultipleTask() {
-    // First join sub_tasks to avoid race condition
-    if (wait_to_finish) {
-      for (auto &t : this->sub_tasks) {
-        if (t->joinable()) {
-          t->join();
-        }
-      }
-    }
-
-    // Always signal exit to wake cycle thread from cv.wait()
+    // Signal the cycle thread to stop and wait for it to exit.
+    // This MUST happen before touching sub_tasks: the cycle thread holds mtx
+    // while pushing to sub_tasks (cycle() line ~56), so iterating sub_tasks
+    // before t.join() would be a data race even with wait_to_finish = true.
     signal_exit();
 
     if (t.joinable()) {
       t.join();
     }
 
-    // Finally, join any remaining sub_tasks
-    for (auto &t : this->sub_tasks) {
-      if (t->joinable()) {
-        t->join();
+    // The cycle thread is fully done; sub_tasks is now frozen and safe to
+    // iterate without a lock.
+    if (wait_to_finish) {
+      for (auto &st : this->sub_tasks) {
+        if (st->joinable()) {
+          st->join();
+        }
       }
     }
   }

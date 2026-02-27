@@ -62,16 +62,25 @@ public:
   }
 
   ~CancellableTask() {
-    if (done) {
-      if (DEBUG)
-        std::cout << "done when exit!\n";
-    } else {
-      if (!wait_to_finish) {
+    {
+      // Read `done` under the mutex: the thread writes `done = true` while
+      // holding cancel_signal_mtx (it is still locked after wait_until
+      // returns). Reading it here without the lock would be a data race.
+      std::lock_guard<std::mutex> lock(this->cancel_signal_mtx);
+      if (done) {
         if (DEBUG)
-          std::cout << "cancelling\n";
-        cancel();
+          std::cout << "done when exit!\n";
+      } else {
+        if (!wait_to_finish) {
+          if (DEBUG)
+            std::cout << "cancelling\n";
+          // cancel_signal_mtx is already held; signal directly to avoid
+          // the double-lock that cancel() would cause.
+          this->cancel_signal = true;
+          cv.notify_one();
+        }
       }
-    }
+    } // release lock before join
 
     // Always join to ensure thread cleanup
     if (t.joinable()) {
