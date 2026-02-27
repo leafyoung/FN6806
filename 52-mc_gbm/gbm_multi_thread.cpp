@@ -15,15 +15,18 @@ using nd_double = normal_distribution<double>;
 void gbm_multipath_opt_inc(const GBMParam &gbm, const MCParam &mc,
                            const Market &mkt, const Eval &eval, multipath &v,
                            size_t start, size_t end) {
-  static nd_double nd(0.0, 1.0);
   const auto drift = (gbm.mu - gbm.sigma * gbm.sigma / 2.0) * mc.dt;
   const auto diffusion = sqrt(mc.dt) * gbm.sigma;
-  nd.param(nd_double::param_type(drift, diffusion));
+  // nd is local (not static) so each thread owns its own instance.
+  // The single-threaded version (gbm_multi.cpp) uses `static nd_double nd`
+  // which is safe there (one caller), but would be a data race here since
+  // all threads would share and mutate the same object concurrently.
+  nd_double nd(drift, diffusion);
 
   for (auto it = next(v.begin(), start); it != next(v.begin(), end); ++it) {
     it->front() = mkt.S;
     generate(next(it->begin(), 1), it->end(), // from 2nd to the last
-             [&mc]() { return nd(mc.gen); });
+             [&mc, &nd]() { return nd(mc.gen); });
 
     transform(next(it->begin(), 1), it->end(), // from 2nd to the last
               it->begin(),                     // previous S
