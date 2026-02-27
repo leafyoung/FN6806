@@ -3,10 +3,10 @@ using namespace std;
 
 namespace pricing {
 template <typename T> class HasDelta {
-public:
   T &self() { return static_cast<T &>(*this); }
   const T &self() const { return static_cast<const T &>(*this); }
 
+public:
   // common method shared by all
   double delta(double bump_size) const {
     const double underlying = self().get_underlying();
