@@ -6,7 +6,7 @@
 #include <numeric> // for std::accumulate
 using namespace std;
 
-struct Multiply {
+struct MultiplyAndAdd {
   int prev_result = 0;
   int operator()(int a, int b) { return prev_result += a * b; }
 };
@@ -29,9 +29,10 @@ int main() {
   // Stateful function with callable class
   {
     auto varr = std::array<int, 3>{{2, 3, 4}};
-    int factorial = std::accumulate(varr.begin(), varr.end(), 1, Multiply{});
-    cout << factorial << '\n'; // 24
-    // accumulate: acc=1, op(1,2)=2, op(2,3)=6, op(6,4)=24
+    int factorial =
+        std::accumulate(varr.begin(), varr.end(), 1, MultiplyAndAdd{});
+    cout << factorial << '\n'; // 40
+    // accumulate: acc=1, op(1,2)=2, op(2,3)=8, op(6,4)=40
 
     KeepAdd keepadd;
     for_each(varr.begin(), varr.end(),
