@@ -6,7 +6,7 @@
 using namespace std;
 
 template <typename T> class Widget {
-  inline static int unsigned long counter = 0;
+  inline static unsigned long counter = 0;
 
 public:
   Widget() { counter++; }

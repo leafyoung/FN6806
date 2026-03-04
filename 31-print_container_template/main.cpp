@@ -31,7 +31,7 @@ template <typename T> void get_abc(const T &coll) {
 }
 
 template <int Days> struct DayCount {
-  static const int value = Days;
+  static constexpr int value = Days;
 };
 
 // Each specialization is a class

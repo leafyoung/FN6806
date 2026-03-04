@@ -9,7 +9,7 @@ struct ABC {
 };
 
 void f() {
-  auto *p = new vector<int>(300000);
+  [[maybe_unused]] auto *p = new vector<int>(300000);
 
   // without delete, there would be memory leak that accumulate with every
   // calling into the function till it burst the memory limit.

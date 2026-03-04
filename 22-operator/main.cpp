@@ -30,7 +30,8 @@ int main() {
   {
     auto varr = std::array<int, 3>{{2, 3, 4}};
     int factorial = std::accumulate(varr.begin(), varr.end(), 1, Multiply{});
-    cout << factorial << endl; // 24
+    cout << factorial << '\n'; // 24
+    // accumulate: acc=1, op(1,2)=2, op(2,3)=6, op(6,4)=24
 
     KeepAdd keepadd;
     for_each(varr.begin(), varr.end(),

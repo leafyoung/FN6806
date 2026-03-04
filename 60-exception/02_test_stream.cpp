@@ -10,6 +10,8 @@ void test_stream() {
     // After a failure, it will set the failbit data member to a value
     std::ifstream f("doesn't exist");
     std::cout << "failbit: " << f.failbit << '\n';
+    std::cout << "fail: " << f.fail()
+              << '\n'; // prints 1 if stream is in failed state
 
     // We can throw an exception according to failure with .exceptions()
     f.exceptions(f.failbit);
