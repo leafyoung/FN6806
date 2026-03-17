@@ -1,3 +1,5 @@
+// https://replit.com/@YeKunlun/80-hash
+
 #include <functional>
 #include <iostream>
 #include <string>
