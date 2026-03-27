@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
   const double mu = 0.5;
   const double sigma = 0.3;
   // mc simulation
-  const size_t paths = 10'000;
+  const size_t paths = 40'000;
   const double dt{1.0 / 365.0};
   // market data
   const double S0{100.0};
@@ -198,7 +198,7 @@ int main(int argc, char **argv) {
     end = high_resolution_clock::now();
     cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
          << '\n';
-    cout << "gbm_multipath_opt(struct) for " << paths * multiplier << '\n';
+    cout << "gbm_multipath_opt(struct)\n";
     end_values.resize(paths * multiplier);
     transform(traj1.begin(), traj1.end(), begin(end_values),
               [](const auto &v) { return v.back(); });
@@ -214,7 +214,7 @@ int main(int argc, char **argv) {
     end = high_resolution_clock::now();
     cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
          << '\n';
-    cout << "gbm_multipath_opt_thread for " << paths * multiplier << '\n';
+    cout << "gbm_multipath_opt_thread\n";
     end_values.resize(paths * multiplier);
     transform(traj2.begin(), traj2.end(), begin(end_values),
               [](const auto &v) { return v.back(); });
@@ -230,7 +230,7 @@ int main(int argc, char **argv) {
     end = high_resolution_clock::now();
     cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
          << '\n';
-    cout << "gbm_multipath_opt_thread_eigen for " << paths * multiplier << '\n';
+    cout << "gbm_multipath_opt_thread_eigen\n";
     end_values.resize(paths * multiplier);
     Eigen::VectorXd last_row = traj3.row(traj3.rows() - 1);
     end_values = valarray<double>(last_row.data(), last_row.size());
