@@ -1,10 +1,8 @@
 // https://replit.com/@YeKunlun/48-crtpvsvirtual
 
 #include <chrono>
-#include <functional>
 #include <iostream>
 #include <memory>
-#include <vector>
 using namespace std;
 
 #include "call_crtp.h"
@@ -13,8 +11,7 @@ using namespace std;
 const int TEST_RUN = 50000;
 const double TEST_RUN_D = static_cast<double>(TEST_RUN);
 
-void runVirtualCall(unique_ptr<BaseVirtual> obj, int test_loop,
-                    int expected_result) {
+void runVirtualCall(unique_ptr<BaseVirtual> obj, int test_loop, int expected_result) {
   for (int i = 0; i < test_loop; ++i) {
     obj->increment();
   }
@@ -45,8 +42,7 @@ int main() {
     runVirtualCall(std::move(obj), TEST_RUN, TEST_RUN);
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runVirtualCall(): "
-         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns\n";
+         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D << "ns\n";
   }
   {
     unique_ptr<CRTPBase<CRTPBy1>> obj = make_unique<CRTPBy1>();
@@ -54,7 +50,6 @@ int main() {
     runCRTPCall(std::move(obj), TEST_RUN, TEST_RUN);
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runCRTPCall(): "
-         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns\n";
+         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D << "ns\n";
   }
 }
