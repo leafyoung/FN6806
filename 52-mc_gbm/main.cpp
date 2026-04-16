@@ -11,9 +11,7 @@
 #include <vector>
 #include "gbm_multi.h"
 #include "gbm_multi_thread.h"
-#ifdef HAS_EIGEN
 #include "gbm_multi_thread_eigen.h"
-#endif
 #include "gbm_single.h"
 
 using namespace std::chrono;
@@ -225,7 +223,7 @@ int main(int /* argc */, char** /* argv */) {
     // writeToCSVfile("output/test.csv", traj3);
 #else
     cout << "gbm_multipath_opt_thread_eigen: skipped (Eigen not found)\n";
-#endif // HAS_EIGEN
+#endif  // HAS_EIGEN
   }
 
   return 0;
