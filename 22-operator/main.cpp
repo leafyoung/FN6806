@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <array>
+#include <iomanip>
+#include <ios>
 #include <iostream>
 #include <numeric>  // for std::accumulate
 using namespace std;
@@ -44,6 +46,6 @@ int main() {
     MyBool my_bool{3};
     // calls operator bool(), b = false
     bool b = static_cast<bool>(my_bool);
-    cout << b << '\n';
+    cout << std::boolalpha << b << '\n';  // 0
   }
 }
