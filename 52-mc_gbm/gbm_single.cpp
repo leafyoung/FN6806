@@ -7,8 +7,8 @@
 
 using namespace std;
 
-path gbm_single_path_demo(double S0, double mu, double sigma, double T,
-                          double dt, mt19937 &gen) {
+path gbm_single_path_demo(double S0, double /* mu */, double /* sigma */,
+                          double /* T */, double /* dt */, mt19937 & /* gen */) {
   path results(100, S0);
   return results;
 }

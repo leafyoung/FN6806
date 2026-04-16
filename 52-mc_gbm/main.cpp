@@ -1,9 +1,5 @@
 // https://replit.com/@YeKunlun/52-mcgbm
 
-#include "gbm_multi.h"
-#include "gbm_multi_thread.h"
-#include "gbm_multi_thread_eigen.h"
-#include "gbm_single.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -13,17 +9,21 @@
 #include <string>
 #include <valarray>
 #include <vector>
+#include "gbm_multi.h"
+#include "gbm_multi_thread.h"
+#include "gbm_multi_thread_eigen.h"
+#include "gbm_single.h"
 
 using namespace std::chrono;
 using namespace std;
 
-void writeToFile(const path &v, string fn = "output/singlefn.csv") {
+void writeToFile(const path& v, string fn = "output/singlefn.csv") {
   ofstream my_file(fn);
   for_each(v.begin(), v.end(), [&my_file](auto x) { my_file << x << '\n'; });
   my_file.close();
 }
 
-void write_all(const multipath &V, string fn = "output/multiRuns.csv") {
+void write_all(const multipath& V, string fn = "output/multiRuns.csv") {
   ofstream my_file(fn);
   for (size_t t = 0; t < V[0].size(); ++t) {
     size_t p = 0;
@@ -31,24 +31,23 @@ void write_all(const multipath &V, string fn = "output/multiRuns.csv") {
     my_file << V[p++][t];
     // To write CSV file, we need to loop over all series' i element
     for (; p < V.size(); ++p) {
-      my_file << "," << V[p][t]; // print "," from 2nd column onwards
+      my_file << "," << V[p][t];  // print "," from 2nd column onwards
     }
     my_file << '\n';
   }
   my_file.close();
 }
 
-void test_end_values(valarray<double> vals, double expected_mean,
-                     double expected_stdev) {
+void test_end_values(valarray<double> vals, double expected_mean, double expected_stdev) {
   auto mean = vals.sum() / vals.size();
   auto stdev = sqrt(pow(vals - mean, 2.0).sum() / vals.size());
   auto mean_diff = (mean - expected_mean) / expected_mean;
   auto stdev_diff = (stdev - expected_stdev) / expected_stdev;
-  cout << "[n]: " << vals.size() << " mean: " << mean << " (" << mean_diff
-       << "), stdev: " << stdev << " (" << stdev_diff << ")\n";
+  cout << "[n]: " << vals.size() << " mean: " << mean << " (" << mean_diff << "), stdev: " << stdev
+       << " (" << stdev_diff << ")\n";
 }
 
-int main(int argc, char **argv) {
+int main(int /* argc */, char** /* argv */) {
   // try: mu = 0.03, sigma = 3
   // try: mu = 1, sigma = 0.3
   // gbm
@@ -63,8 +62,7 @@ int main(int argc, char **argv) {
   const double T{dt * 120};
 
   const auto expected_mean = exp(T * mu) * S0;
-  const auto expected_stdev =
-      S0 * exp(T * mu) * sqrt(exp(sigma * sigma * T) - 1);
+  const auto expected_stdev = S0 * exp(T * mu) * sqrt(exp(sigma * sigma * T) - 1);
 
   cout << "expected mean: " << expected_mean << '\n';
   cout << "expected stdev: " << expected_stdev << '\n';
@@ -88,8 +86,7 @@ int main(int argc, char **argv) {
       end_values[n] = traj[n].back();
     }
     auto end = high_resolution_clock::now();
-    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-         << '\n';
+    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
     write_all(traj, "output/gbm_single_path_demo.csv");
     cout << "gbm_single_path_demo\n";
     test_end_values(end_values, expected_mean, expected_stdev);
@@ -103,8 +100,7 @@ int main(int argc, char **argv) {
     end_values[n] = traj[n].back();
   }
   auto end = high_resolution_clock::now();
-  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-       << '\n';
+  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
   write_all(traj, "output/gbm_single_path.csv");
   cout << "gbm_single_path\n";
   test_end_values(end_values, expected_mean, expected_stdev);
@@ -117,8 +113,7 @@ int main(int argc, char **argv) {
     end_values[n] = traj[n].back();
   }
   end = high_resolution_clock::now();
-  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-       << '\n';
+  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
   write_all(traj, "output/gbm_single_path_v2.csv");
   cout << "gbm_single_path_v2\n";
   test_end_values(end_values, expected_mean, expected_stdev);
@@ -131,8 +126,7 @@ int main(int argc, char **argv) {
     end_values[n] = traj[n].back();
   }
   end = high_resolution_clock::now();
-  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-       << '\n';
+  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
   write_all(traj, "output/gbm_single_path_exp.csv");
   cout << "gbm_single_path_exp\n";
   test_end_values(end_values, expected_mean, expected_stdev);
@@ -142,10 +136,8 @@ int main(int argc, char **argv) {
   start = high_resolution_clock::now();
   traj = gbm_multipath(S0, mu, sigma, T, dt, paths, gen);
   end = high_resolution_clock::now();
-  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-       << '\n';
-  transform(traj.begin(), traj.end(), begin(end_values),
-            [](const auto &v) { return v.back(); });
+  cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
+  transform(traj.begin(), traj.end(), begin(end_values), [](const auto& v) { return v.back(); });
   // write_all(traj, "output/gbm_multipath.csv");
   cout << "gbm_multipath\n";
   test_end_values(end_values, expected_mean, expected_stdev);
@@ -155,13 +147,11 @@ int main(int argc, char **argv) {
     traj.clear();
     start = high_resolution_clock::now();
     traj = gbm_multipath_opt({.mu = mu, .sigma = sigma},
-                             {.dt = 1.0 / 365.0, .paths = paths, .gen = gen},
-                             {.S = S0}, {.T = T});
+                             {.dt = 1.0 / 365.0, .paths = paths, .gen = gen}, {.S = S0}, {.T = T});
     end = high_resolution_clock::now();
     cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
          << "\n";
-    transform(traj.begin(), traj.end(), begin(end_values),
-              [](const auto &v) { return v.back(); });
+    transform(traj.begin(), traj.end(), begin(end_values), [](const auto& v) { return v.back(); });
     // write_all(traj, "output/gbm_multipath.csv");
     cout << "gbm_multipath_opt\n";
     test_end_values(end_values, expected_mean, expected_stdev);
@@ -171,16 +161,16 @@ int main(int argc, char **argv) {
     gen = make_gen();
     traj.clear();
     start = high_resolution_clock::now();
-    auto traj = gbm_multipath_opt2(
-        {.mu = mu, .sigma = sigma},
-        {.dt = 1.0 / 365.0, .paths = paths, .gen = gen}, {.S = S0}, {.T = T});
+    auto traj =
+        gbm_multipath_opt2({.mu = mu, .sigma = sigma},
+                           {.dt = 1.0 / 365.0, .paths = paths, .gen = gen}, {.S = S0}, {.T = T});
     end = high_resolution_clock::now();
     cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
          << "\n";
 
     valarray<double> end_values(0.0, paths);
-    transform(traj.begin(traj.n_points() - 1), traj.end(traj.n_points() - 1),
-              begin(end_values), [](const auto &v) { return v; });
+    transform(traj.begin(traj.n_points() - 1), traj.end(traj.n_points() - 1), begin(end_values),
+              [](const auto& v) { return v; });
     // write_all(traj, "output/gbm_multipath.csv");
     cout << "gbm_multipath_opt2\n";
     test_end_values(end_values, expected_mean, expected_stdev);
@@ -191,45 +181,39 @@ int main(int argc, char **argv) {
   {
     gen = make_gen();
     start = high_resolution_clock::now();
-    auto traj1 = gbm_multipath_opt(
-        {.mu = mu, .sigma = sigma},
-        {.dt = 1.0 / 365.0, .paths = paths * multiplier, .gen = gen}, {.S = S0},
-        {.T = T});
+    auto traj1 = gbm_multipath_opt({.mu = mu, .sigma = sigma},
+                                   {.dt = 1.0 / 365.0, .paths = paths * multiplier, .gen = gen},
+                                   {.S = S0}, {.T = T});
     end = high_resolution_clock::now();
-    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-         << '\n';
+    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
     cout << "gbm_multipath_opt(struct)\n";
     end_values.resize(paths * multiplier);
     transform(traj1.begin(), traj1.end(), begin(end_values),
-              [](const auto &v) { return v.back(); });
+              [](const auto& v) { return v.back(); });
     test_end_values(end_values, expected_mean, expected_stdev);
 
     gen = make_gen();
     start = high_resolution_clock::now();
     auto traj2 = gbm_multipath_opt_thread(
-        {.mu = mu, .sigma = sigma},
-        {.dt = 1.0 / 365.0, .paths = paths * multiplier, .gen = gen}, {.S = S0},
-        {.T = T}, 4);
+        {.mu = mu, .sigma = sigma}, {.dt = 1.0 / 365.0, .paths = paths * multiplier, .gen = gen},
+        {.S = S0}, {.T = T}, 4);
 
     end = high_resolution_clock::now();
-    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-         << '\n';
+    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
     cout << "gbm_multipath_opt_thread\n";
     end_values.resize(paths * multiplier);
     transform(traj2.begin(), traj2.end(), begin(end_values),
-              [](const auto &v) { return v.back(); });
+              [](const auto& v) { return v.back(); });
     test_end_values(end_values, expected_mean, expected_stdev);
 
     gen = make_gen();
     start = high_resolution_clock::now();
     auto traj3 = gbm_multipath_opt_thread_eigen(
-        {.mu = mu, .sigma = sigma},
-        {.dt = 1.0 / 365.0, .paths = paths * multiplier, .gen = gen}, {.S = S0},
-        {.T = T}, 4);
+        {.mu = mu, .sigma = sigma}, {.dt = 1.0 / 365.0, .paths = paths * multiplier, .gen = gen},
+        {.S = S0}, {.T = T}, 4);
 
     end = high_resolution_clock::now();
-    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s"
-         << '\n';
+    cout << duration_cast<nanoseconds>((end - start)).count() / 1e9 << "s" << '\n';
     cout << "gbm_multipath_opt_thread_eigen\n";
     end_values.resize(paths * multiplier);
     Eigen::VectorXd last_row = traj3.row(traj3.rows() - 1);

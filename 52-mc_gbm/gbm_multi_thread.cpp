@@ -13,8 +13,8 @@ using namespace std;
 using nd_double = normal_distribution<double>;
 
 void gbm_multipath_opt_inc(const GBMParam &gbm, const MCParam &mc,
-                           const Market &mkt, const Eval &eval, multipath &v,
-                           size_t start, size_t end) {
+                           const Market &mkt, const Eval & /* eval */,
+                           multipath &v, size_t start, size_t end) {
   const auto drift = (gbm.mu - gbm.sigma * gbm.sigma / 2.0) * mc.dt;
   const auto diffusion = sqrt(mc.dt) * gbm.sigma;
   // nd is local (not static) so each thread owns its own instance.
@@ -63,16 +63,14 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
   vector<future<void>> futures;
   vector<thread> threads;
 
+  const size_t base_paths = mc.paths / static_cast<size_t>(n_thread);
+  const size_t remainder = mc.paths % static_cast<size_t>(n_thread);
   size_t end = 0, start = 0;
   for (int i = 0; i < n_thread; ++i) {
     mcs[i].gen = mts[i];
     // cout << mts[i] << ", " << uid(mcs[i].gen) << '\n';
     start = end;
-    if (i < n_thread - 1) {
-      mcs[i].paths = mcs[i].paths / n_thread;
-    } else {
-      mcs[i].paths = mc.paths - end;
-    }
+    mcs[i].paths = base_paths + (i == n_thread - 1 ? remainder : 0);
     end += mcs[i].paths;
 
     tasks.emplace_back([gbm, mc = mcs[i], mkt, eval, &vs, start, end]() {

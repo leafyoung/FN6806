@@ -1,5 +1,5 @@
 #include "gbm_multi_thread_eigen.h"
-#include "eigen3//Eigen/Dense"
+
 #include <algorithm>
 #include <functional>
 #include <future>
@@ -14,9 +14,8 @@ using namespace Eigen;
 
 using nd_double = normal_distribution<double>;
 
-void gbm_multipath_opt_inc_eigen(const GBMParam &gbm, const MCParam &mc,
-                                 const Market &mkt, const Eval &eval,
-                                 MatrixXd &v, int start, int end) {
+void gbm_multipath_opt_inc_eigen(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
+                                 const Eval& eval, MatrixXd& v, int start, int end) {
   const auto drift = (gbm.mu - gbm.sigma * gbm.sigma / 2.0) * mc.dt;
   const auto diffusion = sqrt(mc.dt) * gbm.sigma;
   // nd is local (not static) so each thread owns its own instance.
@@ -34,9 +33,8 @@ void gbm_multipath_opt_inc_eigen(const GBMParam &gbm, const MCParam &mc,
   }
 }
 
-MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam &gbm, const MCParam &mc,
-                                        const Market &mkt, const Eval &eval,
-                                        const int &n_thread) {
+MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
+                                        const Eval& eval, const int& n_thread) {
   uniform_int_distribution<unsigned int> uid;
 
   seed_seq seed{uid(mc.gen), uid(mc.gen), uid(mc.gen), uid(mc.gen),
@@ -56,16 +54,14 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam &gbm, const MCParam &mc,
   vector<future<void>> futures;
   vector<thread> threads;
 
-  int end = 0, start = 0;
+  const size_t base_paths = mc.paths / static_cast<size_t>(n_thread);
+  const size_t remainder = mc.paths % static_cast<size_t>(n_thread);
+  size_t end = 0, start = 0;
   for (int i = 0; i < n_thread; ++i) {
     mcs[i].gen = mts[i];
     // cout << mts[i] << ", " << uid(mcs[i].gen) << '\n';
     start = end;
-    if (i < n_thread - 1) {
-      mcs[i].paths = mcs[i].paths / n_thread;
-    } else {
-      mcs[i].paths = mc.paths - end;
-    }
+    mcs[i].paths = base_paths + (i == n_thread - 1 ? remainder : 0);
     end += mcs[i].paths;
 
     tasks.emplace_back([gbm, mc = mcs[i], mkt, eval, &vs, start, end]() {
@@ -74,14 +70,14 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam &gbm, const MCParam &mc,
 
     // if we use packaged_task/future
     futures.emplace_back(tasks.back().get_future());
-    threads.emplace_back(move(tasks.back()));
+    threads.emplace_back(std::move(tasks.back()));
   }
 
-  for (auto &f : futures) {
+  for (auto& f : futures) {
     f.wait();
   }
 
-  for (auto &t : threads) {
+  for (auto& t : threads) {
     t.join();
   }
 
