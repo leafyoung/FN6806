@@ -30,12 +30,13 @@ int test_exp() {
   string ss = "123";
   cout << ss.at(0) << '\n';
 
-  // Intentionally cause out-of-range exceptions to demonstrate undefined behaviors
+  // Intentionally cause out-of-range exceptions to demonstrate undefined
+  // behaviors
 
-  cout << xs[3] << '\n';           // undefined behavior: unchecked access
-  cout << ss.c_str()[10] << '\n';  // undefined behavior: unchecked access
-  cout << ss[10] << '\n';          // undefined behavior: unchecked access
-  cout << ss.at(10) << '\n';       // throws std::out_of_range
+  cout << xs[3] << '\n';          // undefined behavior: unchecked access
+  cout << ss.c_str()[10] << '\n'; // undefined behavior: unchecked access
+  cout << ss[10] << '\n';         // undefined behavior: unchecked access
+  cout << ss.at(10) << '\n';      // throws std::out_of_range
   return 0;
 }
 
