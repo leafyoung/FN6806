@@ -7,10 +7,14 @@
 
 using namespace std;
 
-void f(int &t) { t += 3; }
+void f(int& t) {
+  t += 3;
+}
 
 // receive ownership
-void f2(unique_ptr<int> p) { *p += 5; }
+void f2(unique_ptr<int> p) {
+  *p += 5;
+}
 
 auto f3(unique_ptr<int> p) {
   *p += 7;
@@ -20,14 +24,16 @@ auto f3(unique_ptr<int> p) {
 class Widget {
   mutable unique_ptr<int> data;
 
-public:
+ public:
   Widget(int x) : data{make_unique<int>(x)} {}
   int get() { return *data; }
   // Widget(const Widget &other) : data(nullptr) { other.data.swap(data); }
   // Widget(const Widget &other) : data(make_unique<int>(*other.data)) {}
 };
 
-unique_ptr<int> return_int() { return make_unique<int>(3); }
+unique_ptr<int> return_int() {
+  return make_unique<int>(3);
+}
 
 int main() {
   {
@@ -57,8 +63,8 @@ int main() {
     // assignment
     // p1 = p3; // error, not copyable
     // p1 = std::move(p1); // self-move: intentionally avoided; p1 unchanged
-    p3 = std::move(p1); // ok. p1's object is moved to p3, p1 becomes nullptr
-                   // p3's resource is released
+    p3 = std::move(p1);  // ok. p1's object is moved to p3, p1 becomes nullptr
+                         // p3's resource is released
     cout << "p1 (after): " << p1.get() << '\n';
 
     // Pass the value to a function.
@@ -68,7 +74,7 @@ int main() {
 
     // f2(p2); // error, p2 is not copyable
     //  Use move to transfer ownership
-    f2(std::move(p2)); // ok, p2 is moved to f2
+    f2(std::move(p2));  // ok, p2 is moved to f2
     // p2 has become nullptr
     cout << "p2 (after): " << p2.get() << '\n';
 
@@ -96,7 +102,7 @@ int main() {
     // auto v: vs cannot compile
     // because it will copy the value from elements in vs to v.
     // use reference (&) avoid copying
-    for (auto const &v : vs) {
+    for (auto const& v : vs) {
       cout << *v << ", ";
     }
     cout << '\n';
@@ -113,20 +119,26 @@ int main() {
   }
 
   {
-    int *p_x{nullptr};
+    int* p_x{nullptr};
+
     {
       int x{3};
       p_x = &x;
       cout << *p_x << '\n';
       cout << p_x << '\n';
     }
+
     {
       int y{4};
       cout << &y << '\n';
     }
+
     // p_x points to a memory location that does not belong to x anymore.
-    // The same location could be overwritten by another variable
-    // Note: compiler optimization may allocate y to another location.
-    cout << *p_x << '\n';
+    // The same location could be overwritten by another variable.
+    // Do not dereference p_x here - that would be undefined behavior.
+    cout << "Do not dereference p_x after x goes out of scope.\n";
+
+    // BAD
+    // cout << *p_x << '\n';
   }
 }
