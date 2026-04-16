@@ -1,9 +1,6 @@
 // https://replit.com/@YeKunlun/31-printcontainertemplate
 
-#include <iomanip>
 #include <iostream>
-#include <memory>
-#include <string>
 #include <type_traits>
 
 using namespace std;
@@ -19,18 +16,24 @@ struct DEF {
   void def() const {}
 };
 
-template <typename T, T x> bool larger_than_x(const T &a) { return a > x; }
+template <typename T, T x>
+bool larger_than_x(const T& a) {
+  return a > x;
+}
 // alt, use decltype to derive types
-template <typename T, T x> bool larger_than_x2(const decltype(x) &a) {
+template <typename T, T x>
+bool larger_than_x2(const decltype(x)& a) {
   return a > x;
 }
 
-template <typename T> void get_abc(const T &coll) {
+template <typename T>
+void get_abc(const T& coll) {
   static_assert(is_same<T, ABC>::value, "T must be of type ABC.");
   coll.abc();
 }
 
-template <int Days> struct DayCount {
+template <int Days>
+struct DayCount {
   static constexpr int value = Days;
 };
 
@@ -43,8 +46,8 @@ int main() {
   cout << boolalpha;
   {
     cout << is_same<DayCount<360>, DayCount<365>>::value << '\n';
-    cout << DayCount360::value << '\n'; // 360
-    cout << DayCount365::value << '\n'; // 365
+    cout << DayCount360::value << '\n';  // 360
+    cout << DayCount365::value << '\n';  // 365
   }
 
   {
@@ -53,8 +56,8 @@ int main() {
     cout << x << '\n';
 
     auto abc = ABC();
-    get_abc(abc); // OK
-                  //  get_abc(DEF()); // ERROR
+    get_abc(abc);  // OK
+                   //  get_abc(DEF()); // ERROR
 
     cout << larger_than_x<int, 6>(5) << '\n';
     cout << larger_than_x2<int, 5>(6) << '\n';
@@ -73,4 +76,6 @@ int main() {
     cout << "gcd(26, 65): " << gcd<26, 65>::value << '\n';
     cout << "gcd(65, 26): " << gcd<65, 26>::value << '\n';
   }
+
+  test_time_series();
 }
