@@ -46,6 +46,6 @@ int main() {
     MyBool my_bool{3};
     // calls operator bool(), b = false
     bool b = static_cast<bool>(my_bool);
-    cout << std::boolalpha << b << '\n';  // 0
+    cout << std::boolalpha << b << '\n';  // false
   }
 }
