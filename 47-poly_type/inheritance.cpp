@@ -16,9 +16,11 @@ void test_drive(Vehicle &v) { v.drive(); }
 unique_ptr<Vehicle> getVehicle(const string &choice) {
   if (choice == "car") {
     return make_unique<Car>();
-  } else if (choice == "truck") {
+  }
+  if (choice == "truck") {
     return make_unique<Truck>();
-  } else if (choice == "plane") {
+  }
+  if (choice == "plane") {
     return make_unique<Plane>();
   }
   throw logic_error("unknown choice: "s + choice);
