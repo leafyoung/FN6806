@@ -34,13 +34,13 @@ std::ostream &operator<<(std::ostream &outs, const Card &c) {
   return outs;
 }
 
-inline int get_point(Card c) { return (c.c - 1) % 13 + 1; }
-inline int get_suit(Card c) { return (c.c - 1) / 13; }
+inline size_t get_point(Card c) { return (c.c - 1) % 13 + 1; }
+inline size_t get_suit(Card c) { return (c.c - 1) / 13; }
 
 Game create_game() {
   using std::default_random_engine;
   Game game;
-  int c = 1;
+  size_t c = 1;
   generate(game.begin(), game.end(), [&c]() { return Card{c++}; });
   shuffle(game.begin(), game.end(), default_random_engine());
   return game;
@@ -50,15 +50,15 @@ bool is_equal_point(Card c, Card d) { return get_point(c) == get_point(d); }
 
 bool is_equal_suit(Card c, Card d) { return get_suit(c) == get_suit(d); }
 
-bool is_serial(vector<Card> cards, int card_max) {
+bool is_serial(vector<Card> cards, size_t card_max) {
   if (cards.size() < 2) {
     return false;
   }
-  vector<int> points(cards.size());
+  vector<size_t> points(cards.size());
   transform(cards.begin(), cards.end(), points.begin(),
             [](const auto &c) { return c.c; });
   sort(points.begin(), points.end());
-  vector<int> diff(points.size());
+  vector<size_t> diff(points.size());
   /*
   adjacent_difference() preserves the first element.
   We will only check from 2nd element onwards.
@@ -99,8 +99,8 @@ bool is_serial(vector<Card> cards, int card_max) {
   if (non_cyclic_serial)
     return non_cyclic_serial;
 
-  const int gap = card_max - cards.size() + 1;
-  const int gap_count = std::count(next(diff.begin()), diff.end(), gap);
+  const size_t gap = card_max - cards.size() + 1;
+  const size_t gap_count = std::count(next(diff.begin()), diff.end(), gap);
   if (gap_count != 1)
     return false;
 

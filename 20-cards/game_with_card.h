@@ -12,7 +12,7 @@ public:
     char value;
     Card(char value) : value(value){};
 
-    void game(const Game &g1) { std::cout << g1.cards.size() << '\n'; }
+    void game(const Game &g1) { std::cout << "Cards: " << g1.cards.size() << '\n'; }
   };
 
 private:
