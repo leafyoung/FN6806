@@ -21,11 +21,13 @@ struct Triangle {
 };
 
 struct PrintVisitor {
-  void operator()(int &i) const { std::cout << "int: " << i; }
+  void operator()(int &i) const { std::cout << "int: " << i << '\n'; }
 
-  void operator()(float &f) const { std::cout << "float: " << f; }
+  void operator()(float &f) const { std::cout << "float: " << f << '\n'; }
 
-  void operator()(const std::string &s) const { std::cout << "string: " << s; }
+  void operator()(const std::string &s) const {
+    std::cout << "string: " << s << '\n';
+  }
 };
 
 int main() {
