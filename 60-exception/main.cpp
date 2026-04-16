@@ -17,21 +17,26 @@ using std::isnan;
 using std::sqrt;
 
 int test_exp() {
-  sqrt(-1.0);
-  1 / 0;
-  1.0 / 0.0;
+  const double root = sqrt(-1.0);
+  cout << "sqrt(-1.0) is NaN: " << isnan(root) << '\n';
 
-  char x = 3000;
+  cout << "1.0 / 0.0 -> " << (1.0 / 0.0) << '\n';
+
+  const int x = 3000;
   cout << x << '\n';
 
   vector<int> xs = {1, 2, 3};
-  cout << xs[3] << '\n';
+  cout << xs.at(2) << '\n';
 
   string ss = "123";
   cout << ss.at(0) << '\n';
-  cout << ss.c_str()[10] << '\n';
-  cout << ss[10] << '\n';
-  cout << ss.at(10) << '\n';
+
+  // Intentionally cause out-of-range exceptions to demonstrate undefined behaviors
+  cout << xs[3] << '\n';           // undefined behavior: unchecked access
+  cout << ss.c_str()[10] << '\n';  // undefined behavior: unchecked access
+  cout << ss[10] << '\n';          // undefined behavior: unchecked access
+  cout << ss.at(10) << '\n';       // throws std::out_of_range
+  return 0;
 }
 
 int main() {
