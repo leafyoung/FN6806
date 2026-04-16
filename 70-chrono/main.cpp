@@ -1,31 +1,28 @@
 // https://replit.com/@YeKunlun/70-chrono?v=1
-// With --std=c++2b
+// C++17 with Howard Hinnant's date.h/tz.h
 
-#include "date.h"
-#include "tz.h"
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include "date.h"
 using namespace std;
 
 void test_ymd() {
   cout << __func__ << '\n';
+  using namespace date;
 
   const auto now = std::chrono::system_clock::now();
 
-  const std::chrono::year_month_day ymd_now{
-      std::chrono::floor<std::chrono::days>(now)};
+  const year_month_day ymd_now{floor<days>(now)};
 
-  cout << static_cast<int>(ymd_now.year()) << "/"
-       << static_cast<unsigned>(ymd_now.month()) << "/"
+  cout << static_cast<int>(ymd_now.year()) << "/" << static_cast<unsigned>(ymd_now.month()) << "/"
        << static_cast<unsigned>(ymd_now.day()) << '\n';
 
-  std::chrono::year_month_day ymd{std::chrono::year{2002},
-                                  std::chrono::month{11}, std::chrono::day{14}};
+  year_month_day ymd{year{2002}, month{11}, day{14}};
 
-  ymd = std::chrono::year{2002} / std::chrono::month{11} / std::chrono::day{14};
+  ymd = year{2002} / month{11} / day{14};
 
-  auto date1 = std::chrono::year{2002} / 11 / 14;
+  auto date1 = year{2002} / 11 / 14;
 
   auto the_year = static_cast<int>(date1.year());
   auto the_month = static_cast<unsigned>(date1.month());
@@ -44,18 +41,18 @@ void test_duration() {
   const auto end = std::chrono::steady_clock::now();
   const std::chrono::duration<double> elapsed_seconds = end - start;
 
-  cout << elapsed_seconds.count() << '\n'; // C++20: operator<< chrono::duration
+  cout << elapsed_seconds.count() << '\n';  // C++20: operator<< chrono::duration
 
   auto d = 5min + 10s;
   cout << duration_cast<seconds>(d).count() << '\n';
   cout << duration_cast<milliseconds>(d).count() << '\n';
-  cout << duration_cast<days>(d).count() << '\n';
+  cout << duration_cast<date::days>(d).count() << '\n';
 }
 
 void test_weekday() {
   cout << __func__ << '\n';
 
-  using namespace std::chrono;
+  using namespace date;
 
   weekday{month{6} / 21 / 2016};
   cout << weekday{June / 21 / 2016}.c_encoding() << '\n';
@@ -63,11 +60,11 @@ void test_weekday() {
   // cout << weekday{June / 21 / 2016} << "\\n";
   static_assert(weekday{June / 21 / 2016} == Tuesday);
 
-  constexpr auto second_tuesday_in_October_2019 =
-      year_month_day{Tuesday[2] / October / 2019y};
+  [[maybe_unused]] constexpr auto second_tuesday_in_October_2019 =
+      year_month_day{Tuesday[2] / October / year{2019}};
 
-  constexpr auto last_tuesday_in_October_2019 =
-      year_month_day{Tuesday[last] / October / 2019y};
+  [[maybe_unused]] constexpr auto last_tuesday_in_October_2019 =
+      year_month_day{Tuesday[last] / October / year{2019}};
 
   // cout << second_tuesday_in_October_2019<< '\n'
   //          << last_tuesday_in_October_2019 << '\n';
@@ -104,14 +101,11 @@ void test_date_adv() {
 
   using namespace date;
   using day_point = std::chrono::time_point<std::chrono::system_clock, days>;
-  using time_point =
-      std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
 
   auto d2 = 2015_y / aug / 5;
   auto d3 = d2 - months(3) - years(1);
 
-  cout << (floor<days>(day_point{d2} - day_point{d3}) + +days{100}).count()
-       << '\n';
+  cout << (floor<days>(day_point{d2} - day_point{d3}) + +days{100}).count() << '\n';
 
   cout << year(2014) / 2 / 30 << "\\n";
   cout << typeid(year(2014) / 2 / 30).name() << "\\n";
