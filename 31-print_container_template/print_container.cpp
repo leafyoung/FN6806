@@ -6,7 +6,8 @@ using namespace std;
 
 #include "print_container.h"
 
-void print_container_auto(auto const &coll) {
+template <typename TColl>
+void print_container_auto(TColl const &coll) {
   for (auto const &v : coll) {
     cout << v << ", ";
   }
