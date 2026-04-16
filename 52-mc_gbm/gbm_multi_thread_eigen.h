@@ -1,5 +1,13 @@
 #pragma once
 
+#if defined(__has_include)
+#if __has_include(<eigen3/Eigen/Dense>)
+#define HAS_EIGEN 1
+#endif
+#endif
+
+#ifdef HAS_EIGEN
+
 #include <eigen3/Eigen/Dense>
 
 #include "gbm_multi.h"
@@ -30,3 +38,5 @@ void writeToCSVfile(std::string name,
   // destructor closes file, see
   // https://en.cppreference.com/w/cpp/io/basic_ofstream
 }
+
+#endif // HAS_EIGEN

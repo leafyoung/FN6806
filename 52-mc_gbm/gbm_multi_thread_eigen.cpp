@@ -1,5 +1,7 @@
 #include "gbm_multi_thread_eigen.h"
 
+#ifdef HAS_EIGEN
+
 #include <algorithm>
 #include <functional>
 #include <future>
@@ -83,3 +85,5 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, 
 
   return vs;
 }
+
+#endif // HAS_EIGEN
