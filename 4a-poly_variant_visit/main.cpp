@@ -13,8 +13,8 @@ class Square {};
 
 class Draw {
 public:
-  void operator()(Circle const &c) const { std::cout << "Draw circle\n"; }
-  void operator()(Square const &c) const { std::cout << "Draw square\n"; }
+  void operator()(Circle const &) const { std::cout << "Draw circle\n"; }
+  void operator()(Square const &) const { std::cout << "Draw square\n"; }
 };
 
 using Shapes = std::variant<Circle, Square>;
