@@ -1,8 +1,6 @@
 // https://replit.com/@YeKunlun/47-polytype
 
-#include <functional>
 #include <iostream>
-#include <vector>
 using namespace std;
 
 #include "K.h"
