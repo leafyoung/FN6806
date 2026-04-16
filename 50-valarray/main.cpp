@@ -1,12 +1,10 @@
 // https://replit.com/@YeKunlun/50-valarray
 
-#include <algorithm>
 #include <iostream>
-#include <iterator>
 #include <string>
 #include <valarray>
 
-void print_valarray(const std::string name, const std::valarray<double> &dv) {
+void print_valarray(const std::string name, const std::valarray<double>& dv) {
   std::cout << name << ": ";
   for (auto v : dv) {
     std::cout << v << ", ";
@@ -18,8 +16,10 @@ int main() {
   std::valarray<double> x{1.0, 2.0, 3.0, 1.5, 2.5};
   std::valarray<double> y{10.0, -20.0, 30.0, -15.0, 25.0};
 
-  double v1_max = x.max(); // 3.0
-  double v1_min = y.min(); // 1.0
+  const double v1_max = x.max();  // 3.0
+  const double v1_min = y.min();  // -20.0
+  std::cout << "max(x): " << v1_max << '\n';
+  std::cout << "min(y): " << v1_min << '\n';
 
   print_valarray("x", x);
   x = +x;
@@ -38,6 +38,7 @@ int main() {
   auto u = x.apply([](double x) { return x * x; });
   print_valarray("u", u);
   auto w = y.apply([](double x) { return std::sin(x) + std::cos(x); });
+  print_valarray("w", w);
   print_valarray("v", y);
 
   // The result in each is a valarray<double>

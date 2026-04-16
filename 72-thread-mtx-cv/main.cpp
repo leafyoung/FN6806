@@ -25,7 +25,7 @@ public:
     stoppers.reserve(1000);
     this->t = std::thread([this]() { this->reeval(); });
   }
-  void add(int x) {}
+  void add(int /* x */) {}
 
   void reeval() {}
 };
