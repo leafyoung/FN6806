@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <array>
-#include <functional>
 #include <iostream>
 #include <numeric>
 #include <random>
@@ -12,13 +11,12 @@
 namespace GameNaive {
 
 using std::array;
-using std::cout;
 using std::generate;
 using std::ostream;
 using std::shuffle;
 using std::vector;
 
-std::ostream &operator<<(std::ostream &outs, const Card &c) {
+std::ostream& operator<<(std::ostream& outs, const Card& c) {
   if (c.c >= 1 && c.c <= 13) {
     outs << 'H';
   } else if (c.c >= 14 && c.c <= 26) {
@@ -30,12 +28,16 @@ std::ostream &operator<<(std::ostream &outs, const Card &c) {
   } else {
     throw std::logic_error("Unknown card serial");
   }
-  outs << get_point(c); // Outputting the point value
+  outs << get_point(c);  // Outputting the point value
   return outs;
 }
 
-inline size_t get_point(Card c) { return (c.c - 1) % 13 + 1; }
-inline size_t get_suit(Card c) { return (c.c - 1) / 13; }
+inline size_t get_point(Card c) {
+  return (c.c - 1) % 13 + 1;
+}
+inline size_t get_suit(Card c) {
+  return (c.c - 1) / 13;
+}
 
 Game create_game() {
   using std::default_random_engine;
@@ -46,24 +48,27 @@ Game create_game() {
   return game;
 }
 
-bool is_equal_point(Card c, Card d) { return get_point(c) == get_point(d); }
+bool is_equal_point(Card c, Card d) {
+  return get_point(c) == get_point(d);
+}
 
-bool is_equal_suit(Card c, Card d) { return get_suit(c) == get_suit(d); }
+bool is_equal_suit(Card c, Card d) {
+  return get_suit(c) == get_suit(d);
+}
 
 bool is_serial(vector<Card> cards, size_t card_max) {
   if (cards.size() < 2) {
     return false;
   }
   vector<size_t> points(cards.size());
-  transform(cards.begin(), cards.end(), points.begin(),
-            [](const auto &c) { return c.c; });
+  transform(cards.begin(), cards.end(), points.begin(), [](const auto& c) { return c.c; });
   sort(points.begin(), points.end());
   vector<size_t> diff(points.size());
   /*
   adjacent_difference() preserves the first element.
   We will only check from 2nd element onwards.
-   4 6 9 13 18 19 19 15 10
-   4 2 3  4  5  1  0 -4 -5
+  4 6 9 13 18 19 19 15 10
+  4 2 3  4  5  1  0 -4 -5
    */
   adjacent_difference(points.begin(), points.end(), diff.begin());
 
@@ -74,8 +79,8 @@ bool is_serial(vector<Card> cards, size_t card_max) {
       1	1	1
   */
   // Non-cyclic serial check
-  const bool non_cyclic_serial = all_of(next(diff.begin()), diff.end(),
-                                        [](const auto &v) { return v == 1; });
+  const bool non_cyclic_serial =
+      all_of(next(diff.begin()), diff.end(), [](const auto& v) { return v == 1; });
   // cyclic serial check:
   /*
   case 1:
@@ -105,9 +110,8 @@ bool is_serial(vector<Card> cards, size_t card_max) {
     return false;
 
   const bool cyclic_serial =
-      all_of(next(diff.begin()), diff.end(),
-             [&](const auto &v) { return v == 1 || v == gap; });
+      all_of(next(diff.begin()), diff.end(), [&](const auto& v) { return v == 1 || v == gap; });
 
   return cyclic_serial;
 }
-} // namespace GameNaive
+}  // namespace GameNaive
