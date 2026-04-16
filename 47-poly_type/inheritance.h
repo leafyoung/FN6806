@@ -12,6 +12,7 @@ public:
   // FIXME:
   void stop() { cout << "stop\n"; }
   virtual Vehicle &self() { return *this; }
+  virtual const Vehicle &self() const { return *this; }
   virtual ~Vehicle() = default;
 };
 
@@ -21,6 +22,7 @@ public:
   void speedup() override { cout << "Car++~\n"; }
   void stop() { cout << "Car--|\n"; }
   Car &self() override { return *this; }
+  const Car &self() const override { return *this; }
 };
 class Truck : public Vehicle {
 public:
@@ -28,6 +30,7 @@ public:
   void speedup() override { cout << "Truck++>\n"; }
   void stop() { cout << "Truck--<\n"; }
   Truck &self() override { return *this; }
+  const Truck &self() const override { return *this; }
 };
 class Plane : public Vehicle {
 public:
@@ -35,6 +38,7 @@ public:
   void speedup() override { cout << "Plane++/\n"; }
   void stop() { cout << "Plane--\\\n"; }
   Plane &self() override { return *this; }
+  const Plane &self() const override { return *this; }
 };
 
 // This is the factory function to help us create object.
