@@ -15,7 +15,7 @@ struct A {
   // Without forward declaration
   // this line cannot compile
   shared_ptr<B> pointer;
-  A() : value(100'000'000, 42) {} // to speed up the memory leak
+  A() : value(3'000'000, 42) {} // large enough to observe ownership safely
   ~A() = default;
 };
 

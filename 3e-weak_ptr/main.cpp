@@ -35,14 +35,14 @@ int main() {
   {
     using namespace NoLock;
     cout << "NoLock:\n";
-    for (size_t c = 0; c < 30; ++c)
+    for (size_t c = 0; c < 3; ++c)
       test_lock();
   }
 
   {
     cout << "InterLock (memory leak):\n";
     using namespace InterLock;
-    while (true)
+    for (size_t c = 0; c < 3; ++c)
       test_lock();
   }
 }
