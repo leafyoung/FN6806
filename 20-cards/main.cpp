@@ -75,8 +75,7 @@ int main() {
 
   {
     using namespace GameWithCard;
-    auto g = Game();
-    Game::Card c('H');
-    c.game(g);
+    auto g = Game({Game::Card('H', 1), Game::Card('C', 13)});
+    cout << g.count() << "\n";
   }
 }

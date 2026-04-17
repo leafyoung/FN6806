@@ -8,17 +8,22 @@ namespace GameWithCard {
 class Game {
 public:
   class Card {
-  public:
-    char value;
-    Card(char value) : value(value){};
+    char suit;
+    size_t value;
 
-    void game(const Game &g1) { std::cout << "Cards: " << g1.cards.size() << '\n'; }
+  public:
+    Card(char suit, size_t value) : suit(suit), value(value){};
+    friend std::ostream &operator<<(std::ostream &os, const Card &obj) {
+      os << obj.suit << obj.value;
+      return os;
+    }
   };
 
 private:
   std::vector<Card> cards;
 
 public:
-  Game() : cards({Card('H')}) {}
+  Game(std::vector<Card> cards = {Card('H', 1)}) : cards(cards) {}
+  const size_t count() { return this->cards.size(); }
 };
 } // namespace GameWithCard
