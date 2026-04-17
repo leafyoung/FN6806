@@ -4,9 +4,9 @@
 #include <string>
 
 class MyIntException : public std::runtime_error {
-public:
+ public:
   int x;
-  explicit MyIntException(int x)
+  explicit MyIntException(int x)  // explicit non-default constructor (NDC)
       : std::runtime_error("Got problem with " + std::to_string(x)), x(x) {}
 };
 

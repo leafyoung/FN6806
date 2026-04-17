@@ -21,27 +21,28 @@ int test_exp() {
 
   cout << "1.0 / 0.0 -> " << (1.0 / 0.0) << '\n';
 
-  const int x = 3000;
+  const char x = 3000;
   cout << x << '\n';
 
   vector<int> xs = {1, 2, 3};
-  cout << xs.at(2) << '\n';
-
   string ss = "123";
   cout << ss.at(0) << '\n';
 
   // Intentionally cause out-of-range exceptions to demonstrate undefined
   // behaviors
-
-  cout << xs[3] << '\n';          // undefined behavior: unchecked access
-  cout << ss.c_str()[10] << '\n'; // undefined behavior: unchecked access
-  cout << ss[10] << '\n';         // undefined behavior: unchecked access
-  cout << ss.at(10) << '\n';      // throws std::out_of_range
+  cout << xs[3] << '\n';           // undefined behavior: unchecked access
+  cout << ss.c_str()[10] << '\n';  // undefined behavior: unchecked access
+  cout << ss[10] << '\n';          // undefined behavior: unchecked access
+  cout << ss.at(10) << '\n';       // throws std::out_of_range
   return 0;
 }
 
 int main() {
-  // { test_exp(); }
+  try {
+    // test_exp();
+  } catch (const std::exception& e) {
+    std::cerr << "Exception caught: " << e.what() << std::endl;
+  }
   test_dtor();
   test_read_file(3);
   test_stream();
