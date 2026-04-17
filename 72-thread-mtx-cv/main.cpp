@@ -1,13 +1,6 @@
 // https://replit.com/@YeKunlun/72-thread-mtx-cv
 
-#include <chrono>
-#include <condition_variable>
-#include <functional>
-#include <iostream>
-#include <memory>
-#include <mutex>
 #include <thread>
-#include <tuple>
 #include <vector>
 
 #include "cancellable_task.h"
@@ -16,11 +9,10 @@
 #include "task.h"
 
 class Timer {
-
   std::vector<Task> stoppers;
   std::thread t;
 
-public:
+ public:
   Timer() {
     stoppers.reserve(1000);
     this->t = std::thread([this]() { this->reeval(); });
