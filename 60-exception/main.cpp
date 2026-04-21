@@ -21,8 +21,8 @@ int test_exp() {
 
   cout << "1.0 / 0.0 -> " << (1.0 / 0.0) << '\n';
 
-  const char x = 3000;
-  cout << x << '\n';
+  const auto narrowed_value = static_cast<char>(3000);
+  cout << narrowed_value << '\n';
 
   vector<int> xs = {1, 2, 3};
   string ss = "123";
