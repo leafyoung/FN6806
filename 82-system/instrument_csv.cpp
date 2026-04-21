@@ -5,7 +5,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "european_option.h"
@@ -96,9 +95,9 @@ std::unique_ptr<Instrument> parse_instrument_line(const std::string& line) {
     const double coupon = parse_double(row.fields[3], "coupon");
     const int maturity = parse_int(row.fields[4], "maturity");
 
-    logging::debug("InstrumentCsv") << "event=instrument_parse status=success type=bond instrument_id="
-                                     << row.id << " face=" << face << " coupon=" << coupon
-                                     << " maturity=" << maturity;
+    logging::debug("InstrumentCsv")
+        << "event=instrument_parse status=success type=bond instrument_id=" << row.id
+        << " face=" << face << " coupon=" << coupon << " maturity=" << maturity;
 
     return std::make_unique<FixedRateBond>(row.id, face, coupon, maturity);
   }
