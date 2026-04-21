@@ -1,40 +1,56 @@
+// risk_report.cpp
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include "csv_writer.h"
+#include "logger.h"
+#include "portfolio.h"
 #include "risk_report.h"
 
-void generate_risk_report(const Portfolio &portfolio,
-                          std::shared_ptr<YieldCurve> curve,
-                          const std::string &output_path) {
-  CSVWriter writer(output_path); // throws if file cannot be opened
+void generate_risk_report(const Portfolio& portfolio,
+                          double base_rate,
+                          const std::string& output_path) {
+  logging::info("RiskReport") << "event=risk_report status=start instrument_count=" << portfolio.size()
+                            << " base_rate=" << base_rate << " output_path=" << output_path;
+
+  CSVWriter writer(output_path);  // throws if file cannot be opened
   writer.write("id,type,pv,dv01,pv_up100bps,pv_down100bps");
 
-  const double base_rate = curve->rate_at(5.0);
+  const double shifted_up = base_rate + 0.01;   // +100 bps
+  const double shifted_dn = base_rate - 0.01;   // -100 bps
 
-  for (const auto &instr : portfolio) {
-    const double pv = instr->price(base_rate);
-    const double dv01 = instr->dv01(base_rate);
+  int count = 0;
+  portfolio.for_each([&](const Instrument& instr) {
+    ++count;
 
-    // Stress test: parallel shift ±100 bps
-    { // RAII-style scope: always restore even if pricing throws
-      auto restore = [&curve, shift = 0.0](double delta) mutable {
-        shift += delta;
-        curve->parallel_shift(delta);
-      };
-      restore(+0.01);
-      const double pv_up = instr->price(curve->rate_at(5.0));
-      restore(-0.02);
-      const double pv_dn = instr->price(curve->rate_at(5.0));
-      restore(+0.01); // restore
+    logging::debug("RiskReport") << "event=risk_report_row status=pricing row_index=" << count
+                             << " instrument_count=" << portfolio.size()
+                             << " instrument_id=" << instr.id();
 
-      std::ostringstream row;
-      row << instr->id() << ',' << instr->type_name() << ',' << std::fixed
-          << std::setprecision(4) << pv << ',' << dv01 << ',' << pv_up << ','
-          << pv_dn;
-      writer.write(row.str());
-    }
-  }
+    const double pv   = instr.price(base_rate);
+    const double dv01 = instr.dv01(base_rate);
+
+    // Stress test: price at shifted rates (no mutation of shared state)
+    logging::debug("RiskReport") << "event=risk_report_row status=stress_test instrument_id="
+                             << instr.id() << " shift_bps=100";
+    const double pv_up = instr.price(shifted_up);
+    const double pv_dn = instr.price(shifted_dn);
+
+    std::ostringstream row;
+    row << instr.id() << ','
+        << instr.type_name() << ','
+        << std::fixed << std::setprecision(4)
+        << pv << ',' << dv01 << ','
+        << pv_up << ',' << pv_dn;
+    writer.write(row.str());
+
+    logging::debug("RiskReport") << "event=risk_report_row status=written instrument_id="
+                             << instr.id() << " row=" << row.str();
+  });
+
+  logging::info("RiskReport") << "event=risk_report status=complete written_count=" << count
+                            << " output_path=" << output_path;
   std::cout << "Risk report written to " << output_path << '\n';
 }

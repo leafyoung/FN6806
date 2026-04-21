@@ -6,10 +6,10 @@
 class Instrument {
   std::string id_;
 
-public:
+ public:
   explicit Instrument(std::string id) : id_(std::move(id)) {}
-  const std::string &id() const { return id_; }
-  virtual ~Instrument() = default; // MUST be virtual (Rule: Lec04)
+  const std::string& id() const { return id_; }
+  virtual ~Instrument() = default;  // MUST be virtual (Rule: Lec04)
 
   virtual std::string type_name() const = 0;
   virtual double price(double rate) const = 0;
