@@ -24,11 +24,8 @@ class Portfolio {
   std::shared_ptr<YieldCurve> observer_curve_;
   double observer_total_pv_ = 0.0;
 
-  // Observer extension points used in the final exam.
   void prune_expired_observers();
-  // Notifies observers when a trade is added.
   void notify_trade_added(const Instrument& instrument, double new_total_pv);
-  // Notifies observers when portfolio loading completes.
   void notify_portfolio_loaded();
 
  public:
@@ -45,7 +42,6 @@ class Portfolio {
                             const std::shared_ptr<YieldCurve>& observer_curve);
   PortfolioLoadResult load_csv(const std::string& path);
 
-  // Registers a non-owning observer handle.
   void register_observer(const std::shared_ptr<RiskObserver>& observer);
   void unregister_observer(const std::shared_ptr<RiskObserver>& observer);
   std::size_t observer_count() const {

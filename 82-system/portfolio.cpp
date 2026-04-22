@@ -24,29 +24,22 @@ bool is_blank_line(std::string_view line) {
 
 }  // namespace
 
-void Portfolio::prune_expired_observers() {
-  // TODO: remove expired observer handles.
-}
+void Portfolio::prune_expired_observers() {}
 
 void Portfolio::register_observer(const std::shared_ptr<RiskObserver>& observer) {
   (void)observer;
-  // TODO: store a non-owning observer handle.
 }
 
 void Portfolio::unregister_observer(const std::shared_ptr<RiskObserver>& observer) {
   (void)observer;
-  // TODO: remove the matching observer handle.
 }
 
 void Portfolio::notify_trade_added(const Instrument& instrument, double new_total_pv) {
   (void)instrument;
   (void)new_total_pv;
-  // TODO: notify all live observers after a trade is added.
 }
 
-void Portfolio::notify_portfolio_loaded() {
-  // TODO: notify all live observers after loading completes.
-}
+void Portfolio::notify_portfolio_loaded() {}
 
 void Portfolio::set_observer_curve(const std::shared_ptr<YieldCurve>& curve) {
   observer_curve_ = curve;

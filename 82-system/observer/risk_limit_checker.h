@@ -9,7 +9,6 @@
 class Portfolio;
 class Instrument;
 
-// Concrete observer used as an exam extension point.
 class RiskLimitChecker : public RiskObserver {
   double max_portfolio_pv_;
   double max_portfolio_dv01_;

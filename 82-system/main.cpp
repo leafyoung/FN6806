@@ -44,6 +44,8 @@ int run_pricing_engine(const app_config::AppConfig& config) {
                         << " report_path=" << config.report_path
                         << " summary_tenor=" << config.summary_tenor;
 
+  // Extension point for later work:
+  // an observer-based workflow may register portfolio observers before loading trades.
   const auto curve = YieldCurve::from_csv(config.curve_path);
 
   // Extension point for later work:
