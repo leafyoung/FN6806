@@ -11,6 +11,7 @@
 #include "instrument.h"
 
 class RiskObserver;
+class YieldCurve;
 
 struct PortfolioLoadResult {
   std::size_t loaded_count = 0;
@@ -20,7 +21,7 @@ struct PortfolioLoadResult {
 class Portfolio {
   std::vector<std::unique_ptr<Instrument>> instruments_;
   std::vector<std::weak_ptr<RiskObserver>> observers_;
-  double observer_rate_ = 0.05;
+  std::shared_ptr<YieldCurve> observer_curve_;
   double observer_total_pv_ = 0.0;
 
   // Observer extension points used in the final exam.
@@ -40,7 +41,8 @@ class Portfolio {
     }
   }
 
-  static Portfolio from_csv(const std::string& path);
+  static Portfolio from_csv(const std::string& path,
+                            const std::shared_ptr<YieldCurve>& observer_curve);
   PortfolioLoadResult load_csv(const std::string& path);
 
   // Registers a non-owning observer handle.
@@ -51,13 +53,13 @@ class Portfolio {
                          [](const auto& observer) { return !observer.expired(); });
   }
 
-  void set_observer_rate(double rate);
-  double observer_rate() const { return observer_rate_; }
+  void set_observer_curve(const std::shared_ptr<YieldCurve>& curve);
+  const std::shared_ptr<YieldCurve>& observer_curve() const { return observer_curve_; }
   double observer_total_pv() const { return observer_total_pv_; }
 
   void add(std::unique_ptr<Instrument> instrument);
-  double total_pv(double rate) const;
-  double total_dv01(double rate) const;
+  double total_pv(const YieldCurve& curve) const;
+  double total_dv01(const YieldCurve& curve) const;
 
   std::size_t size() const { return instruments_.size(); }
 };

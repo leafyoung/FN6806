@@ -22,8 +22,8 @@ PortfolioSummary compute_summary(const YieldCurve& curve, const Portfolio& portf
                                  double summary_tenor) {
   PortfolioSummary summary;
   summary.base_rate = curve.rate_at(summary_tenor);
-  summary.total_pv = portfolio.total_pv(summary.base_rate);
-  summary.total_dv01 = portfolio.total_dv01(summary.base_rate);
+  summary.total_pv = portfolio.total_pv(curve);
+  summary.total_dv01 = portfolio.total_dv01(curve);
   summary.instrument_count = portfolio.size();
   return summary;
 }
@@ -48,7 +48,7 @@ int run_pricing_engine(const app_config::AppConfig& config) {
 
   // Extension point for later work:
   // an observer-based workflow may register portfolio observers before loading trades.
-  Portfolio portfolio = Portfolio::from_csv(config.instruments_path);
+  Portfolio portfolio = Portfolio::from_csv(config.instruments_path, curve);
 
   // Baseline lecture version:
   // summary is computed manually here rather than by an observer.
@@ -59,7 +59,7 @@ int run_pricing_engine(const app_config::AppConfig& config) {
                         << " instrument_count=" << summary.instrument_count
                         << " total_pv=" << summary.total_pv << " total_dv01=" << summary.total_dv01;
 
-  generate_risk_report(portfolio, summary.base_rate, config.report_path);
+  generate_risk_report(portfolio, *curve, config.report_path, 100);
 
   logging::info("Main") << "event=pricing_engine status=complete report_path="
                         << config.report_path;

@@ -37,8 +37,9 @@ CurvePoint parse_curve_point(const std::string& line, std::size_t line_number) {
 YieldCurve::YieldCurve(std::vector<double> tenors, std::vector<double> rates)
     : tenors_(std::move(tenors)), rates_(std::move(rates)) {
   if (tenors_.size() != rates_.size()) {
-    logging::error("YieldCurve") << "event=curve_construct status=failed reason=size_mismatch tenor_count="
-                                << tenors_.size() << " rate_count=" << rates_.size();
+    logging::error("YieldCurve")
+        << "event=curve_construct status=failed reason=size_mismatch tenor_count=" << tenors_.size()
+        << " rate_count=" << rates_.size();
     throw std::runtime_error("YieldCurve: tenors and rates must have same size");
   }
 
@@ -49,19 +50,16 @@ YieldCurve::YieldCurve(std::vector<double> tenors, std::vector<double> rates)
 
   for (std::size_t index = 1; index < tenors_.size(); ++index) {
     if (tenors_[index] <= tenors_[index - 1]) {
-      logging::error("YieldCurve") << "event=curve_construct status=failed reason=unsorted_tenors index=" << index
-                                                                                      << " previous_tenor="
-                                                                                      << tenors_[index - 1]
-                                                                                      << " tenor=" << tenors_[index];
+      logging::error("YieldCurve")
+          << "event=curve_construct status=failed reason=unsorted_tenors index=" << index
+          << " previous_tenor=" << tenors_[index - 1] << " tenor=" << tenors_[index];
       throw std::runtime_error("YieldCurve: tenors must be strictly increasing");
     }
   }
 
   logging::info("YieldCurve") << "event=curve_construct status=success point_count=" << size()
-                                                                               << " first_tenor="
-                                                                               << tenors_.front()
-                                                                               << " last_tenor="
-                                                                               << tenors_.back();
+                              << " first_tenor=" << tenors_.front()
+                              << " last_tenor=" << tenors_.back();
 }
 
 std::shared_ptr<YieldCurve> YieldCurve::from_csv(const std::string& path) {
@@ -69,13 +67,15 @@ std::shared_ptr<YieldCurve> YieldCurve::from_csv(const std::string& path) {
 
   std::ifstream file(path);
   if (!file.is_open()) {
-    logging::error("YieldCurve") << "event=curve_load status=failed reason=open_failed path=" << path;
+    logging::error("YieldCurve") << "event=curve_load status=failed reason=open_failed path="
+                                 << path;
     throw std::runtime_error("YieldCurve::from_csv: cannot open " + path);
   }
 
   std::string header;
   if (!std::getline(file, header)) {
-    logging::error("YieldCurve") << "event=curve_load status=failed reason=empty_file path=" << path;
+    logging::error("YieldCurve") << "event=curve_load status=failed reason=empty_file path="
+                                 << path;
     throw std::runtime_error("YieldCurve::from_csv: empty file " + path);
   }
 
@@ -101,21 +101,21 @@ std::shared_ptr<YieldCurve> YieldCurve::from_csv(const std::string& path) {
   }
 
   logging::info("YieldCurve") << "event=curve_load status=complete path=" << path
-                                                                     << " point_count=" << tenors.size();
+                              << " point_count=" << tenors.size();
 
   return std::make_shared<YieldCurve>(std::move(tenors), std::move(rates));
 }
 
 double YieldCurve::rate_at(double tenor) const {
   if (tenor <= tenors_.front()) {
-    logging::debug("YieldCurve") << "event=curve_rate status=flat_left tenor=" << tenor << " rate="
-                                                                         << rates_.front();
+    logging::debug("YieldCurve") << "event=curve_rate status=flat_left tenor=" << tenor
+                                 << " rate=" << rates_.front();
     return rates_.front();
   }
 
   if (tenor >= tenors_.back()) {
-    logging::debug("YieldCurve") << "event=curve_rate status=flat_right tenor=" << tenor << " rate="
-                                                                          << rates_.back();
+    logging::debug("YieldCurve") << "event=curve_rate status=flat_right tenor=" << tenor
+                                 << " rate=" << rates_.back();
     return rates_.back();
   }
 
@@ -131,12 +131,8 @@ double YieldCurve::rate_at(double tenor) const {
   const double interpolated_rate = lower_rate + weight * (upper_rate - lower_rate);
 
   logging::debug("YieldCurve") << "event=curve_rate status=interpolated tenor=" << tenor
-                                                                           << " lower_tenor="
-                                                                           << lower_tenor
-                                                                           << " upper_tenor="
-                                                                           << upper_tenor
-                                                                           << " rate="
-                                                                           << interpolated_rate;
+                               << " lower_tenor=" << lower_tenor << " upper_tenor=" << upper_tenor
+                               << " rate=" << interpolated_rate;
   return interpolated_rate;
 }
 
@@ -145,6 +141,6 @@ void YieldCurve::parallel_shift(double spread) {
     rate += spread;
   }
 
-  logging::info("YieldCurve") << "event=curve_shift status=success spread=" << spread
-                                                                      << " point_count=" << size();
+  logging::debug("YieldCurve") << "event=curve_shift status=success spread=" << spread
+                               << " point_count=" << size();
 }

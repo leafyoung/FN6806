@@ -14,6 +14,6 @@ class FixedRateBond : public Instrument {
   FixedRateBond(std::string id, double face, double coupon, int maturity);
 
   std::string type_name() const override { return "FixedRateBond"; }
-  double price(double rate) const override;
-  double duration(double rate) const override;
+  double price(const YieldCurve& curve) const override;
+  double duration(const YieldCurve& curve) const override;
 };

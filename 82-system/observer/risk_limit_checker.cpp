@@ -31,12 +31,14 @@ void RiskLimitChecker::on_trade_added(const Portfolio& portfolio, const Instrume
   (void)portfolio;
   (void)instrument;
   (void)new_total_pv;
-  // TODO(FN6806 exam): evaluate PV and DV01 limits after a trade is added.
+  // TODO: evaluate PV and DV01 limits after a trade is added.
+  // TODO: Breaches should be logged at error level, while warnings should be logged at warning
+  // level more than warning_threshold_.
 }
 
 void RiskLimitChecker::on_portfolio_loaded(const Portfolio& portfolio,
                                            std::size_t instrument_count) {
   (void)portfolio;
   (void)instrument_count;
-  // TODO(FN6806 exam): report initial monitoring state after portfolio load.
+  // TODO: report initial monitoring state after portfolio load.
 }

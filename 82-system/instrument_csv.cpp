@@ -103,23 +103,22 @@ std::unique_ptr<Instrument> parse_instrument_line(const std::string& line) {
   }
 
   if (row.type == "option" || row.type == "EuropeanOption") {
-    if (row.fields.size() < 8) {
-      throw std::invalid_argument("option requires 8 fields: " + line);
+    if (row.fields.size() < 7) {
+      throw std::invalid_argument("option requires 7 fields: " + line);
     }
 
     const double spot = parse_double(row.fields[2], "spot");
     const double strike = parse_double(row.fields[3], "strike");
-    const double rate = parse_double(row.fields[4], "rate");
+    const double maturity = parse_double(row.fields[4], "maturity");
     const double vol = parse_double(row.fields[5], "vol");
-    const double maturity = parse_double(row.fields[6], "maturity");
-    const bool is_call = parse_bool_token(row.fields[7]);
+    const bool is_call = parse_bool_token(row.fields[6]);
 
     logging::debug("InstrumentCsv")
         << "event=instrument_parse status=success type=option instrument_id=" << row.id
-        << " spot=" << spot << " strike=" << strike << " rate=" << rate << " vol=" << vol
-        << " maturity=" << maturity << " option_type=" << (is_call ? "call" : "put");
+        << " spot=" << spot << " strike=" << strike << " vol=" << vol << " maturity=" << maturity
+        << " option_type=" << (is_call ? "call" : "put");
 
-    return std::make_unique<EuropeanOption>(row.id, spot, strike, rate, vol, maturity, is_call);
+    return std::make_unique<EuropeanOption>(row.id, spot, strike, vol, maturity, is_call);
   }
 
   throw std::invalid_argument("unknown instrument type: " + row.type);

@@ -25,34 +25,35 @@ bool is_blank_line(std::string_view line) {
 }  // namespace
 
 void Portfolio::prune_expired_observers() {
-  // TODO(FN6806 exam): remove expired observer handles.
+  // TODO: remove expired observer handles.
 }
 
 void Portfolio::register_observer(const std::shared_ptr<RiskObserver>& observer) {
   (void)observer;
-  // TODO(FN6806 exam): store a non-owning observer handle.
+  // TODO: store a non-owning observer handle.
 }
 
 void Portfolio::unregister_observer(const std::shared_ptr<RiskObserver>& observer) {
   (void)observer;
-  // TODO(FN6806 exam): remove the matching observer handle.
+  // TODO: remove the matching observer handle.
 }
 
 void Portfolio::notify_trade_added(const Instrument& instrument, double new_total_pv) {
   (void)instrument;
   (void)new_total_pv;
-  // TODO(FN6806 exam): notify all live observers after a trade is added.
+  // TODO: notify all live observers after a trade is added.
 }
 
 void Portfolio::notify_portfolio_loaded() {
-  // TODO(FN6806 exam): notify all live observers after loading completes.
+  // TODO: notify all live observers after loading completes.
 }
 
-void Portfolio::set_observer_rate(double rate) {
-  observer_rate_ = rate;
-  observer_total_pv_ = total_pv(observer_rate_);
+void Portfolio::set_observer_curve(const std::shared_ptr<YieldCurve>& curve) {
+  observer_curve_ = curve;
+  observer_total_pv_ = observer_curve_ ? total_pv(*observer_curve_) : 0.0;
 
-  logging::info("Portfolio") << "event=observer_rate_update status=success rate=" << observer_rate_
+  logging::info("Portfolio") << "event=observer_curve_update status="
+                             << (observer_curve_ ? "success" : "cleared")
                              << " observer_total_pv=" << observer_total_pv_;
 }
 
@@ -62,7 +63,13 @@ void Portfolio::add(std::unique_ptr<Instrument> instrument) {
     throw std::invalid_argument("Portfolio::add: instrument is null");
   }
 
-  const double trade_pv = instrument->price(observer_rate_);
+  if (!observer_curve_) {
+    logging::error("Portfolio")
+        << "event=instrument_add status=failed reason=missing_observer_curve";
+    throw std::logic_error("Portfolio::add: observer curve must be set before valuation");
+  }
+
+  const double trade_pv = instrument->price(*observer_curve_);
   const std::string instrument_id = instrument->id();
   const std::string instrument_type = instrument->type_name();
 
@@ -77,18 +84,18 @@ void Portfolio::add(std::unique_ptr<Instrument> instrument) {
   notify_trade_added(*instruments_.back(), observer_total_pv_);
 }
 
-double Portfolio::total_pv(double rate) const {
+double Portfolio::total_pv(const YieldCurve& curve) const {
   double total = 0.0;
   for (const auto& instrument : instruments_) {
-    total += instrument->price(rate);
+    total += instrument->price(curve);
   }
   return total;
 }
 
-double Portfolio::total_dv01(double rate) const {
+double Portfolio::total_dv01(const YieldCurve& curve) const {
   double total = 0.0;
   for (const auto& instrument : instruments_) {
-    total += instrument->dv01(rate);
+    total += instrument->dv01(curve);
   }
   return total;
 }
@@ -96,6 +103,12 @@ double Portfolio::total_dv01(double rate) const {
 PortfolioLoadResult Portfolio::load_csv(const std::string& path) {
   logging::info("Portfolio") << "event=portfolio_load status=start path=" << path
                              << " existing_instruments=" << size();
+
+  if (!observer_curve_) {
+    logging::error("Portfolio")
+        << "event=portfolio_load status=failed reason=missing_observer_curve path=" << path;
+    throw std::logic_error("Portfolio::load_csv: observer curve must be set before loading");
+  }
 
   std::ifstream file(path);
   if (!file.is_open()) {
@@ -141,8 +154,12 @@ PortfolioLoadResult Portfolio::load_csv(const std::string& path) {
   return result;
 }
 
-Portfolio Portfolio::from_csv(const std::string& path) {
+Portfolio Portfolio::from_csv(const std::string& path,
+                              const std::shared_ptr<YieldCurve>& observer_curve) {
   Portfolio portfolio;
+  if (observer_curve) {
+    portfolio.set_observer_curve(observer_curve);
+  }
   portfolio.load_csv(path);
   return portfolio;
 }

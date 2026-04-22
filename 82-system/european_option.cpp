@@ -53,99 +53,104 @@ double EuropeanOption::N(double x) {
   return 0.5 * (1.0 + sign * y);
 }
 
-EuropeanOption::EuropeanOption(std::string id, double spot, double strike, double rate, double vol,
+EuropeanOption::EuropeanOption(std::string id, double spot, double strike, double vol,
                                double maturity, bool is_call)
     : Instrument(std::move(id)),
       spot_(spot),
       strike_(strike),
-      rate_(rate),
       vol_(vol),
       T_(maturity),
       is_call_(is_call) {
   if (spot_ <= 0.0) {
-    logging::error("EuropeanOption") << "event=option_construct status=failed reason=invalid_spot spot=" << spot_;
+    logging::error("EuropeanOption")
+        << "event=option_construct status=failed reason=invalid_spot spot=" << spot_;
     throw std::invalid_argument("EuropeanOption: spot must be positive");
   }
 
   if (strike_ <= 0.0) {
-    logging::error("EuropeanOption") << "event=option_construct status=failed reason=invalid_strike strike=" << strike_;
+    logging::error("EuropeanOption")
+        << "event=option_construct status=failed reason=invalid_strike strike=" << strike_;
     throw std::invalid_argument("EuropeanOption: strike must be positive");
   }
 
   if (vol_ <= 0.0) {
-    logging::error("EuropeanOption") << "event=option_construct status=failed reason=invalid_vol vol=" << vol_;
+    logging::error("EuropeanOption")
+        << "event=option_construct status=failed reason=invalid_vol vol=" << vol_;
     throw std::invalid_argument("EuropeanOption: vol must be positive");
   }
 
   if (T_ <= 0.0) {
-    logging::error("EuropeanOption") << "event=option_construct status=failed reason=invalid_maturity maturity=" << T_;
+    logging::error("EuropeanOption")
+        << "event=option_construct status=failed reason=invalid_maturity maturity=" << T_;
     throw std::invalid_argument("EuropeanOption: T must be positive");
   }
 
   const double moneyness = spot_ / strike_;
-  const std::string moneyness_label =
-      (moneyness > 1.0) ? "ITM" : (moneyness < 1.0) ? "OTM" : "ATM";
+  const std::string moneyness_label = (moneyness > 1.0) ? "ITM" : (moneyness < 1.0) ? "OTM" : "ATM";
 
-  logging::info("EuropeanOption") << "event=option_construct status=success instrument_id=" << this->id()
-                                                                                        << " spot=" << spot_
-                                                                                        << " strike=" << strike_
-                                                                                        << " rate=" << rate_
-                                                                                        << " vol=" << vol_
-                                                                                        << " maturity=" << T_
-                                                                                        << " option_type="
-                                                                                        << (is_call_ ? "call"
-                                                                                                     : "put")
-                                                                                        << " moneyness="
-                                                                                        << moneyness_label;
+  logging::info("EuropeanOption") << "event=option_construct status=success instrument_id="
+                                  << this->id() << " spot=" << spot_ << " strike=" << strike_
+                                  << " vol=" << vol_ << " maturity=" << T_
+                                  << " option_type=" << (is_call_ ? "call" : "put")
+                                  << " moneyness=" << moneyness_label;
 }
 
-double EuropeanOption::price(double rate) const {
-  const BlackScholesTerms terms = make_terms(spot_, strike_, rate, vol_, T_);
+double EuropeanOption::price(const YieldCurve& curve) const {
+  const double curve_rate = curve.rate_at(T_);
+  const BlackScholesTerms terms = make_terms(spot_, strike_, curve_rate, vol_, T_);
 
-  const double pv = is_call_ ? spot_ * N(terms.d1) - strike_ * terms.discount_factor * N(terms.d2)
-                             : strike_ * terms.discount_factor * N(-terms.d2) - spot_ * N(-terms.d1);
+  const double pv = is_call_
+                        ? spot_ * N(terms.d1) - strike_ * terms.discount_factor * N(terms.d2)
+                        : strike_ * terms.discount_factor * N(-terms.d2) - spot_ * N(-terms.d1);
 
-  logging::debug("EuropeanOption") << "event=option_price status=success instrument_id=" << id()
-                                                                                    << " rate=" << rate
-                                                                                    << " pv=" << pv;
+  logging::debug("EuropeanOption")
+      << "event=option_price_curve status=success instrument_id=" << id()
+      << " curve_rate=" << curve_rate << " maturity=" << T_ << " pv=" << pv;
   return pv;
 }
 
-double EuropeanOption::duration(double rate) const {
-  const BlackScholesTerms terms = make_terms(spot_, strike_, rate, vol_, T_);
+double EuropeanOption::duration(const YieldCurve& curve) const {
+  const double curve_rate = curve.rate_at(T_);
+  const BlackScholesTerms terms = make_terms(spot_, strike_, curve_rate, vol_, T_);
 
   const double rho = is_call_ ? strike_ * T_ * terms.discount_factor * N(terms.d2)
                               : -strike_ * T_ * terms.discount_factor * N(-terms.d2);
 
-  logging::debug("EuropeanOption") << "event=option_rho status=success instrument_id=" << id()
-                                                                                  << " rate=" << rate
-                                                                                  << " rho=" << rho;
+  logging::debug("EuropeanOption")
+      << "event=option_rho_curve status=success instrument_id=" << id()
+      << " curve_rate=" << curve_rate << " maturity=" << T_ << " rho=" << rho;
   return rho;
 }
 
-double EuropeanOption::delta() const {
-  const BlackScholesTerms terms = make_terms(spot_, strike_, rate_, vol_, T_);
+double EuropeanOption::delta(const YieldCurve& curve) const {
+  const double curve_rate = curve.rate_at(T_);
+  const BlackScholesTerms terms = make_terms(spot_, strike_, curve_rate, vol_, T_);
   const double delta = is_call_ ? N(terms.d1) : N(terms.d1) - 1.0;
 
-  logging::debug("EuropeanOption") << "event=option_delta status=success instrument_id=" << id()
-                                                                                    << " delta=" << delta;
+  logging::debug("EuropeanOption")
+      << "event=option_delta_curve status=success instrument_id=" << id()
+      << " curve_rate=" << curve_rate << " delta=" << delta;
   return delta;
 }
 
-double EuropeanOption::vega() const {
-  const BlackScholesTerms terms = make_terms(spot_, strike_, rate_, vol_, T_);
+double EuropeanOption::vega(const YieldCurve& curve) const {
+  const double curve_rate = curve.rate_at(T_);
+  const BlackScholesTerms terms = make_terms(spot_, strike_, curve_rate, vol_, T_);
   const double vega = spot_ * std::sqrt(T_) * n(terms.d1);
 
-  logging::debug("EuropeanOption") << "event=option_vega status=success instrument_id=" << id()
-                                                                                   << " vega=" << vega;
+  logging::debug("EuropeanOption")
+      << "event=option_vega_curve status=success instrument_id=" << id()
+      << " curve_rate=" << curve_rate << " vega=" << vega;
   return vega;
 }
 
-double EuropeanOption::gamma() const {
-  const BlackScholesTerms terms = make_terms(spot_, strike_, rate_, vol_, T_);
+double EuropeanOption::gamma(const YieldCurve& curve) const {
+  const double curve_rate = curve.rate_at(T_);
+  const BlackScholesTerms terms = make_terms(spot_, strike_, curve_rate, vol_, T_);
   const double gamma = n(terms.d1) / (spot_ * vol_ * std::sqrt(T_));
 
-  logging::debug("EuropeanOption") << "event=option_gamma status=success instrument_id=" << id()
-                                                                                    << " gamma=" << gamma;
+  logging::debug("EuropeanOption")
+      << "event=option_gamma_curve status=success instrument_id=" << id()
+      << " curve_rate=" << curve_rate << " gamma=" << gamma;
   return gamma;
 }
