@@ -18,12 +18,12 @@ struct KeepAdd {
   void operator()(int a) const { sum += a; }
 };
 
-// conversion via bool() to bool
+// conversion via bool() to bool, via int() to int
 class MyBool {
   int x;
 
 public:
-  MyBool(int x1) : x{x1} {}
+  explicit MyBool(int x1) : x{x1} {}
   operator bool() const { return x == 0; }
   explicit operator int() const { return x; }
 };
