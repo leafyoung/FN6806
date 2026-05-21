@@ -9,6 +9,7 @@ void test_async() {
 
   // Basic deferred / async
   {
+    cout << "Basic deferred:\n";
     auto x = std::async(launch::deferred, [] { return 7; });
     if (x.wait(), true) {
       cout << x.get();
@@ -20,10 +21,13 @@ void test_async() {
     cout << '\n';
   }
 
-  // Multiple futures: parallel sum (demonstrates the N6 pattern from OOP2 Lec05).
-  // Each task returns a partial sum; the caller collects via future.get().
-  // Any exception thrown inside a task is re-thrown by future.get().
+  // Multiple futures: parallel sum (demonstrates the N6 pattern from OOP2
+  // Lec05). Each task returns a partial sum; the caller collects via
+  // future.get(). Any exception thrown inside a task is re-thrown by
+  // future.get().
   {
+    cout << "Multiple futures:\n";
+
     const int n_threads = 4;
     const int n_per_thread = 25;
     std::vector<std::future<int>> futures;
@@ -40,9 +44,9 @@ void test_async() {
     }
 
     int total = 0;
-    for (auto& f : futures)
-      total += f.get();                         // collect; exceptions propagate here
-    cout << "sum(1..100) = " << total << '\n';  // 5050
+    for (auto &f : futures)
+      total += f.get(); // collect; exceptions propagate here
+    cout << "sum(1..100) = " << total << '\n'; // 5050
   }
   cout << '\n';
 }
