@@ -25,7 +25,7 @@ class MyBool {
  public:
   MyBool(int x1) : x{x1} {}
   operator bool() const { return x == 0; }
-  operator int() const { return x; }
+  explicit operator int() const { return x; }
 };
 
 // Explicit conversion operator
@@ -96,7 +96,7 @@ int main() {
     cout << "\nMyBool:\n";
     MyBool my_bool{3};
     // calls operator bool(), b = false
-    bool b = static_cast<bool>(my_bool);
+    bool b = my_bool;
     cout << std::boolalpha << "bool: " << b << '\n';       // false
     cout << "int: " << static_cast<int>(my_bool) << '\n';  // 3
   }
