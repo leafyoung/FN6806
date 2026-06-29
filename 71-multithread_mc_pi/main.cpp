@@ -10,7 +10,7 @@
 
 using namespace std;
 
-auto counter = 0; // Counter will be protected by counter_mutex
+auto counter = 0;  // Counter will be protected by counter_mutex
 std::mutex counter_mutex;
 
 void increment_counter(int n) {
@@ -21,12 +21,10 @@ void increment_counter(int n) {
 }
 
 long random_circle_sampling(long n_samples) {
-  std::random_device
-      rd; // Will be used to obtain a seed for the random number engine
-  std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+  std::random_device rd;      // Will be used to obtain a seed for the random number engine
+  std::mt19937_64 gen(rd());  // Standard mersenne_twister_engine seeded with rd()
   auto thread_id = std::this_thread::get_id();
-  std::cout << "running thread "
-            << *static_cast<unsigned int *>(static_cast<void *>(&thread_id))
+  std::cout << "running thread " << *static_cast<unsigned int*>(static_cast<void*>(&thread_id))
             << '\n';
   std::uniform_real_distribution<> dis(0.0, 1.0);
   long points_inside = 0;
@@ -47,12 +45,11 @@ double approximate_pi(long tot_samples, int n_threads) {
   vector<future<long>> futures;
   for (int t = 0; t < n_threads; ++t) {
     // Start a new asynchronous task
-    futures.emplace_back(
-        async(launch::async, random_circle_sampling, samples_per_thread));
+    futures.emplace_back(async(launch::async, random_circle_sampling, samples_per_thread));
   }
 
   long tot_points_inside = 0;
-  for (future<long> &f : futures) {
+  for (future<long>& f : futures) {
     // Wait for the result to be ready
     tot_points_inside += f.get();
   }
