@@ -7,8 +7,6 @@
 #include <thread>
 #include "split_mix64.h"
 
-uint64_t splitmix64(uint64_t& x);
-
 using namespace std;
 
 using nd_double = normal_distribution<double>;
@@ -43,9 +41,7 @@ multipath gbm_multipath_opt_thread(const GBMParam& gbm, const MCParam& mc, const
   // create a vector of mt19937_64 from different seeds
   vector<mt19937_64> mts;
   for (size_t i = 0; i < n_thread; ++i) {
-    auto vvv = sm();
-    cout << vvv << '\n';
-    mts.emplace_back(vvv);
+    mts.emplace_back(sm());
   }
 
   // allocate for all the MCParam for each thread

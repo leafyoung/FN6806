@@ -10,6 +10,7 @@
 #include <memory>
 #include <random>
 #include <thread>
+#include "split_mix64.h"
 
 using namespace std;
 using namespace Eigen;
@@ -37,16 +38,14 @@ void gbm_multipath_opt_inc_eigen(const GBMParam& gbm, const MCParam& mc, const M
 
 MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
                                         const Eval& eval, const int& n_thread) {
-  uniform_int_distribution<unsigned int> uid;
+  uniform_int_distribution<uint64_t> uid;
+  SplitMix64 sm(uid(mc.gen));
 
-  seed_seq seed{uid(mc.gen), uid(mc.gen), uid(mc.gen), uid(mc.gen),
-                uid(mc.gen), uid(mc.gen), uid(mc.gen), uid(mc.gen)};
-
-  std::vector<std::uint32_t> seeds(n_thread);
-  seed.generate(seeds.begin(), seeds.end());
+  // create a vector of mt19937_64 from different seeds
   vector<mt19937_64> mts;
-  for (auto seed : seeds)
-    mts.emplace_back(seed);
+  for (size_t i = 0; i < n_thread; ++i) {
+    mts.emplace_back(sm());
+  }
 
   vector<MCParam> mcs(n_thread, mc);
   const size_t n_dt = round(eval.T / mc.dt);

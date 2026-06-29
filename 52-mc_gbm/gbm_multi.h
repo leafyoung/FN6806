@@ -21,7 +21,10 @@ struct GBMParam {
 struct MCParam {
   double dt;
   size_t paths;
-  mt19937_64& gen;
+  // value (not reference) so each thread owns its own generator. mutable: these
+  // functions draw from gen through `const MCParam&`, which is logically const
+  // (config) even while advancing RNG state.
+  mutable mt19937_64 gen;
 };
 
 struct Market {
