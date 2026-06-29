@@ -71,9 +71,9 @@ int main(int /* argc */, char** /* argv */) {
   // we need to reset the generator to reproduce the same sequence.
   auto make_gen = []() {
     seed_seq s{1238982123178};
-    return mt19937{s};
+    return mt19937_64{s};
   };
-  mt19937 gen = make_gen();
+  mt19937_64 gen = make_gen();
 
   valarray<double> end_values(0.0, paths);
   multipath traj;

@@ -44,7 +44,7 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, 
 
   std::vector<std::uint32_t> seeds(n_thread);
   seed.generate(seeds.begin(), seeds.end());
-  vector<mt19937> mts;
+  vector<mt19937_64> mts;
   for (auto seed : seeds)
     mts.emplace_back(seed);
 
@@ -86,4 +86,4 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, 
   return vs;
 }
 
-#endif // HAS_EIGEN
+#endif  // HAS_EIGEN

@@ -8,12 +8,12 @@ using namespace std;
 
 using nd_double = normal_distribution<double>;
 
-multipath gbm_multipath(double S0, double mu, double sigma, double T, double dt,
-                        size_t paths, mt19937 &gen) {
+multipath gbm_multipath(double S0, double mu, double sigma, double T, double dt, size_t paths,
+                        mt19937_64& gen) {
   const size_t n_dt = round(T / dt);
   multipath v(paths, path(n_dt + 1));
   // fill in the first value
-  for (auto &v_path : v)
+  for (auto& v_path : v)
     v_path[0] = S0;
 
   static nd_double nd(0.0, 1.0);
@@ -21,24 +21,23 @@ multipath gbm_multipath(double S0, double mu, double sigma, double T, double dt,
   const auto diffusion = sqrt(dt) * sigma;
   nd.param(nd_double ::param_type(drift, diffusion));
 
-  for (auto &v_path : v) {
+  for (auto& v_path : v) {
     // 1. Generate random number from 2nd to the last
-    generate(next(v_path.begin(), 1), v_path.end(),
-             [&gen]() { return nd(gen); });
+    generate(next(v_path.begin(), 1), v_path.end(), [&gen]() { return nd(gen); });
     // 2. Calculate the path successively: S_t = S_{t-1} * exp(...)
-    transform(next(v_path.begin(), 1), v_path.end(), // from 2nd to the last
-              v_path.begin(),                        // previous S
-              next(v_path.begin(), 1),               // output
-              [](const auto &z, const auto &s) { return s * exp(z); });
+    transform(next(v_path.begin(), 1), v_path.end(),  // from 2nd to the last
+              v_path.begin(),                         // previous S
+              next(v_path.begin(), 1),                // output
+              [](const auto& z, const auto& s) { return s * exp(z); });
   }
   return v;
 }
 
-multipath gbm_multipath_opt(const GBMParam &gbm, const MCParam &mc,
-                            const Market &mkt, const Eval &eval) {
+multipath gbm_multipath_opt(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
+                            const Eval& eval) {
   const size_t n_dt = round(eval.T / mc.dt);
   multipath v(mc.paths, path(n_dt + 1));
-  for (auto &v_path : v)
+  for (auto& v_path : v)
     v_path[0] = mkt.S;
 
   static nd_double nd(0.0, 1.0);
@@ -46,24 +45,23 @@ multipath gbm_multipath_opt(const GBMParam &gbm, const MCParam &mc,
   const auto diffusion = sqrt(mc.dt) * gbm.sigma;
   nd.param(nd_double::param_type(drift, diffusion));
 
-  for (auto &v_path : v) {
+  for (auto& v_path : v) {
     // Repeatly execute one task to make use hotpath for better CPU prediction
     // 1. Generate random number from 2nd to the last
-    generate(next(v_path.begin(), 1), v_path.end(),
-             [&mc]() { return nd(mc.gen); });
+    generate(next(v_path.begin(), 1), v_path.end(), [&mc]() { return nd(mc.gen); });
 
     //
     // 2. Calculate the path successively: S_t = S_{t-1} * exp(...)
-    transform(next(v_path.begin(), 1), v_path.end(), // from 2nd to the last
-              v_path.begin(),                        // previous S
-              next(v_path.begin(), 1),               // output
-              [](const auto &z, const auto &s) { return s * exp(z); });
+    transform(next(v_path.begin(), 1), v_path.end(),  // from 2nd to the last
+              v_path.begin(),                         // previous S
+              next(v_path.begin(), 1),                // output
+              [](const auto& z, const auto& s) { return s * exp(z); });
   }
   return v;
 }
 
-Multipath gbm_multipath_opt2(const GBMParam &gbm, const MCParam &mc,
-                             const Market &mkt, const Eval &eval) {
+Multipath gbm_multipath_opt2(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
+                             const Eval& eval) {
   const size_t n_dt = round(eval.T / mc.dt);
   Multipath v(mc.paths, n_dt + 1, 0);
 
@@ -79,10 +77,10 @@ Multipath gbm_multipath_opt2(const GBMParam &gbm, const MCParam &mc,
 
   for (size_t point = 0; point < n_dt; ++point) {
     // 2. Calculate the path successively: S_t = S_{t-1} * exp(...)
-    transform(v.begin(point + 1), v.end(point + 1), // from 2nd to the last
-              v.begin(point),                       // previous S
-              v.begin(point + 1),                   // output
-              [](const auto &z, const auto &s) { return s * exp(z); });
+    transform(v.begin(point + 1), v.end(point + 1),  // from 2nd to the last
+              v.begin(point),                        // previous S
+              v.begin(point + 1),                    // output
+              [](const auto& z, const auto& s) { return s * exp(z); });
   }
   return v;
 }
