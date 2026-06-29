@@ -15,7 +15,7 @@
 using namespace Eigen;
 
 MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
-                                        const Eval& eval, const int& n_thread);
+                                        const Eval& eval, size_t n_thread);
 
 // https://stackoverflow.com/questions/18400596/how-can-a-eigen-matrix-be-written-to-file-in-csv-format
 #include <fstream>

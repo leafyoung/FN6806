@@ -3,4 +3,4 @@
 
 multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
                                    const Market &mkt, const Eval &eval,
-                                   const int &n_thread);
+                                   size_t n_thread);

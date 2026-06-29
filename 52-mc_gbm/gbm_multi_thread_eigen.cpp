@@ -37,7 +37,7 @@ void gbm_multipath_opt_inc_eigen(const GBMParam& gbm, const MCParam& mc, const M
 }
 
 MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
-                                        const Eval& eval, const int& n_thread) {
+                                        const Eval& eval, size_t n_thread) {
   uniform_int_distribution<uint64_t> uid;
   SplitMix64 sm(uid(mc.gen));
 
@@ -55,10 +55,10 @@ MatrixXd gbm_multipath_opt_thread_eigen(const GBMParam& gbm, const MCParam& mc, 
   vector<future<void>> futures;
   vector<thread> threads;
 
-  const size_t base_paths = mc.paths / static_cast<size_t>(n_thread);
-  const size_t remainder = mc.paths % static_cast<size_t>(n_thread);
+  const size_t base_paths = mc.paths / n_thread;
+  const size_t remainder = mc.paths % n_thread;
   size_t end = 0, start = 0;
-  for (int i = 0; i < n_thread; ++i) {
+  for (size_t i = 0; i < n_thread; ++i) {
     mcs[i].gen = mts[i];
     // cout << mts[i] << ", " << uid(mcs[i].gen) << '\n';
     start = end;
