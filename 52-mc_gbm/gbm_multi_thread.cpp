@@ -1,23 +1,20 @@
 #include "gbm_multi_thread.h"
-#include "split_mix64.h"
 #include <algorithm>
-#include <functional>
 #include <future>
 #include <iostream>
 #include <iterator>
 #include <random>
 #include <thread>
-#include <valarray>
+#include "split_mix64.h"
 
-uint64_t splitmix64(uint64_t &x);
+uint64_t splitmix64(uint64_t& x);
 
 using namespace std;
 
 using nd_double = normal_distribution<double>;
 
-void gbm_multipath_opt_inc(const GBMParam &gbm, const MCParam &mc,
-                           const Market &mkt, const Eval & /* eval */,
-                           multipath &v, size_t start, size_t end) {
+void gbm_multipath_opt_inc(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
+                           const Eval& /* eval */, multipath& v, size_t start, size_t end) {
   const auto drift = (gbm.mu - gbm.sigma * gbm.sigma / 2.0) * mc.dt;
   const auto diffusion = sqrt(mc.dt) * gbm.sigma;
   // nd is local (not static) so each thread owns its own instance.
@@ -28,21 +25,19 @@ void gbm_multipath_opt_inc(const GBMParam &gbm, const MCParam &mc,
 
   for (auto it = next(v.begin(), start); it != next(v.begin(), end); ++it) {
     it->front() = mkt.S;
-    generate(next(it->begin(), 1), it->end(), // from 2nd to the last
+    generate(next(it->begin(), 1), it->end(),  // from 2nd to the last
              [&mc, &nd]() { return nd(mc.gen); });
 
-    transform(next(it->begin(), 1), it->end(), // from 2nd to the last
-              it->begin(),                     // previous S
-              next(it->begin(), 1),            // output
-              [](const auto &z, const auto &s) { return s * exp(z); });
+    transform(next(it->begin(), 1), it->end(),  // from 2nd to the last
+              it->begin(),                      // previous S
+              next(it->begin(), 1),             // output
+              [](const auto& z, const auto& s) { return s * exp(z); });
   }
 }
 
-multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
-                                   const Market &mkt, const Eval &eval,
-                                   const int &n_thread) {
-
-  uniform_int_distribution<unsigned int> uid;
+multipath gbm_multipath_opt_thread(const GBMParam& gbm, const MCParam& mc, const Market& mkt,
+                                   const Eval& eval, const int& n_thread) {
+  uniform_int_distribution<uint64_t> uid;
   SplitMix64 sm(uid(mc.gen));
 
   // create a vector of mt19937_64 from different seeds
@@ -90,11 +85,11 @@ multipath gbm_multipath_opt_thread(const GBMParam &gbm, const MCParam &mc,
     // cout << mc.paths << ": " << mcs[i].paths << ", " << &mcs[i] << '\n';
   }
 
-  for (auto &f : futures) {
+  for (auto& f : futures) {
     f.wait();
   }
 
-  for (auto &t : threads) {
+  for (auto& t : threads) {
     t.join();
   }
 
