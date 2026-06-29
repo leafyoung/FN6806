@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/81-concept?v=1
+// https://replit.com/@YeKunlun/81-concept
 
 #include <concepts>
 #include <iostream>
@@ -10,7 +10,8 @@ concept Priceable = requires(T t) {
 };
 
 // Constrain:
-template <Priceable T> double price_constraint(T instrument) {
+template <Priceable T>
+double price_constraint(T instrument) {
   return instrument.npv();
 }
 
@@ -20,14 +21,17 @@ struct Demo {
 
 // Verbose form (explicit requires clause)
 template <typename T>
-requires Priceable<T>
-double price_verbose(T instrument) { return instrument.npv(); }
+  requires Priceable<T>
+double price_verbose(T instrument) {
+  return instrument.npv();
+}
 
 // Shorthand (abbreviated function template — C++20)
-double price_short(Priceable auto instrument) { return instrument.npv(); }
+double price_short(Priceable auto instrument) {
+  return instrument.npv();
+}
 
 int main() {
-
   // Compilation error
   // std::cout << price_constraint(42);
 
