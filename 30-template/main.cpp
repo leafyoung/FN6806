@@ -8,6 +8,13 @@
 
 using namespace std;
 
+template <class T, class U> T add2(T const &t, U const &u) { return t + u; }
+
+template <class T, class U>
+auto add(T const &t, U const &u) -> decltype(t + u) {
+  return t + u;
+}
+
 struct Point {
   int x, y;
 
