@@ -11,30 +11,35 @@ struct Point {
   int x, y;
 
   // friend allows ostream to visit private members.
-  friend std::ostream &operator<<(std::ostream &os, const Point &p) {
+  friend std::ostream& operator<<(std::ostream& os, const Point& p) {
     os << "(" << p.x << ", " << p.y << ")";
     return os;
   }
 
-  bool operator<(const Point &other) const {
+  bool operator<(const Point& other) const {
     // return x < other.x && y < other.y;
     // tie from <tuple> has the logic of comparing multiple data together.
     return tie(x, y) < tie(other.x, other.y);
   }
 };
 
-template <typename T> T mymax(T a, T b) { return a < b ? b : a; }
+template <typename T>
+T mymax(T a, T b) {
+  return a < b ? b : a;
+}
 
-template <> Point mymax<Point>(Point a, Point b) {
+template <>
+Point mymax<Point>(Point a, Point b) {
   return a.x < b.x && a.y < b.y ? b : a;
 }
 
-template <size_t N, size_t DIM, typename T> class Boxes {
+template <size_t N, size_t DIM, typename T>
+class Boxes {
   // template <size_t N, size_t DIM = 3, typename T = double> class Boxes {
-protected:
+ protected:
   std::array<T, N * DIM> data;
 
-public:
+ public:
   int get_size() { return data.size(); }
   // when we do not use get_dim(), this will get compiled.
   // As long as we have a use case, compiler to touch this part and find the
@@ -42,8 +47,9 @@ public:
   int get_dim() { return data.dim(); }
 };
 
-template <typename T> void print_container(const T &coll) {
-  for (auto const &v : coll) {
+template <typename T>
+void print_container(const T& coll) {
+  for (auto const& v : coll) {
     cout << v << ", ";
   }
   cout << '\n';
