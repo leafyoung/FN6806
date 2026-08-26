@@ -5,6 +5,7 @@
 #include <list>
 #include <tuple>
 #include <vector>
+
 using namespace std;
 
 struct Point {

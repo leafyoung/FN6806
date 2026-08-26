@@ -4,12 +4,12 @@
 
 // Base class
 class Vehicle {
-protected:
+ protected:
   std::string manufacturer;
   std::string model;
   int year;
 
-  Vehicle(const std::string &m, const std::string &md, int y)
+  Vehicle(const std::string& m, const std::string& md, int y)
       : manufacturer(m), model(md), year(y) {}
 
   void getInfo() const {
@@ -21,11 +21,11 @@ protected:
 
 // Derived class
 class Car : public Vehicle {
-private:
+ private:
   int numberOfDoors;
 
-public:
-  Car(const std::string &m, const std::string &md, int y, int doors)
+ public:
+  Car(const std::string& m, const std::string& md, int y, int doors)
       : Vehicle(m, md, y), numberOfDoors(doors) {}
 
   void getInfo() const {
@@ -36,12 +36,11 @@ public:
 
 // Another derived class
 class Motorcycle : public Vehicle {
-private:
+ private:
   std::string type;
 
-public:
-  Motorcycle(const std::string &m, const std::string &md, int y,
-             const std::string &t)
+ public:
+  Motorcycle(const std::string& m, const std::string& md, int y, const std::string& t)
       : Vehicle(m, md, y), type(t) {}
 
   void getInfo() const {

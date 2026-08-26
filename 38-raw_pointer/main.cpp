@@ -9,7 +9,7 @@ struct ABC {
 };
 
 void f() {
-  [[maybe_unused]] auto *p = new vector<int>(300000);
+  [[maybe_unused]] auto* p = new vector<int>(300000);
 
   // without delete, there would be memory leak that accumulate with every
   // calling into the function till it burst the memory limit.
@@ -22,16 +22,16 @@ void f() {
 
 int main() {
   {
-    int *p = new int(3);
+    int* p = new int(3);
     cout << *p << '\n';
-    delete p;           // <1>
-    cout << *p << '\n'; // <3> use after delete
+    delete p;            // <1>
+    cout << *p << '\n';  // <3> use after delete
     // delete p;        // <4> Error: double delete
 
-    ABC *p2 = new ABC();
+    ABC* p2 = new ABC();
     cout << ++(p2->a) << '\n';
-    delete p2; // <2>
-  } // if no delete at <1> and <2>, there is memory leak.
+    delete p2;  // <2>
+  }  // if no delete at <1> and <2>, there is memory leak.
 
   {
     // Use while loop simulate for

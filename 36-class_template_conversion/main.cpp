@@ -2,13 +2,13 @@
 
 #include <iostream>
 #include <string>
-#include <type_traits>
 using namespace std;
 
-template <typename T> class Widget {
+template <typename T>
+class Widget {
   T t;
 
-public:
+ public:
   Widget(T t);
   T get() const;
   // we can omit <T> in below line
@@ -16,25 +16,36 @@ public:
   Widget<T> copy() const;
 
   // Use member function template to return
-  template <typename S> Widget<S> copy() const;
+  template <typename S>
+  Widget<S> copy() const;
 };
 
 // Add template type for functions.
-template <typename T> Widget<T>::Widget(T t) : t(t) {}
+template <typename T>
+Widget<T>::Widget(T t) : t(t) {}
 
-template <typename T> T Widget<T>::get() const { return t; }
+template <typename T>
+T Widget<T>::get() const {
+  return t;
+}
 
 // base case: int -> double, double -> int
-template <typename T> template <typename S> Widget<S> Widget<T>::copy() const {
+template <typename T>
+template <typename S>
+Widget<S> Widget<T>::copy() const {
   return Widget<S>(static_cast<S>(t));
 }
 
 // specialize to string and double/int
-template <> template <> Widget<string> Widget<double>::copy() const {
+template <>
+template <>
+Widget<string> Widget<double>::copy() const {
   return Widget<string>(to_string(t));
 }
 
-template <> template <> Widget<string> Widget<int>::copy() const {
+template <>
+template <>
+Widget<string> Widget<int>::copy() const {
   return Widget<string>(to_string(t));
 }
 

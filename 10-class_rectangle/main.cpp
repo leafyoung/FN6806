@@ -9,14 +9,14 @@ using namespace std;
 // #include "rectangle_atomic.h"
 
 struct Point {
-private: // like private
+ private:  // like private
   int x, y;
 
-public:
-  int get_x() const { return x; } // getter
-  void set_x(int _x) { x = _x; }  // setter
-  int get_y() const { return y; } // getter
-  void set_y(int _y) { y = _y; }  // setter
+ public:
+  int get_x() const { return x; }  // getter
+  void set_x(int _x) { x = _x; }   // setter
+  int get_y() const { return y; }  // getter
+  void set_y(int _y) { y = _y; }   // setter
 
   /*
   int set_x(int _x) {

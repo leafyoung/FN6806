@@ -30,7 +30,7 @@ int main() {
     for (int n = 0; n < 100; ++n)
       pool.emplace_back(f);
 
-    for (auto &f : pool)
+    for (auto& f : pool)
       f.join();
   }
 
@@ -38,7 +38,6 @@ int main() {
 
       << "The non-atomic counter is " << cnt << '\n'
       << "The atomic counter (relaxedx) is " << acnt << '\n'
-      << "The atomic counter (acquire-release sync) is " << acnt_release
-      << '\n';
+      << "The atomic counter (acquire-release sync) is " << acnt_release << '\n';
   ;
 }
