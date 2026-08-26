@@ -6,7 +6,7 @@ using std::thread;
 class ForThread {
   int input, output;
 
- public:
+public:
   ForThread(int input) : input(input), output(0) {}
   int add(int add) { return output = input + add; }
   int get_output() { return output; }
