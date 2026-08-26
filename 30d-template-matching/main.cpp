@@ -1,3 +1,4 @@
+#include "abc_is_not_def.h"
 #include <iostream>
 #include <type_traits>
 
@@ -44,4 +45,7 @@ int main() {
   std::cout // << r1 << "\n"
       << r2 << "\n"
       << r3 << "\n";
+
+  // call_abc(DEF()); // compiler fail
+  call_abc(ABC());
 }
