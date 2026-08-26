@@ -3,14 +3,15 @@
 #include <vector>
 using namespace std;
 
-template <class T, int n>
-void print(T array) {
+template <class T, int n> void print(T array) {
   for (int i = 0; i < n; i++)
     cout << array[i] << endl;
 }
 
+// This allows class C to take a class template, i.e. vector, not sepecialized
+// template vector<int>
 template <template <class...> class C, class T, int n>
-void print2(C<T>& array) {
+void print2(C<T> &array) {
   for (int i = 0; i < n; i++)
     cout << array[i] << endl;
 }
