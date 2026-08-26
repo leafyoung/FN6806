@@ -2,8 +2,6 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <string>
-#include <tuple>
 #include <vector>
 using namespace std;
 
@@ -40,8 +38,8 @@ void test_vector_exception_demo() {
 void handle_exception(const char *time, const char *file, int line,
                       const char *function) {
   std::ostringstream oss;
-  oss << "[" << time << "]"
-      << " " << file << ":" << line << " (" << function << ") ";
+  oss << "[" << time << "]" << " " << file << ":" << line << " (" << function
+      << ") ";
   const auto prefix = oss.str();
 
   try {

@@ -30,18 +30,18 @@ int test_exp() {
 
   // Intentionally cause out-of-range exceptions to demonstrate undefined
   // behaviors
-  cout << xs[3] << '\n';           // undefined behavior: unchecked access
-  cout << ss.c_str()[10] << '\n';  // undefined behavior: unchecked access
-  cout << ss[10] << '\n';          // undefined behavior: unchecked access
-  cout << ss.at(10) << '\n';       // throws std::out_of_range
+  cout << xs[3] << '\n';          // undefined behavior: unchecked access
+  cout << ss.c_str()[10] << '\n'; // undefined behavior: unchecked access
+  cout << ss[10] << '\n';         // undefined behavior: unchecked access
+  cout << ss.at(10) << '\n';      // throws std::out_of_range
   return 0;
 }
 
 int main() {
   try {
     // test_exp();
-  } catch (const std::exception& e) {
-    std::cerr << "Exception caught: " << e.what() << std::endl;
+  } catch (const std::exception &e) {
+    std::cerr << "Exception caught: " << e.what() << '\n';
   }
   test_dtor();
   test_read_file(3);

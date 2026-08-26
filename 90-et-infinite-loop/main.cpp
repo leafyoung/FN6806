@@ -12,7 +12,7 @@
 #include <iostream>
 
 // message to print during evaluation, in order to track the evaluation path.
-#define msg2 std::cout << " msg: " << typeid(*this).name() << std::endl;
+#define msg2 std::cout << " msg: " << typeid(*this).name() << '\n';
 #define msg ;
 
 struct BaseExpression {
@@ -91,7 +91,7 @@ public:
 };
 
 using std::cout;
-using std::endl;
+using '\n';
 
 int main() {
   Number x(3.2);

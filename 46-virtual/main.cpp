@@ -28,12 +28,12 @@ class C : public B {
 namespace virtual_function {
 class A {
 public:
-  virtual void a() { std::cout << "a" << std::endl; }
+  virtual void a() { std::cout << "a" << '\n'; }
 };
 
 class B : public A {
 public:
-  virtual void a() { std::cout << "b" << std::endl; }
+  virtual void a() { std::cout << "b" << '\n'; }
 };
 } // namespace virtual_function
 
