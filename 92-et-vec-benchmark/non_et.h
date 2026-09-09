@@ -37,4 +37,3 @@ template <size_t N> Vec1<N> operator+(Vec1<N> const &u, Vec1<N> const &v) {
   }
   return sum;
 }
-./
