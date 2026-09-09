@@ -91,7 +91,7 @@ public:
 };
 
 using std::cout;
-using '\n';
+using std::endl;
 
 int main() {
   Number x(3.2);
