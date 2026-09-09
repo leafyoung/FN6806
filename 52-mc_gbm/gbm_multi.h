@@ -2,6 +2,8 @@
 
 #include <random>
 #include <stdexcept>
+#include <valarray>
+#include <vector>
 
 using namespace std;
 
