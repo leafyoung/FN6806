@@ -9,9 +9,6 @@
 
 #include <iostream>
 
-#include <ql/math/array.hpp>
-#include <ql/utilities/dataformatters.hpp>
-
 using namespace std;
 
 int f1() {}
@@ -57,15 +54,6 @@ int main() {
     // xx.Y.Z.a = 3;
     cout << ++xx.Y.Z.a << endl;
   }
-  // Test QuantLib
-  {
-    using namespace QuantLib;
-    Array a1;
-    // sized array
-    Size size = 5;
-    Array a2(size);
-  }
-
   // Test TypeId
   {
     auto vs = 1111111111111111111;
