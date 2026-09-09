@@ -97,7 +97,7 @@ int main() {
     cout << "p2 (after): " << p2.get() << '\n';
 
     // move it in and receive it back
-    p3 = add_three(std::move(p3));
+    p3 = add_three_with_return(std::move(p3));
     cout << *p3 << '\n';
     p3.reset();
     cout << "p3 (after reset): " << p3.get() << '\n';
