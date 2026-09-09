@@ -23,7 +23,7 @@ class MyBool {
   int x;
 
 public:
-  explicit MyBool(int x1) : x{x1} {}
+  MyBool(int x1) : x{x1} {}
   operator bool() const { return x == 0; }
   explicit operator int() const { return x; }
 };
