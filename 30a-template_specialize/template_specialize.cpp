@@ -1,4 +1,4 @@
-#include "template_int.h"
+#include "template_specialize.h"
 
 template <class T> A<T>::A(T a) : a(a) {}
 
