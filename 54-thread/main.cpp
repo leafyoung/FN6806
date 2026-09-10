@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/54-thread
+// https://github.com/leafyoung/FN6806/tree/main/54-thread
 
 void test_thread();
 void test_future();

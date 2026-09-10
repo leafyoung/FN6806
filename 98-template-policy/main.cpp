@@ -6,7 +6,7 @@ class HelloWorld : public output_policy, public language_policy {
   using language_policy::Message;
   using output_policy::Print;
 
-public:
+ public:
   // behaviour method
   void Run() {
     // two policy methods
@@ -15,34 +15,33 @@ public:
 };
 
 class OutputPolicy_WriteToCout {
-protected:
-  template <typename message_type> void Print(message_type message) {
-    std::cout << message << std::endl;
+ protected:
+  template <typename message_type>
+  void Print(message_type message) {
+    std::cout << message << '\n';
   }
 };
 
 class LanguagePolicy_English {
-protected:
+ protected:
   std::string Message() { return "Hello, World!"; }
 };
 
 class LanguagePolicy_German {
-protected:
+ protected:
   std::string Message() { return "Hallo Welt!"; }
 };
 
 int main() {
   // example 1
-  typedef HelloWorld<OutputPolicy_WriteToCout, LanguagePolicy_English>
-      my_hello_world_type;
+  typedef HelloWorld<OutputPolicy_WriteToCout, LanguagePolicy_English> my_hello_world_type;
 
   my_hello_world_type hello_world;
-  hello_world.Run(); // Prints "Hello, World!"
+  hello_world.Run();  // Prints "Hello, World!"
 
   // example 2
-  typedef HelloWorld<OutputPolicy_WriteToCout, LanguagePolicy_German>
-      my_other_hello_world_type;
+  typedef HelloWorld<OutputPolicy_WriteToCout, LanguagePolicy_German> my_other_hello_world_type;
 
   my_other_hello_world_type hello_world2;
-  hello_world2.Run(); // Prints "Hallo Welt!"
+  hello_world2.Run();  // Prints "Hallo Welt!"
 }

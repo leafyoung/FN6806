@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/3a-uniqueptr
+// https://github.com/leafyoung/FN6806/tree/main/39a-unique_ptr
 
 #include <array>
 #include <iostream>
@@ -7,10 +7,14 @@
 
 using namespace std;
 
-void add_three(int &t) { t += 3; }
+void add_three(int& t) {
+  t += 3;
+}
 
 // receive ownership
-void add_three(unique_ptr<int> p) { *p += 3; }
+void add_three(unique_ptr<int> p) {
+  *p += 3;
+}
 
 auto add_three_with_return(unique_ptr<int> p) {
   *p += 3;
@@ -19,39 +23,41 @@ auto add_three_with_return(unique_ptr<int> p) {
 }
 
 void test_unique() {
-  cout << "test_unique" << endl;
+  cout << "test_unique" << '\n';
   auto b = make_unique<int>(4);
-  cout << *b << endl;
-  cout << b.get() << endl;
+  cout << *b << '\n';
+  cout << b.get() << '\n';
 
   add_three(std::move(b));
-  cout << *b << endl;
+  cout << *b << '\n';
 
   b = add_three_with_return(std::move(b));
-  cout << *b << endl;
+  cout << *b << '\n';
 
   // make_unique only support constructor initialization
   // not value initialization.
   // auto v = make_unique<vector<int>>({1, 2, 3});
   auto v = make_unique<vector<int>>(20, 4);
-  cout << v->back() << endl;
+  cout << v->back() << '\n';
 
   auto v2 = make_unique<vector<int>>();
-  *v2 = {1, 2, 3, 4}; // use copy constructor to buiit the vector
-  cout << v2->back() << ", " << v2->size() << endl;
+  *v2 = {1, 2, 3, 4};  // use copy constructor to buiit the vector
+  cout << v2->back() << ", " << v2->size() << '\n';
 }
 
 class Widget {
   mutable unique_ptr<int> data;
 
-public:
+ public:
   Widget(int x) : data{make_unique<int>(x)} {}
   int get() { return *data; }
   // Widget(const Widget &other) : data(nullptr) { other.data.swap(data); }
   // Widget(const Widget &other) : data(make_unique<int>(*other.data)) {}
 };
 
-unique_ptr<int> return_int() { return make_unique<int>(3); }
+unique_ptr<int> return_int() {
+  return make_unique<int>(3);
+}
 
 int main() {
   {
@@ -81,8 +87,8 @@ int main() {
     // assignment
     // p1 = p3; // error, not copyable
     // p1 = std::move(p1); // self-move: intentionally avoided; p1 unchanged
-    p3 = std::move(p1); // ok. p1's object is moved to p3, p1 becomes nullptr
-                        // p3's resource is released
+    p3 = std::move(p1);  // ok. p1's object is moved to p3, p1 becomes nullptr
+                         // p3's resource is released
     cout << "p1 (after): " << p1.get() << '\n';
 
     // Pass the value to a function.
@@ -92,7 +98,7 @@ int main() {
 
     // f2(p2); // error, p2 is not copyable
     //  Use move to transfer ownership
-    add_three(std::move(p2)); // ok, p2 is moved to f2
+    add_three(std::move(p2));  // ok, p2 is moved to f2
     // p2 has become nullptr
     cout << "p2 (after): " << p2.get() << '\n';
 
@@ -120,7 +126,7 @@ int main() {
     // auto v: vs cannot compile
     // because it will copy the value from elements in vs to v.
     // use reference (&) avoid copying
-    for (auto const &v : vs) {
+    for (auto const& v : vs) {
       cout << *v << ", ";
     }
     cout << '\n';
@@ -137,7 +143,7 @@ int main() {
   }
 
   {
-    int *p_x{nullptr};
+    int* p_x{nullptr};
 
     {
       int x{3};

@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/49-crtpextenddelta
+// https://github.com/leafyoung/FN6806/tree/main/49-crtp_mixin
 
 #include <iostream>
 using namespace std;

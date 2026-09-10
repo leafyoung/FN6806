@@ -1,7 +1,7 @@
 #include <iostream>
 
 int def() {
-  int a, b, c; // 3 automatic (stack) ints, no relation to def()'s call depth
+  int a{}, b{}, c{}; // 3 automatic (stack) ints, no relation to def()'s call depth
                // from main yet
   std::cout << "def!\n"
             << &a << " " << &b << " " << &c
@@ -12,7 +12,7 @@ int def() {
 }
 
 int abc(bool call_def = false) {
-  int a, b, c; // separate stack frame from def()'s a,b,c
+  int a{}, b{}, c{}; // separate stack frame from def()'s a,b,c
   std::cout << "abc!\n"
             << &a << " " << &b << " " << &c << "\n"
             << (&b - &a) << " " << (&c - &b) << "\n";
@@ -23,7 +23,7 @@ int abc(bool call_def = false) {
 }
 
 int main() {
-  int a, b, c;
+  int a{}, b{}, c{};
   std::cout << &a << " " << &b << " " << &c << "\n"
             << (&b - &a) << " " << (&c - &b) << "\n";
   abc();     // call depth 1 from main

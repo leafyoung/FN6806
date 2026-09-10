@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/40-inheritancebasic
+// https://github.com/leafyoung/FN6806/tree/main/40-inheritance_basic
 
 #include "interpolator.h"
 #include "zcb.h"

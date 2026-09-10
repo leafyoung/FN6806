@@ -27,14 +27,14 @@ class Policy10 {
   int i = 0;
 
 public:
-  void increment() { i += 10.0; };
+  void increment() { i += 10; };
   int value() const { return i; }
 };
 
 template <typename T>
-void runPolicyCall(unique_ptr<PolicyBase<T>> obj, int test_loop,
+void runPolicyCall(unique_ptr<PolicyBase<T>> obj, size_t test_loop,
                    int expected_result) {
-  for (int i = 0; i < test_loop; ++i) {
+  for (size_t i = 0; i < test_loop; ++i) {
     obj->increment();
   }
   if (obj->value() != expected_result)

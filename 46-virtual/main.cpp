@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/46-virtualdtor
+// https://github.com/leafyoung/FN6806/tree/main/46-virtual
 
 #include <iostream>
 #include <memory>

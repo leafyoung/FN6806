@@ -28,5 +28,5 @@ public:
   virtual int value() const override { return i; }
 };
 
-void runVirtualCall(unique_ptr<BaseVirtual> obj, int test_loop,
+void runVirtualCall(unique_ptr<BaseVirtual> obj, size_t test_loop,
                     int expected_result);

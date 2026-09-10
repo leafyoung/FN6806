@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/45-inheritanceforreuse
+// https://github.com/leafyoung/FN6806/tree/main/45-inheritance_for_reuse
 
 #include <iostream>
 

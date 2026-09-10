@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/20-cards
+// https://github.com/leafyoung/FN6806/tree/main/20-cards
 
 #include <iostream>
 using namespace std;

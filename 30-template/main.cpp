@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/30-template
+// https://github.com/leafyoung/FN6806/tree/main/30-template
 
 #include <array>
 #include <iostream>

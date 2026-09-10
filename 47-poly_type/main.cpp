@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/47-polytype
+// https://github.com/leafyoung/FN6806/tree/main/47-poly_type
 
 #include <iostream>
 using namespace std;

@@ -5,30 +5,30 @@ using namespace std;
 
 int main() {
   auto d = Value<int>{4};
-  cout << (-d)() << endl;
+  cout << (-d)() << '\n';
   auto e1 = d + d * d + Value<int>{5} / d;
-  cout << d() << endl;
-  cout << e1() << endl;
+  cout << d() << '\n';
+  cout << e1() << '\n';
 
   auto x = Value<double>{3.2};
   auto y = Value<double>{-2.3};
 
   // works fine!
   auto z = x + Value<double>{0};
-  cout << z() << endl;
+  cout << z() << '\n';
 
   // works fine!
   z = x + y;
-  cout << z() << endl;
+  cout << z() << '\n';
 
   // works fine!
   auto w = z + y;
-  cout << w() << endl;
+  cout << w() << '\n';
 
   auto z2 = z + x;
-  cout << z2() << endl;
+  cout << z2() << '\n';
 
   Value<float> u;
   u = d * Value<int>{2} + d * d;
-  cout << u() << endl;
+  cout << u() << '\n';
 }

@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/10-classrectangle
+// https://github.com/leafyoung/FN6806/tree/main/10-class_rectangle
 
 #include <iostream>
 using namespace std;

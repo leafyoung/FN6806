@@ -9,7 +9,7 @@ class Put {};
 class Call {};
 
 // Generic version
-template <typename T> double payoff(double price, double strike) {
+template <typename T> double payoff(double /*price*/, double /*strike*/) {
   // return my_max(price - strike, 0.0);
 
   // throw std::logic_error("Not implemented");
@@ -31,7 +31,8 @@ template <int T> class Payoff {
   double operator()(double price, double strike);
 };
 
-template <int T> double Payoff<T>::operator()(double price, double strike) {}
+template <int T>
+double Payoff<T>::operator()(double /*price*/, double /*strike*/) {}
 
 template <> class Payoff<0> {};
 template <> class Payoff<1> {};

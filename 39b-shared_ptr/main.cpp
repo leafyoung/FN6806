@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/3c-sharedptr
+// https://github.com/leafyoung/FN6806/tree/main/39b-shared_ptr
 
 #include <cassert>
 #include <iostream>
@@ -6,26 +6,32 @@
 
 using namespace std;
 
-auto add_three(std::shared_ptr<int> p) { *p += 3; }
+auto add_three(std::shared_ptr<int> p) {
+  *p += 3;
+}
 
 // const only applies to the pointer itself, not the content
-auto add_three_const(const std::shared_ptr<int> p) { *p += 3; }
-auto add_three_const2(std::shared_ptr<int> const p) { *p += 3; }
+auto add_three_const(const std::shared_ptr<int> p) {
+  *p += 3;
+}
+auto add_three_const2(std::shared_ptr<int> const p) {
+  *p += 3;
+}
 
 void test_shared() {
-  cout << "test_shared" << endl;
+  cout << "test_shared" << '\n';
   auto a = make_shared<int>(3);
-  cout << *a << endl;
-  cout << a.get() << endl;
+  cout << *a << '\n';
+  cout << a.get() << '\n';
 
   add_three(a);
-  cout << *a << endl;
+  cout << *a << '\n';
 
   add_three_const(a);
-  cout << *a << endl;
+  cout << *a << '\n';
 
   add_three_const2(a);
-  cout << *a << endl;
+  cout << *a << '\n';
 }
 
 // All class that to be used by shared_ptr and will return a share_ptr of itself
@@ -34,7 +40,7 @@ void test_shared() {
 class Y : public enable_shared_from_this<Y> {
   int data = 0;
 
-public:
+ public:
   shared_ptr<Y> getY() { return shared_from_this(); }
   shared_ptr<Y> getY2() {
     // We shall not use below
@@ -47,7 +53,9 @@ public:
   int get() { return data; }
 };
 
-void f(Y &y) { y.incr(); }
+void f(Y& y) {
+  y.incr();
+}
 
 void f(shared_ptr<Y> y) {
   y->incr();
@@ -65,15 +73,15 @@ int main() {
 
     // preferred with make_shared
     auto p = make_shared<Y>();
-    shared_ptr<Y> q{p}; // copy from p
+    shared_ptr<Y> q{p};  // copy from p
     cout << q.use_count() << '\n';
     cout << p.use_count() << '\n';
-  } // pY is released here
+  }  // pY is released here
 
   {
     // 2. Check use count
     auto p = make_shared<Y>();
-    shared_ptr<Y> q{p}; // copy from p
+    shared_ptr<Y> q{p};  // copy from p
 
     cout << "We shall have 2 use_count()\n";
     cout << p.use_count() << ", " << q.use_count() << '\n';
@@ -102,8 +110,7 @@ int main() {
     assert(p == z);
     assert(p == x);
 
-    cout << p.use_count() << " == " << x.use_count() << " == " << z.use_count()
-         << '\n';
+    cout << p.use_count() << " == " << x.use_count() << " == " << z.use_count() << '\n';
     cout << p.get() << " == " << z.get() << " == " << x.get() << '\n';
   }
 
@@ -116,9 +123,9 @@ int main() {
     cout << x.use_count() << " == " << z.use_count() << '\n';
     cout << p.get() << " == " << z.get() << " == " << x.get() << '\n';
     cout.flush();
-  } // double free corruption error if we replace the above with ->getY2()
-    // each shared_ptr think it owns the object and frees it although it has
-    // been freed by others already.
+  }  // double free corruption error if we replace the above with ->getY2()
+     // each shared_ptr think it owns the object and frees it although it has
+     // been freed by others already.
 
   return 0;
 }

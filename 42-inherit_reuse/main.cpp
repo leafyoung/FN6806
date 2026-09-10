@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/42-inheritreuse
+// https://github.com/leafyoung/FN6806/tree/main/42-inherit_reuse
 
 #include <cmath>
 #include <iostream>

@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/52-mcgbm
+// https://github.com/leafyoung/FN6806/tree/main/52-mc_gbm
 
 #include <algorithm>
 #include <chrono>

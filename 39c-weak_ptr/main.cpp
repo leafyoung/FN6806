@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/3e-weakptr
+// https://github.com/leafyoung/FN6806/tree/main/39c-weak_ptr
 
 #include <iostream>
 #include <memory>
@@ -6,6 +6,8 @@ using namespace std;
 
 #include "interlock.h"
 #include "nolock.h"
+
+int student_test();
 
 int main() {
   {
@@ -43,5 +45,10 @@ int main() {
     using namespace InterLock;
     for (size_t c = 0; c < 3; ++c)
       test_lock();
+  }
+
+  {
+    cout << "student_test:\n";
+    student_test();
   }
 }

@@ -22,15 +22,15 @@ struct Car : Vehicle {
   void stop() const override { cout << "Car::stop\n"; }   // OK: overrides base
 };
 
-// ── Pitfall: typo in function name silently creates a new function ──────────
+// -- Pitfall: typo in function name silently creates a new function ----------
 //
 // Suppose the developer wrote Drive() (capital D) instead of drive().
 // Without `override`, the compiler accepts it as a brand-new function.
-// The vtable for Vehicle still points drive() → Vehicle::drive().
+// The vtable for Vehicle still points drive() -> Vehicle::drive().
 // A base-class pointer calling v->drive() dispatches to Vehicle::drive(),
-// NOT CarBuggy::Drive() — the intent is silently lost.
+// NOT CarBuggy::Drive() - the intent is silently lost.
 struct CarBuggy : Vehicle {
-  // Missing `drive() override` — Drive() does NOT override anything
+  // Missing `drive() override` - Drive() does NOT override anything
   void Drive() const {
     cout << "CarBuggy::Drive\n";
   } // new function, NOT an override
@@ -39,7 +39,7 @@ struct CarBuggy : Vehicle {
   // If this had been written as:
   //   void Drive() const override { ... }
   // the compiler would immediately error: 'Drive' does not override any base
-  // class member. With override, the typo is caught at declaration — not
+  // class member. With override, the typo is caught at declaration - not
   // silently at runtime.
 };
 
@@ -61,11 +61,11 @@ void test_override_virtual() {
   // Pitfall demo: CarBuggy::Drive() does NOT override Vehicle::drive()
   cout << "\ndynamic binding with buggy non-override\n";
   unique_ptr<Vehicle> vb = make_unique<CarBuggy>();
-  vb->drive(); // Vehicle::drive  ← silent bug: Drive() was intended but not
+  vb->drive(); // Vehicle::drive  <- silent bug: Drive() was intended but not
                // called
-  vb->stop();  // CarBuggy::stop  ← correct: properly marked override
+  vb->stop();  // CarBuggy::stop  <- correct: properly marked override
   CarBuggy cb;
-  cb.Drive(); // CarBuggy::Drive ← reachable only through static type
+  cb.Drive(); // CarBuggy::Drive <- reachable only through static type
 
   cout << '\n';
 }

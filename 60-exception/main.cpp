@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/60-exception
+// https://github.com/leafyoung/FN6806/tree/main/60-exception
 
 #include <iostream>
 using namespace std;

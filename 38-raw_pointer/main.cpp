@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/38-rawpointer
+// https://github.com/leafyoung/FN6806/tree/main/38-raw_pointer
 
 #include <iostream>
 #include <vector>

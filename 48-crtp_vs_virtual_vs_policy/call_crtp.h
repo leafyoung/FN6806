@@ -20,6 +20,10 @@ template <typename T> class CRTPBase {
   inline const T &self() const { return static_cast<const T &>(*this); }
 
 public:
+  // A virtual destructor is required so that a
+  // `unique_ptr<CRTPBase<T>>` can delete the concrete derived object.
+  // It gives CRTPBase a vtable, but dispatch for increment()/value() is
+  // still static via self() - only destruction is virtual.
   virtual ~CRTPBase() = default;
   // interface functions starts here.
   void increment() { return self().increment(); };
@@ -38,14 +42,14 @@ class CRTPBy10 : public CRTPBase<CRTPBy10> {
   int i = 0;
 
 public:
-  void increment() { i += 10.0; };
+  void increment() { i += 10; };
   int value() const { return i; }
 };
 
 template <typename T>
-void runCRTPCall(unique_ptr<CRTPBase<T>> obj, int test_loop,
+void runCRTPCall(unique_ptr<CRTPBase<T>> obj, size_t test_loop,
                  int expected_result) {
-  for (int i = 0; i < test_loop; ++i) {
+  for (size_t i = 0; i < test_loop; ++i) {
     obj->increment();
   }
   if (obj->value() != expected_result)

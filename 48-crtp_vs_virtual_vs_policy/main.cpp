@@ -1,10 +1,10 @@
-// https://replit.com/@YeKunlun/48-crtpvsvirtual
+// https://github.com/leafyoung/FN6806/tree/main/48-crtp_vs_virtual_vs_policy
 
 #include <chrono>
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <vector>
-#include <functional>
 
 using namespace std;
 
@@ -12,17 +12,21 @@ using namespace std;
 #include "call_policy.h"
 #include "call_virtual.h"
 
-const int TEST_RUN = 50000;
+const size_t TEST_RUN = 50000;
 const double TEST_RUN_D = static_cast<double>(TEST_RUN);
 
-void runVirtualCall(unique_ptr<BaseVirtual> obj, int test_loop, int expected_result) {
-  for (int i = 0; i < test_loop; ++i) {
+// NOTE: this benchmark is only meaningful with optimisation (e.g. -O2).
+// At -O0 the static-dispatch loops show no advantage over virtual dispatch,
+// and at -O2 the compiler optimises the CRTP/policy loops away entirely
+// (loop strength reduction), so the reported time reflects code elimination,
+// not a literal per-call cost. See the lecture notes for the full caveat.
+void runVirtualCall(unique_ptr<BaseVirtual> obj, size_t test_loop, int expected_result) {
+  for (size_t i = 0; i < test_loop; ++i) {
     obj->increment();
   }
   if (obj->value() != expected_result)
     throw logic_error("Failed test");
 }
-
 
 int main() {
   {
@@ -55,8 +59,7 @@ int main() {
     runVirtualCall(std::move(obj), TEST_RUN, TEST_RUN);
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runVirtualCall(): "
-         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns" << endl;
+         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D << "ns" << '\n';
   }
 
   {
@@ -65,8 +68,7 @@ int main() {
     runCRTPCall(std::move(obj), TEST_RUN, TEST_RUN);
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runCRTPCall(): "
-         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns" << endl;
+         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D << "ns" << '\n';
   }
 
   {
@@ -77,8 +79,7 @@ int main() {
     runPolicyCall(std::move(obj), TEST_RUN, TEST_RUN);
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runPolicyCall(): "
-         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-         << "ns" << endl;
+         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D << "ns" << '\n';
   }
 
   {
@@ -92,9 +93,7 @@ int main() {
     }
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runVirtualCall->increment() in vector: "
-         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D /
-                2
-         << "ns" << endl;
+         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D / 2 << "ns" << '\n';
   }
 
   {
@@ -110,9 +109,7 @@ int main() {
     }
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do runVirtualCall->increment() in vector: "
-         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D /
-                2
-         << "ns" << endl;
+         << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D / 2 << "ns" << '\n';
   }
 
   {
@@ -128,9 +125,9 @@ int main() {
     }
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do CRTPBy1->increment() in vector of function: "
-         << static_cast<chrono::nanoseconds>(end - start).count() /
-                static_cast<double>(TEST_RUN) / 2
-         << "ns" << endl;
+         << static_cast<chrono::nanoseconds>(end - start).count() / static_cast<double>(TEST_RUN) /
+                2
+         << "ns" << '\n';
   }
 
   {
@@ -147,9 +144,9 @@ int main() {
     }
     auto end = chrono::high_resolution_clock::now();
     cout << "Time to do PolicyBase->increment() in vector of function: "
-         << static_cast<chrono::nanoseconds>(end - start).count() /
-                static_cast<double>(TEST_RUN) / 2
-         << "ns" << endl;
+         << static_cast<chrono::nanoseconds>(end - start).count() / static_cast<double>(TEST_RUN) /
+                2
+         << "ns" << '\n';
   }
 
   // Test using virtual to enable CRTPBy1 to be put into the
@@ -170,7 +167,7 @@ int main() {
     cout << "Time to do CRTPBy1->increment() in vector: "
          << static_cast<chrono::nanoseconds>(end - start).count() /
                 static_cast<double>(TEST_RUN) / 2
-         << endl;
+         << '\n';
   }
   */
 }

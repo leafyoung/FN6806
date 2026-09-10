@@ -20,9 +20,10 @@ struct BaseExpression {
   virtual double evaluate() const = 0;
 };
 
-template <typename subExpr> struct GenericExpression : BaseExpression {
-  const subExpr &self() const { return static_cast<const subExpr &>(*this); }
-  subExpr &self() { return static_cast<subExpr &>(*this); }
+template <typename subExpr>
+struct GenericExpression : BaseExpression {
+  const subExpr& self() const { return static_cast<const subExpr&>(*this); }
+  subExpr& self() { return static_cast<subExpr&>(*this); }
 
   double evaluate() const {
     msg;
@@ -33,17 +34,17 @@ template <typename subExpr> struct GenericExpression : BaseExpression {
 class Number : public GenericExpression<Number> {
   double val;
 
-public:
+ public:
   Number() = default;
 
-  Number(const double &x) : val(x) {}
-  Number(const Number &x) : val(x.evaluate()) {}
+  Number(const double& x) : val(x) {}
+  Number(const Number& x) : val(x.evaluate()) {}
 
   double evaluate() const {
     msg;
     return val;
   }
-  double &evaluate() {
+  double& evaluate() {
     msg;
     return val;
   }
@@ -51,11 +52,11 @@ public:
 
 template <typename leftHand, typename rightHand>
 class Addition : public GenericExpression<Addition<leftHand, rightHand>> {
-  const leftHand &LH;
-  const rightHand &RH;
+  const leftHand& LH;
+  const rightHand& RH;
 
-public:
-  Addition(const leftHand &LH, const rightHand &RH) : LH(LH), RH(RH) {}
+ public:
+  Addition(const leftHand& LH, const rightHand& RH) : LH(LH), RH(RH) {}
 
   double evaluate() const {
     msg;
@@ -64,18 +65,17 @@ public:
 };
 
 template <typename leftHand, typename rightHand>
-Addition<leftHand, rightHand>
-operator+(const GenericExpression<leftHand> &LH,
-          const GenericExpression<rightHand> &RH) {
+Addition<leftHand, rightHand> operator+(const GenericExpression<leftHand>& LH,
+                                        const GenericExpression<rightHand>& RH) {
   return Addition<leftHand, rightHand>(LH.self(), RH.self());
 }
 
 class Expression : public GenericExpression<Expression> {
-public:
-  BaseExpression *baseExpr;
+ public:
+  BaseExpression* baseExpr;
 
   Expression() = default;
-  Expression(const Expression &E) { baseExpr = E.baseExpr; };
+  Expression(const Expression& E) { baseExpr = E.baseExpr; };
   // Expression(Expression *E){baseExpr = E->baseExpr;};
 
   double evaluate() const {
@@ -84,14 +84,12 @@ public:
   }
 
   template <typename subExpr>
-  void assign(const GenericExpression<subExpr> &RH) {
-
+  void assign(const GenericExpression<subExpr>& RH) {
     baseExpr = new subExpr(RH.self());
   }
 };
 
 using std::cout;
-using std::endl;
 
 int main() {
   Number x(3.2);
@@ -100,22 +98,22 @@ int main() {
 
   // works fine!
   z.assign(x);
-  cout << z.evaluate() << endl;
+  cout << z.evaluate() << '\n';
   return 0;
 
   // works fine!
   z.assign(x + y);
-  cout << z.evaluate() << endl;
+  cout << z.evaluate() << '\n';
 
   // works fine!
   w.assign(z + y);
-  cout << w.evaluate() << endl;
+  cout << w.evaluate() << '\n';
 
   // Segmentation fault of z.evaluate() infinite recursion in between
   // LH.evaluate() (in Addition<Expression,Number>::evaluate()) and
   // baseExpr->evaluate() (in Expression::evaluate())
   z.assign(z + x);
-  cout << z.evaluate() << endl;
+  cout << z.evaluate() << '\n';
 
   return 0;
 }

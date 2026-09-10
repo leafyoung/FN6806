@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/80-hash
+// https://github.com/leafyoung/FN6806/tree/main/80-hash
 
 #include <functional>
 #include <iostream>
@@ -11,20 +11,20 @@ int main() {
   string str1(nts1);
   string str2(nts2);
 
-  hash<char *> ptr_hash;
+  hash<char*> ptr_hash;
   hash<string> str_hash;
 
   cout << "same hashes:\n" << boolalpha;
-  cout << ptr_hash(nts1) << endl;
-  cout << ptr_hash(nts2) << endl;
-  cout << str_hash(str1) << endl;
-  cout << str_hash(str2) << endl;
+  cout << ptr_hash(nts1) << '\n';
+  cout << ptr_hash(nts2) << '\n';
+  cout << str_hash(str1) << '\n';
+  cout << str_hash(str2) << '\n';
 
   cout << "nts1 and nts2: " << (ptr_hash(nts1) == ptr_hash(nts2)) << '\n';
   cout << "str1 and str2: " << (str_hash(str1) == str_hash(str2)) << '\n';
   str2 = "Test2";
-  cout << str_hash(str1) << endl;
-  cout << str_hash(str2) << endl;
+  cout << str_hash(str1) << '\n';
+  cout << str_hash(str2) << '\n';
   cout << "str1 and str2: " << (str_hash(str1) == str_hash(str2)) << '\n';
 
   return 0;

@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/70-chrono
+// https://github.com/leafyoung/FN6806/tree/main/70-chrono
 // C++17 with Howard Hinnant's date.h/tz.h
 
 #include <chrono>

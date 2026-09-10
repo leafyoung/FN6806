@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/81-concept
+// https://github.com/leafyoung/FN6806/tree/main/81-concept
 
 #include <concepts>
 #include <iostream>
@@ -26,7 +26,7 @@ double price_verbose(T instrument) {
   return instrument.npv();
 }
 
-// Shorthand (abbreviated function template — C++20)
+// Shorthand (abbreviated function template - C++20)
 double price_short(Priceable auto instrument) {
   return instrument.npv();
 }

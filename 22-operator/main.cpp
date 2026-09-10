@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/22-operator
+// https://github.com/leafyoung/FN6806/tree/main/22-operator
 
 #include <algorithm>
 #include <array>
@@ -28,7 +28,7 @@ public:
   explicit operator int() const { return x; }
 };
 
-// ── Subscript operator with const/non-const overloads ───────────────────────
+// -- Subscript operator with const/non-const overloads -----------------------
 // Provide both overloads so const objects can be read, non-const can be
 // written.
 class TimeSeries {
@@ -41,9 +41,9 @@ public:
   size_t size() const { return data_.size(); }
 };
 
-// ── Pre/post increment ───────────────────────────────────────────────────────
+// -- Pre/post increment -------------------------------------------------------
 // Dummy int parameter distinguishes postfix from prefix.
-// Rule: prefer prefix (++it) — no temporary copy needed.
+// Rule: prefer prefix (++it) - no temporary copy needed.
 struct Counter {
   int pos = 0;
   Counter &operator++() {

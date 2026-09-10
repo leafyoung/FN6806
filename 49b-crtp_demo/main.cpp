@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/4b-crtpdemo
+// https://github.com/leafyoung/FN6806/tree/main/49b-crtp_demo
 
 #include <iostream>
 #include <memory>

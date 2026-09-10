@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/50-valarray
+// https://github.com/leafyoung/FN6806/tree/main/50-valarray
 
 #include <iostream>
 #include <string>

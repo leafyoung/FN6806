@@ -10,7 +10,7 @@ const double TEST_RUN_D = static_cast<double>(TEST_RUN);
 class Shape {
   function<void()> f_incr;
 
-public:
+ public:
   Shape() = delete;
   Shape(function<void()> f_incr) : f_incr(f_incr) {}
   virtual ~Shape() = default;
@@ -20,7 +20,7 @@ public:
 class Square : public Shape {
   int s = 3;
 
-public:
+ public:
   Square() : Shape([this]() { this->incr(); }) {}
   void incr() { ++s; }
 };
@@ -28,7 +28,7 @@ public:
 class Circle : public Shape {
   int c = 4;
 
-public:
+ public:
   Circle() : Shape([this]() { return this->incr(); }) {}
   void incr() { ++c; }
 };
@@ -46,6 +46,5 @@ int main() {
   }
   auto end = chrono::high_resolution_clock::now();
   cout << "Time to call Function pointer(): "
-       << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D
-       << "ns" << endl;
+       << static_cast<chrono::nanoseconds>(end - start).count() / TEST_RUN_D << "ns" << '\n';
 }

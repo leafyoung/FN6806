@@ -7,16 +7,16 @@
 using namespace std;
 
 class NaiveBayesClassifer {
-private:
+ private:
   // <class id, class probility> <C, P(C)>
   unordered_map<int, double> classes;
   // <class id, <attribute id, probability>> <C, <x, P(x|C)>>
   unordered_map<int, unordered_map<int, double>> attributesPerClass;
 
-public:
+ public:
   // input: vector< pair < class id, attribute id>> , DimSize is the number of
   // attributes
-  NaiveBayesClassifer(vector<vector<int>> &data, int DimSize) {
+  NaiveBayesClassifer(vector<vector<int>>& data, int DimSize) {
     // start training
     // count all classes and attributes
     for (auto entry : data) {
@@ -29,8 +29,7 @@ public:
       }
 
       for (int k = 1; k <= DimSize; k++) {
-        if (attributesPerClass[entry[0]].find(entry[k]) ==
-            attributesPerClass[entry[0]].end()) {
+        if (attributesPerClass[entry[0]].find(entry[k]) == attributesPerClass[entry[0]].end()) {
           attributesPerClass[entry[0]][entry[k]] = 1;
         } else {
           attributesPerClass[entry[0]][entry[k]] += 1;
@@ -40,16 +39,15 @@ public:
 
     // calculate probility per class and per attribute
     for (auto seg : attributesPerClass) {
-      cout << " - - - Class" << seg.first << " - - -" << endl;
+      cout << " - - - Class" << seg.first << " - - -" << '\n';
       for (auto entry : seg.second) {
         entry.second /= classes[seg.first];
-        cout << "Attribute P(x =" << entry.first << "|C =" << seg.first
-             << ") = " << entry.second << endl;
+        cout << "Attribute P(x =" << entry.first << "|C =" << seg.first << ") = " << entry.second
+             << '\n';
       }
 
       classes[seg.first] /= data.size();
-      cout << "Class P(C =" << seg.first << ") = " << classes[seg.first]
-           << endl;
+      cout << "Class P(C =" << seg.first << ") = " << classes[seg.first] << '\n';
     }
   }
 
@@ -59,9 +57,9 @@ public:
     int maxcid = -1;
     double maxp = 0;
     for (auto cls : classes) {
-      // p(C|x) = p(C)*p(x1|C)*p(x2|C)*…
+      // p(C|x) = p(C)*p(x1|C)*p(x2|C)*...
       double pCx = cls.second;
-      for (int i = 0; i < attributes.size(); i++) {
+      for (size_t i = 0; i < attributes.size(); i++) {
         pCx *= attributesPerClass[cls.first][attributes[i]];
       }
       if (pCx > maxp) {
@@ -69,15 +67,13 @@ public:
         maxcid = cls.first;
       }
     }
-    cout << "Predict Class : " << maxcid << " P(C | x) = " << maxp << endl;
+    cout << "Predict Class : " << maxcid << " P(C | x) = " << maxp << '\n';
     return maxcid;
   }
 };
 
-void populateData(vector<vector<int>> &data,
-                  unordered_map<string, int> &classmap,
-                  unordered_map<string, int> &attrimap, string c, string a1,
-                  string a2, int K) {
+void populateData(vector<vector<int>>& data, unordered_map<string, int>& classmap,
+                  unordered_map<string, int>& attrimap, string c, string a1, string a2, int K) {
   vector<int> apair = {classmap[c], attrimap[a1], attrimap[a2]};
   vector<vector<int>> newarr(K, apair);
   data.insert(data.end(), newarr.begin(), newarr.end());
@@ -88,8 +84,7 @@ std::mt19937 g(rd());
 
 int main() {
   // prepare a training dataset with 2 attributes and 3 classes
-  unordered_map<string, int> classmap = {
-      {"apple ", 0}, {"pineapple", 1}, {"cherry ", 2}};
+  unordered_map<string, int> classmap = {{"apple ", 0}, {"pineapple", 1}, {"cherry ", 2}};
   unordered_map<string, int> attrimap =
       // color
       {{"red ", 0},
@@ -118,6 +113,6 @@ int main() {
   NaiveBayesClassifer mymodel(data, 2);
   // predict with model
   int cls = mymodel.predict({attrimap["red"], attrimap["heart"]});
-  cout << "Predicted class " << cls << endl;
+  cout << "Predicted class " << cls << '\n';
   return 0;
 }

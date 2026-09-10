@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/72-thread-mtx-cv
+// https://github.com/leafyoung/FN6806/tree/main/72-thread-mtx-cv
 
 #include <thread>
 #include <vector>

@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/12-classpoint
+// https://github.com/leafyoung/FN6806/tree/main/12-class_point
 
 #include <iomanip>
 #include <iostream>

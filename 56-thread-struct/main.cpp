@@ -4,16 +4,16 @@
 using namespace std;
 
 struct ABC {
-  vector<int> &x;
+  vector<int>& x;
   size_t i;
-  ABC(vector<int> &x, size_t i) : x{x}, i{i} {}
-  void operator()() { cout << x[i] << endl; }
+  ABC(vector<int>& x, size_t i) : x{x}, i{i} {}
+  void operator()() { cout << x[i] << '\n'; }
 };
 
 struct ABCD {
-  int &x;
-  ABCD(int &x) : x{x} {}
-  void operator()() { cout << x << endl; }
+  int& x;
+  ABCD(int& x) : x{x} {}
+  void operator()() { cout << x << '\n'; }
 };
 
 int main() {

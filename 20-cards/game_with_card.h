@@ -24,6 +24,6 @@ private:
 
 public:
   Game(std::vector<Card> cards = {Card('H', 1)}) : cards(cards) {}
-  const size_t count() { return this->cards.size(); }
+  size_t count() const { return this->cards.size(); }
 };
 } // namespace GameWithCard

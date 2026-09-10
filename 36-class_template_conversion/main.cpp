@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/36-classtemplateconversion
+// https://github.com/leafyoung/FN6806/tree/main/36-class_template_conversion
 
 #include <iostream>
 #include <string>

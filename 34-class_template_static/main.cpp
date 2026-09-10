@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/34-classtemplatestatic
+// https://github.com/leafyoung/FN6806/tree/main/34-class_template_static
 
 #include <iostream>
 using namespace std;

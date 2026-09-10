@@ -1,4 +1,4 @@
-// https://replit.com/@YeKunlun/71-multithreadmcpi
+// https://github.com/leafyoung/FN6806/tree/main/71-multithread_mc_pi
 
 #include <future>
 #include <iostream>
