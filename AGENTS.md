@@ -139,13 +139,34 @@ modules work in the environment students actually use.
   `std::thread` is constructed.)
 - Results land in `$SMOKE_DIR/results-wasm.jsonl` (host runs write
   `results-host.jsonl`), and every record carries a `target` field.
-- Known wasm limitations are declared in `wasm_expected_failure_reason` and
-  reported as `XFAIL-WASM`:
-  - `47-poly_type` — `K.h`'s `Ksub` holds `vector<int> x(1'000'000'000)`, i.e.
-    4 GB. wasm32's entire address space is 4 GiB, so it throws `std::bad_alloc`;
-    on Linux the same code succeeds through overcommit.
+- `WASM_UNSUPPORTED_MARKERS` adds `<execution>` on top of CPPBox's thread list:
+  the parallel algorithms need threads and are absent from the wasm sysroot. No
+  module here uses it today (FN6805's `52-stl` does). CPPBox's own
+  `uses_threading` does not list `<execution>`, so such code reaches wasm there
+  and fails to compile instead of being routed to podman — worth adding upstream.
+- `WASM_STACK_SIZE` (default 8 MiB) is the one flag added beyond CPPBox's set:
+  wasi-sdk defaults the wasm stack to 64 KiB, which an ordinary large local
+  array overflows, trapping with "memory access out of bounds". CPPBox should
+  pass the same flag.
+- Threads do **not** work on wasm and that is not going to change: wasi-threads
+  compiles and links (wasi-sdk 34 ships a `wasm32-wasip1-threads` sysroot, and
+  the module gets the right ABI — a `wasi.thread-spawn` import and a
+  `wasi_thread_start` export), but under wasmtime 46.0.3 — the version CPPBox
+  pins — `std::thread` still fails with `thread constructor failed: Resource
+  temporarily unavailable`, and wasmtime warns that `-Sthreads` becomes a hard
+  error in 47.0.0. Bytecode Alliance RFC 47 (merged May 2026) removes
+  wasi-threads outright, pointing to WASIp3 cooperative threads near term and
+  the shared-everything-threads proposal long term. The nine skipped modules
+  stay on podman.
+- `wasm_expected_failure_reason` declares known wasm limitations, reported as
+  `XFAIL-WASM`. It is **empty today**: every non-threaded module builds and runs
+  on wasm. `47-poly_type` was in it until `K.h`'s `Ksub` allocation was reduced
+  from `vector<int> x(1'000'000'000)` (4 GB — impossible in wasm32's 4 GiB
+  address space, `std::bad_alloc`, while succeeding on Linux via overcommit) to
+  `100'000'000` (400 MB, which fits).
 - If a module in that list starts working, the run reports `XPASS-WASM` and
-  fails, so the table cannot rot silently.
+  fails, so the table cannot rot silently. That is how the `47-poly_type` entry
+  was caught and removed.
 - The wasm build uses `-O2` (CPPBox's setting) while the host build uses no
   optimisation flag, so wasm can be *faster*: `92-et-vec-benchmark` takes ~2.5 s
   on wasm versus ~63 s on the host.

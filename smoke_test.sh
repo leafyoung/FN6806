@@ -143,9 +143,18 @@ CPPBOX_ROOT="${CPPBOX_ROOT:-$HOME/devv/fin/classroom}"
 #   -lunwind                                   unwinder for wasm EH
 #   -lc-printscan-long-double                  wasi-libc trims long double
 #                                              printf/scanf by default
+#   -Wl,-z,stack-size                          see WASM_STACK_SIZE below
+#
+# WASM_STACK_SIZE is the one addition to CPPBox's own flag list. wasi-sdk
+# defaults the wasm stack to 64 KiB, so an ordinary local array overflows it and
+# traps with "memory access out of bounds". 8 MiB matches the usual host
+# default. CPPBox should pass the same flag; until it does, this repo's wasm
+# runs are slightly more forgiving than the classroom's.
+WASM_STACK_SIZE="${WASM_STACK_SIZE:-8388608}"
 readonly WASM_TARGET_FLAGS="--target=wasm32-wasip1 -O2 -Wall -Wextra \
 -fwasm-exceptions -mllvm -wasm-enable-eh -mllvm -wasm-use-legacy-eh=false \
 -Wl,--initial-memory=67108864 -Wl,--max-memory=4294967296 \
+-Wl,-z,stack-size=$WASM_STACK_SIZE \
 -lunwind -lc-printscan-long-double"
 
 # CPPBox routes any project textually mentioning one of these headers to podman,
@@ -156,17 +165,24 @@ readonly WASM_TARGET_FLAGS="--target=wasm32-wasip1 -O2 -Wall -Wextra \
 # as std::thread is constructed.
 readonly WASM_THREAD_MARKERS='<thread>|<future>|<mutex>|<condition_variable>|<atomic>|<shared_mutex>'
 
+# Headers wasi-sdk's libc++ cannot serve at all, beyond CPPBox's own list.
+# <execution> brings in the parallel algorithms (std::execution::par), which
+# need threads and are absent from the wasm sysroot. No module here uses it
+# today; FN6805's 52-stl does. CPPBox's uses_threading() does not list
+# <execution>, so such code currently reaches wasm and fails to compile instead
+# of being routed to podman.
+readonly WASM_UNSUPPORTED_MARKERS='<execution>'
+
 # Known wasm incompatibilities, reported as XFAIL-WASM with the reason so the
 # suite stays green while the limitation stays visible.
+# Empty today: every non-threaded module builds and runs on wasm.
+#
+# 47-poly_type used to belong here - K.h's Ksub allocated vector<int>(1e9) =
+# 4 GB, which cannot fit wasm32's 4 GiB address space and threw std::bad_alloc
+# while succeeding on Linux through overcommit. The allocation is now 100'000'000
+# (400 MB) and fits, so the entry is gone.
 wasm_expected_failure_reason() {
   case "$1" in
-    47-poly_type)
-      # K.h's Ksub holds vector<int> x(1'000'000'000) = 4 GB. wasm32's entire
-      # address space is 4 GiB, so the allocation throws std::bad_alloc and
-      # escapes main; on Linux the same code succeeds via overcommit. Verified
-      # by catching the exception in an isolated build.
-      echo "Ksub allocates 4 GB (vector<int> x(1e9)); wasm32 address space is 4 GiB, so it throws std::bad_alloc"
-      ;;
     *) echo "" ;;
   esac
 }
@@ -193,6 +209,7 @@ resolve_wasm_toolchain() {
 # wasmtime is absent - the same ABI, a different host.
 WASM_RUN_KIND=""
 WASM_NODE_SHIM=""
+WASMTIME_BIN=""
 resolve_wasm_runner() {
   local want="${WASM_RUNNER:-}"
   if [[ "$want" == "node" ]] || { [[ -z "$want" ]] && ! command -v wasmtime >/dev/null 2>&1; }; then
@@ -219,15 +236,29 @@ try {
 SHIM
     return 0
   fi
-  command -v wasmtime >/dev/null 2>&1 && WASM_RUN_KIND="wasmtime"
+  if command -v wasmtime >/dev/null 2>&1; then
+    WASMTIME_BIN="$(command -v wasmtime)"
+    WASM_RUN_KIND="wasmtime"
+  fi
 }
 
-uses_threads() { # uses_threads <module>
+# Echoes the reason this module cannot run on wasm, or "" if it can.
+wasm_skip_reason() { # wasm_skip_reason <module>
+  if _matches_markers "$1" "$WASM_THREAD_MARKERS"; then
+    echo "uses threads; CPPBox routes these to podman"
+  elif _matches_markers "$1" "$WASM_UNSUPPORTED_MARKERS"; then
+    echo "uses <execution>; wasi-sdk libc++ has no parallel algorithms"
+  else
+    echo ""
+  fi
+}
+
+_matches_markers() { # _matches_markers <module> <regex>
   local depth
   depth="$(find_depth_for_module "$1")"
   # shellcheck disable=SC2086  # depth is an intentional find flag pair
   find "$REPO_ROOT/$1" $depth \( -name '*.cpp' -o -name '*.h' \) -print0 2>/dev/null |
-    xargs -0 -r grep -l -E "$WASM_THREAD_MARKERS" 2>/dev/null | head -1 | grep -q .
+    xargs -0 -r grep -l -E "$2" 2>/dev/null | head -1 | grep -q .
 }
 
 # --- Argument parsing --------------------------------------------------------
@@ -414,7 +445,12 @@ run_module() { # run_module <module> <binary> <log>
   local -a command=()
   if [[ "$TARGET" == wasm ]]; then
     case "$WASM_RUN_KIND" in
-      wasmtime) command=(wasmtime run --dir . "$binary") ;;
+      # -W exceptions=y is required: the modules are built with
+      # -fwasm-exceptions, and the CLI (unlike CPPBox, which sets
+      # Config::wasm_exceptions) leaves the proposal off by default, failing
+      # with "exceptions proposal not enabled". Verified with wasmtime 46.0.3,
+      # the version CPPBox pins.
+      wasmtime) command=("$WASMTIME_BIN" run -W exceptions=y --dir "$sandbox::." "$binary") ;;
       node) command=(node --no-warnings "$WASM_NODE_SHIM" "$binary" "$sandbox") ;;
       *) echo "harness: no wasm runner available" >>"$log"; return 99 ;;
     esac
@@ -451,11 +487,15 @@ smoke_one_module() {
   MODULE_DETAIL=""
   MODULE_DURATION_MS=0
 
-  # CPPBox would not run this module on wasm at all, so neither do we.
-  if [[ "$TARGET" == wasm ]] && uses_threads "$module"; then
-    MODULE_STATUS="skip_wasm"
-    MODULE_DETAIL="uses threads; CPPBox routes these to podman"
-    return
+  # Modules wasm cannot serve at all are skipped rather than failed.
+  if [[ "$TARGET" == wasm ]]; then
+    local skip_reason
+    skip_reason="$(wasm_skip_reason "$module")"
+    if [[ -n "$skip_reason" ]]; then
+      MODULE_STATUS="skip_wasm"
+      MODULE_DETAIL="$skip_reason"
+      return
+    fi
   fi
 
   local wasm_known=""

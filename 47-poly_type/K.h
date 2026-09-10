@@ -15,7 +15,7 @@ class Ksub : public K {
 
 public:
   // allocate large memory
-  Ksub() : x(1'000'000'000, 0) {}
+  Ksub() : x(100'000'000, 0) {}
   ~Ksub() { cout << "~Ksub\n"; };
 };
 
