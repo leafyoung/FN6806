@@ -29,10 +29,9 @@ class PointXY : public PointX {
  public:
   PointXY(int x, int y) : PointX(x), y(y) { cout << "PointXY ctor\n"; }
   PointXY(const PointXY&) = default;
-  inline PointXY& operator=(const PointXY& p) = default;
-  /*
-  Compiler generates the following for us with `=default`.
-  {
+  // Written explicitly to delegate to the base class's version.
+  // `= default` would generate the same for this case.
+  PointXY &operator=(const PointXY &p) {
     cout << "operator=(PointXY)\n";
     if (this != &p) {
       PointX::operator=(p);
@@ -40,7 +39,6 @@ class PointXY : public PointX {
     }
     return *this;
   }
-  */
 
   int get_y() const { return y; }
   double get_distance() const {

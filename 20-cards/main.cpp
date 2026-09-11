@@ -14,7 +14,7 @@ int main() {
     using namespace GameNaive;
     auto cards = create_game();
 
-    for (auto v : cards) {
+    for (const auto& v : cards) {
       cout << v << ", ";
     }
     cout << '\n';
@@ -43,7 +43,7 @@ int main() {
     using namespace GameClass;
     Game g(1);
 
-    for (auto v : g.get_cards()) {
+    for (const auto& v : g.get_cards()) {
       cout << v << ", ";
     }
     cout << '\n';

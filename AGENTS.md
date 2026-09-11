@@ -109,7 +109,7 @@ Details worth knowing before changing the script:
 
 Students run this code in **CPPBox** (`~/devv/fin/classroom`), a teaching IDE
 that compiles to `wasm32-wasip1` with a bundled wasi-sdk and runs the module
-under an embedded wasmtime, falling back to podman only when it cannot. `--wasm`
+under an embedded wasmtime, with **Native** (host clang++) as the other explicitly selectable backend and no fallback between them. `--wasm`
 reproduces that path, so a green host run plus a green wasm run means the
 modules work in the environment students actually use.
 
@@ -125,18 +125,20 @@ modules work in the environment students actually use.
   WASI preview1 host) via a small generated shim; `WASM_RUNNER=` forces one. The
   sandbox is preopened as `.`, mirroring CPPBox's
   `WasiCtxBuilder::preopened_dir(job_dir, ".")`.
-- **Thread-using modules are skipped**, using the same header list CPPBox uses
-  in `wasi_exec.rs::uses_threading` (`<thread> <future> <mutex>
-  <condition_variable> <atomic> <shared_mutex>`), because
-  `wasm32-wasip1-threads` is non-functional upstream and CPPBox routes such code
-  to podman. Nine modules are skipped this way: `10-class_rectangle`,
-  `52-mc_gbm`, `54-thread`, `55-thread-atomic`, `56-thread-struct`,
-  `60-exception`, `70-chrono`, `71-multithread_mc_pi`, `72-thread-mtx-cv`. Some
-  match only because a header is present, not because they truly thread — that
-  is deliberate: the list mirrors CPPBox's own conservative heuristic, so a
-  module skipped here is one CPPBox would not run on wasm either. (Confirmed:
-  `54-thread` built for wasm traps with a `WebAssembly.Exception` the moment
-  `std::thread` is constructed.)
+- **Threads are decided by the run, not by a grep.** wasm32-wasip1 cannot
+  spawn threads, but header presence is the wrong signal for that: `<atomic>`,
+  `<mutex>` and `<shared_mutex>` all work single-threaded, and `<thread>` itself
+  is harmless unless something actually spawns (`60-exception` needs it for
+  `std::this_thread::sleep_for`; `70-chrono` inherits it from vendored `tz.h`).
+  So a module runs, and if it dies with an uncaught exception *and* mentions
+  `<thread>`/`<future>`/`<condition_variable>`, it is reported as `SKIP spawns
+  threads` rather than a failure. Six FN6806 modules land there - `52-mc_gbm`,
+  `54-thread`, `55-thread-atomic`, `56-thread-struct`, `71-multithread_mc_pi`,
+  `72-thread-mtx-cv` - and they are what CPPBox's **Native** backend is for.
+  This mirrors `wasi_exec::thread_failure_hint` in CPPBox: an uncaught C++
+  exception reaches the host as only "thrown Wasm exception", identical to a
+  `bad_alloc`, so the sources have to corroborate before blaming threads.
+
 - Results land in `$SMOKE_DIR/results-wasm.jsonl` (host runs write
   `results-host.jsonl`), and every record carries a `target` field.
 - `WASM_UNSUPPORTED_MARKERS` adds `<execution>` on top of CPPBox's thread list:
