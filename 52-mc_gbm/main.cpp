@@ -70,7 +70,7 @@ int main(int /* argc */, char** /* argv */) {
   // seed_seq is non-copyable; make_gen() builds a fresh generator from the
   // same seed values whenever we need to reproduce the same sequence.
   auto make_gen = []() {
-    seed_seq s{1238982123178};
+    seed_seq s{2031541930}; // fits the 32-bit seed_seq element type
     return mt19937_64{s};
   };
   mt19937_64 gen = make_gen();
