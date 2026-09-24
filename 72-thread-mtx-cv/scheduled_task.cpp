@@ -1,10 +1,12 @@
 
 #include "scheduled_task.h"
+#include <atomic>
 #include <vector>
 
 void test_scheduled_task() {
   std::cout << "=== test scheduled task ===\n";
-  size_t result{0};
+  // atomic: tasks run on different threads and may overlap
+  std::atomic<size_t> result{0};
   {
     std::vector<std::unique_ptr<ScheduledTask>> tasks;
 

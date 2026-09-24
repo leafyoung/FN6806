@@ -41,16 +41,17 @@ private:
       if (this->tasks.empty() && this->can_exit)
         return;
 
-      auto &first_task = *(this->tasks.back());
-      auto first_task_start_time = first_task.start_time;
-      if (cv.wait_until(lock, first_task.wake_time,
+      const auto first_wake_time = this->tasks.back()->wake_time;
+      if (cv.wait_until(lock, first_wake_time,
                         [this]() { return this->should_update_timer; })) {
         // restart new timer
         this->should_update_timer = false;
         continue;
       }
 
-      auto task_to_run = first_task.task;
+      // Run the task that is at the back now (earliest wake time after sort).
+      auto task_to_run = this->tasks.back()->task;
+      auto first_task_start_time = this->tasks.back()->start_time;
       this->tasks.pop_back();
 
       sub_tasks.emplace_back(
@@ -76,8 +77,8 @@ public:
       auto prev_wake_time = tasks.back()->wake_time;
       this->tasks.emplace_back(std::make_unique<Task>(task, sleep_in_ms));
       auto updated_wake_time = tasks.back()->wake_time;
-      if (prev_wake_time < updated_wake_time) {
-        // need to check is in processing and not yet run.
+      if (updated_wake_time < prev_wake_time) {
+        // The new task wakes earlier than the one the timer is waiting for.
         // lock ensures this
         // need to notify to cancel current.
         this->should_update_timer = true;

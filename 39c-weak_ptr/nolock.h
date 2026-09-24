@@ -37,7 +37,8 @@ void test_lock() {
   // When we use shared_ptr
   // cout << b->pointer->value[9] << '\n';
   // When we use weak_ptr
-  // The use_count() returns total count including the use of weak_ptr.
+  // The use_count() counts shared_ptr owners only, not weak_ptr.
+  // lock() creates a temporary shared_ptr, so a.use_count() is 2 in the line below.
   // A: has two use_count:
   // with lock, a: 2, 2; b: 2, 1
   cout << b->pointer.lock()->value[9] << ": " << a.use_count() << ", " << b.use_count() << '\n';

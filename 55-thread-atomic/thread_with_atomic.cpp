@@ -13,12 +13,13 @@ void f() {
     // race condition
     ++cnt;
 
-    // Note: for this example, relaxed memory order is sufficient,
-    // e.g. acnt.fetch_add(1, std::memory_order_relaxed);
+    // ++acnt uses the default memory_order_seq_cst. For a plain counter,
+    // relaxed order is sufficient: acnt.fetch_add(1, std::memory_order_relaxed);
     ++acnt;
 
-    //  That is, once the atomic load is completed, thread B is guaranteed to
-    //  see everything thread A wrote to memory.
+    // Release order: a thread that later reads acnt_release with an acquire
+    // load is guaranteed to see everything written before this store. There is
+    // no acquire load here; join() already synchronizes the final read.
     // https://en.cppreference.com/w/cpp/atomic/memory_order.html#Release-Acquire_ordering
     acnt_release.fetch_add(1, std::memory_order_release);
   }
@@ -37,7 +38,7 @@ int main() {
   std::cout
 
       << "The non-atomic counter is " << cnt << '\n'
-      << "The atomic counter (relaxedx) is " << acnt << '\n'
-      << "The atomic counter (acquire-release sync) is " << acnt_release << '\n';
+      << "The atomic counter (seq_cst) is " << acnt << '\n'
+      << "The atomic counter (release) is " << acnt_release << '\n';
   ;
 }

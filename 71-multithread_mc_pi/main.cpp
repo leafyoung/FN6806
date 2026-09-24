@@ -25,9 +25,7 @@ long random_circle_sampling(long n_samples) {
   std::mt19937_64 gen(
       rd()); // Standard mersenne_twister_engine seeded with rd()
   auto thread_id = std::this_thread::get_id();
-  std::cout << "running thread "
-            << *static_cast<unsigned int *>(static_cast<void *>(&thread_id))
-            << '\n';
+  std::cout << "running thread " << thread_id << '\n';
   std::uniform_real_distribution<> dis(0.0, 1.0);
   long points_inside = 0;
   for (long i = 0; i < n_samples; ++i) {

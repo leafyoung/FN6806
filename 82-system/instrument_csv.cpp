@@ -59,7 +59,13 @@ int parse_int(const std::string& value, const std::string& field_name) {
 }
 
 bool parse_bool_token(const std::string& value) {
-  return value == "call" || value == "1" || value == "true" || value == "True";
+  if (value == "call" || value == "1" || value == "true" || value == "True") {
+    return true;
+  }
+  if (value == "put" || value == "0" || value == "false" || value == "False") {
+    return false;
+  }
+  throw std::invalid_argument("cannot parse is_call: " + value);
 }
 
 struct InstrumentRow {

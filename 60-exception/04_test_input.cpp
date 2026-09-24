@@ -1,6 +1,5 @@
 #include "04_test_input.h"
 #include <iostream>
-#include <sstream>
 #include <stdexcept>
 using namespace std;
 
@@ -12,9 +11,8 @@ void test_user_input() {
   try {
     cin >> size;
     if (!cin) { // if input was not integer, cin becomes false
-      stringstream ss;
-      ss << "Invalid input: " << size;
-      throw logic_error(ss.str());
+      // size is reset to 0 on failed extraction, so do not print it
+      throw logic_error("Invalid input: not an integer");
     }
     if (size < 0)
       throw logic_error("negative index!");

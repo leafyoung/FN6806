@@ -1,4 +1,5 @@
 #include "multiple_task.h"
+#include <atomic>
 
 using namespace std::chrono_literals;
 
@@ -21,7 +22,8 @@ void test_multiple_task() {
   std::cout << "=== test multiple task without wait ===\n";
   { MultipleTask mt(false); }
 
-  size_t result{0};
+  // atomic: tasks run on different threads and may overlap
+  std::atomic<size_t> result{0};
   std::cout << "=== test multiple task with wait and tasks but non-shall "
                "execute ===\n";
   {

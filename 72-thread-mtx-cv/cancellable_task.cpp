@@ -1,11 +1,13 @@
 #include "cancellable_task.h"
+#include <atomic>
 #include <vector>
 
 using namespace std::chrono_literals;
 
 void test_cancellable_task() {
   std::cout << "=== test cancellable task without cancel ===\n";
-  size_t result{0};
+  // atomic: tasks run on different threads and may overlap
+  std::atomic<size_t> result{0};
   {
     std::vector<std::unique_ptr<CancellableTask>> tasks;
 

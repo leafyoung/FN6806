@@ -9,8 +9,9 @@ auto& prng() {
   thread_local mt19937 prng{random_device{}()};
   return prng;
 }
+// floor(dividend / divisor) for divisor > 0; plain `/` truncates toward zero.
 constexpr int floor_division(int dividend, int divisor) {
-  return (dividend - (dividend < 0)) / divisor;
+  return dividend / divisor - (dividend % divisor < 0);
 }
 }  // namespace
 
@@ -34,7 +35,7 @@ bool luhn_valid(const string& str) {
 int main() {
   cout << boolalpha;
 
-  // roll 4 dice and discard the smallest
+  // ability-score modifier: floor((ability - 10) / 2)
   int ability = 10;
   auto x = floor_division(ability - 10, 2);
   cout << x << '\n';

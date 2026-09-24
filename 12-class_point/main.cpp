@@ -37,11 +37,9 @@ int main() {
     PointWithStrNoCtor p;
     cout << "name: '" << p.get_name() << "'\n";
 
-    // Intended error to show that x and y are uninitialized, output may be
-    // different each time.
+    // BAD: do not read p.get_x() or p.get_y() here - x and y are uninitialized.
     cout << "Reading x/y here would be undefined behavior because they are "
             "uninitialized.\n";
-    cout << p.get_x() << ", " << p.get_y() << '\n';
 
     cout << "vd was initialized as an empty vector\n";
     for (auto v : p.get_vd()) {

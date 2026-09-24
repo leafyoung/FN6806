@@ -34,8 +34,8 @@ void test_shared() {
   cout << *a << '\n';
 }
 
-// All class that to be used by shared_ptr and will return a share_ptr of itself
-// shall inherit from enable_shared_from_this<T>
+// Any class can be used with shared_ptr. Only a class that must return a
+// shared_ptr of itself shall inherit from enable_shared_from_this<T>
 
 class Y : public enable_shared_from_this<Y> {
   int data = 0;

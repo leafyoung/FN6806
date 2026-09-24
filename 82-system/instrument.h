@@ -23,6 +23,7 @@ class Instrument {
     YieldCurve bumped_down = curve;
     bumped_up.parallel_shift(bump);
     bumped_down.parallel_shift(-bump);
-    return (price(bumped_up) - price(bumped_down)) / (2.0 * bump);
+    // positive = price loss per +1bp shift (currency per bp)
+    return (price(bumped_down) - price(bumped_up)) / (2.0 * bump) * 1e-4;
   }
 };

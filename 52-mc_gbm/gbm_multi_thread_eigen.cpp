@@ -18,7 +18,7 @@ using namespace Eigen;
 using nd_double = normal_distribution<double>;
 
 void gbm_multipath_opt_inc_eigen(const GBMParam &gbm, const MCParam &mc,
-                                 const Market &mkt, const Eval &eval,
+                                 const Market &mkt, const Eval & /* eval */,
                                  MatrixXd &v, int start, int end) {
   const auto drift = (gbm.mu - gbm.sigma * gbm.sigma / 2.0) * mc.dt;
   const auto diffusion = sqrt(mc.dt) * gbm.sigma;

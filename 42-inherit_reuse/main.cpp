@@ -42,7 +42,7 @@ class PointXY : public PointX {
 
   int get_y() const { return y; }
   double get_distance() const {
-    auto x = get_x();
+    auto x = get_x(); // access the private member via getter
     return sqrt(x * x + y * y);
   }
 };

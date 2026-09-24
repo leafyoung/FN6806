@@ -16,7 +16,7 @@ class RiskLimitChecker : public RiskObserver {
   bool limit_breached_ = false;
 
  public:
-  RiskLimitChecker(double max_pv = 1e9, double max_dv01 = 1e6, double warning_thresh = 0.8);
+  RiskLimitChecker(double max_pv = 1e9, double max_dv01 = 100, double warning_thresh = 0.8);
 
   void on_trade_added(const Portfolio& portfolio, const Instrument& instrument,
                       double new_total_pv) override;

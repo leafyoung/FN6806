@@ -29,8 +29,10 @@ void test_unique() {
   cout << b.get() << '\n';
 
   add_three(std::move(b));
-  cout << *b << '\n';
+  // b is nullptr after the move; do not dereference it
+  cout << (b == nullptr) << '\n';
 
+  b = make_unique<int>(4);
   b = add_three_with_return(std::move(b));
   cout << *b << '\n';
 
@@ -96,9 +98,9 @@ int main() {
     cout << *p2 << '\n';
     cout << "p2: " << p2.get() << '\n';
 
-    // f2(p2); // error, p2 is not copyable
-    //  Use move to transfer ownership
-    add_three(std::move(p2));  // ok, p2 is moved to f2
+    // add_three(p2); // error, not copyable
+    // Use move to transfer ownership
+    add_three(std::move(p2));  // ok, p2 is moved
     // p2 has become nullptr
     cout << "p2 (after): " << p2.get() << '\n';
 
