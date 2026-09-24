@@ -50,8 +50,10 @@ void handle_exception(const char *time, const char *file, int line,
     std::cout << prefix << "Caught length_error: " << e.what() << '\n';
   } catch (const std::bad_alloc &e) {
     std::cout << prefix << "Caught bad_alloc: " << e.what() << '\n';
-  } catch (const std::runtime_error &) {
-  } catch (const std::exception &) {
+  } catch (const std::exception &e) {
+    std::cout << prefix << "Caught exception: " << e.what() << '\n';
+  } catch (...) {
+    std::cout << prefix << "Caught unknown exception\n";
   }
 }
 

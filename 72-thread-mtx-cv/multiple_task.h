@@ -8,7 +8,7 @@
 
 #include "task.h"
 
-// Use one timer to count for multipler stops.
+// Use one timer to count for multiple stops.
 class MultipleTask {
   static const bool DEBUG = true;
   std::vector<std::unique_ptr<Task>> tasks;
@@ -109,7 +109,7 @@ public:
   ~MultipleTask() {
     // Signal the cycle thread to stop and wait for it to exit.
     // This MUST happen before touching sub_tasks: the cycle thread holds mtx
-    // while pushing to sub_tasks (cycle() line ~56), so iterating sub_tasks
+    // while pushing to sub_tasks in cycle(), so iterating sub_tasks
     // before t.join() would be a data race even with wait_to_finish = true.
     signal_exit();
 
@@ -118,12 +118,14 @@ public:
     }
 
     // The cycle thread is fully done; sub_tasks is now frozen and safe to
-    // iterate without a lock.
-    if (wait_to_finish) {
-      for (auto &st : this->sub_tasks) {
-        if (st->joinable()) {
+    // iterate without a lock. Every sub-thread must be joined or detached
+    // before its std::thread is destroyed, or std::terminate() is called.
+    for (auto &st : this->sub_tasks) {
+      if (st->joinable()) {
+        if (wait_to_finish)
           st->join();
-        }
+        else
+          st->detach(); // detached tasks must not capture locals by reference
       }
     }
   }

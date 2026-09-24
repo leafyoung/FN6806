@@ -35,10 +35,7 @@ int main() {
       f.join();
   }
 
-  std::cout
-
-      << "The non-atomic counter is " << cnt << '\n'
-      << "The atomic counter (seq_cst) is " << acnt << '\n'
-      << "The atomic counter (release) is " << acnt_release << '\n';
-  ;
+  std::cout << "The non-atomic counter is " << cnt << '\n'
+            << "The atomic counter (seq_cst) is " << acnt << '\n'
+            << "The atomic counter (release) is " << acnt_release << '\n';
 }

@@ -15,7 +15,7 @@ void func(int *ptr) {
 class controlbase {
 public:
   virtual void draw() = 0;
-  virtual ~controlbase() {}
+  virtual ~controlbase() = default;
 };
 
 // Inheritance is to make control derived classes in container
@@ -26,7 +26,7 @@ protected:
   std::string _name;
 
 public:
-  void draw() {
+  void draw() override {
     derived()->erase_background();
     derived()->paint();
   }

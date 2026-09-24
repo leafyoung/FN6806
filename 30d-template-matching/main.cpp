@@ -15,6 +15,7 @@ template <typename T> double payoff(double /*price*/, double /*strike*/) {
   // throw std::logic_error("Not implemented");
   static_assert(std::is_same<T, Call>::value || std::is_same<T, Put>::value,
                 "Not implemented");
+  return 0.0;
 }
 
 // Specialized version
@@ -32,7 +33,9 @@ template <int T> class Payoff {
 };
 
 template <int T>
-double Payoff<T>::operator()(double /*price*/, double /*strike*/) {}
+double Payoff<T>::operator()(double /*price*/, double /*strike*/) {
+  return 0.0;
+}
 
 template <> class Payoff<0> {};
 template <> class Payoff<1> {};

@@ -17,7 +17,7 @@ int main() {
     cout << "x.use_count: " << p.use_count() << '\n';
     if (auto spt = p.lock()) {  // try get a share_ptr from weak_ptr
       cout << "x use_count: " << spt.use_count() << '\n';
-      cout << "value" << *spt << '\n';
+      cout << "value: " << *spt << '\n';
     }
   }
   {
@@ -29,7 +29,7 @@ int main() {
     x.reset();
     if (auto spt = p.lock()) {  // try get a share_ptr from weak_ptr
       cout << "x use_count: " << spt.use_count() << '\n';
-      cout << "value" << *spt << '\n';
+      cout << "value: " << *spt << '\n';
     }
   }
 

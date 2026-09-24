@@ -13,7 +13,7 @@ public:
 
   // T(const T& other)
   // Point(const Point& other)
-  // Point(const Point& other) = default; // copy ctor
+  Point(const Point &other) = default; // copy ctor
 
   // T& operator=(const T& rhs)
   Point &operator=(const Point &other) = default;

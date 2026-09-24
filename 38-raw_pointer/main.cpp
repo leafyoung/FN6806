@@ -9,13 +9,14 @@ struct ABC {
 };
 
 void f() {
-  [[maybe_unused]] auto* p = new vector<int>(300000);
+  // vector<int>(300'000) is used to speed up the memory leak
+  [[maybe_unused]] auto* p = new vector<int>(300'000);
 
   // without delete, there would be memory leak that accumulate with every
   // calling into the function till it burst the memory limit.
   // Reasons for not delete
   // 1. omission
-  // 2. exception happened before the end of the function
+  // 2. exception happened before `delete`
 
   // delete p;
 }
@@ -25,7 +26,7 @@ int main() {
     int* p = new int(3);
     cout << *p << '\n';
     delete p;            // <1>
-    cout << *p << '\n';  // <3> use after delete
+    cout << *p << '\n';  // <3> use after delete: undefined behaviour
     // delete p;        // <4> Error: double delete
 
     ABC* p2 = new ABC();

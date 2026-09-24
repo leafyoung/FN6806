@@ -121,7 +121,7 @@ double EuropeanOption::duration(const YieldCurve& curve) const {
       << " curve_rate=" << curve_rate << " maturity=" << T_ << " rho=" << rho;
   // Effective duration in years, as for FixedRateBond: -(dP/dr) / P = -rho / P
   const double pv = price(curve);
-  return pv > 0.0 ? -rho / pv : 0.0;
+  return pv != 0.0 ? -rho / pv : 0.0;  // != : short notional gives pv < 0
 }
 
 double EuropeanOption::delta(const YieldCurve& curve) const {

@@ -29,10 +29,10 @@ void gbm_multipath_opt_inc_eigen(const GBMParam &gbm, const MCParam &mc,
   nd_double nd(drift, diffusion);
   const auto rows = v.rows();
   double prev_val = 0;
-  for (auto row = start; row != end; ++row) {
-    v(0, row) = prev_val = mkt.S;
+  for (auto col = start; col != end; ++col) { // col = path
+    v(0, col) = prev_val = mkt.S;
     for (auto x = 1; x < rows; ++x) {
-      v(x, row) = prev_val = prev_val * exp(nd(mc.gen));
+      v(x, col) = prev_val = prev_val * exp(nd(mc.gen));
     }
   }
 }

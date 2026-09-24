@@ -1,8 +1,7 @@
-#include <future>
 #include <iostream>
+#include <mutex>
 #include <thread>
 using std::cout;
-using std::mutex;
 
 std::mutex mtx; // mutex for critical section
 

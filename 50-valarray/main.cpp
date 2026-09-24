@@ -1,5 +1,6 @@
 // https://github.com/leafyoung/FN6806/tree/main/50-valarray
 
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <valarray>
@@ -32,24 +33,24 @@ int main() {
   print_valarray("x-3.0", x);
 
   x = x.apply([](double x) { return x * x; });
-  print_valarray("x&x", x);
+  print_valarray("x*x", x);
 
-  // u and w are valarray<double> types
-  auto u = x.apply([](double x) { return x * x; });
+  // apply() and the maths functions may return an expression-template type
+  // (libstdc++ does), so store results as explicit valarray<double>, not auto.
+  std::valarray<double> u = x.apply([](double x) { return x * x; });
   print_valarray("u", u);
-  auto w = y.apply([](double x) { return std::sin(x) + std::cos(x); });
+  std::valarray<double> w = y.apply([](double x) { return std::sin(x) + std::cos(x); });
   print_valarray("w", w);
-  print_valarray("v", y);
+  print_valarray("y", y);
 
-  // The result in each is a valarray<double>
-  auto sine_x = std::sin(u);
-  print_valarray("sine_x", sine_x);
-  auto log_x = std::log(x);
+  std::valarray<double> sine_u = std::sin(u);
+  print_valarray("sine_u", sine_u);
+  std::valarray<double> log_x = std::log(x);
   print_valarray("log_x", log_x);
-  auto abs_x = std::abs(y);
-  print_valarray("abs_x", abs_x);
-  auto exp_x = std::exp(x);
+  std::valarray<double> abs_y = std::abs(y);
+  print_valarray("abs_y", abs_y);
+  std::valarray<double> exp_x = std::exp(x);
   print_valarray("exp_x", exp_x);
-  auto neg_x = -x;
+  std::valarray<double> neg_x = -x;
   print_valarray("neg_x", neg_x);
 }

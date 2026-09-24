@@ -39,8 +39,8 @@ int main() {
   }
 
   {
-    // C++20: a template lambda ([]<typename T>) is itself a visitor, so it can
-    // be passed straight to std::visit without an overload set.
+    // C++20: a template lambda ([]<typename T>) names the alternative's type T,
+    // so one lambda can branch with `if constexpr` instead of an overload set.
     variant<int, float, std::string> v{3.14f};
     visit(
         []<typename T>(const T &x) {

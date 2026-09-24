@@ -1,4 +1,5 @@
-#include <functional>
+#pragma once
+
 #include <string>
 #include <vector>
 using namespace std;
@@ -6,9 +7,8 @@ using namespace std;
 class PointWithStrNoCtor {
 public:
   int x, y;          // not initialized
-  string name;       // s is initialized
+  string name;       // name is initialized
   vector<double> vd; // vd is initialized
-public:
   auto get_x() const { return x; }
   auto get_y() const { return y; }
   auto get_name() const { return name; }
@@ -17,7 +17,7 @@ public:
 
 class PointWithStr {
   int x, y;          // not initialized
-  string name;       // s is initialized
+  string name;       // name is initialized
   vector<double> vd; // vd is initialized
 public:
   PointWithStr() : x{0}, y{0}, name{}, vd{} {}

@@ -16,7 +16,7 @@ public:
 
 class MatrixException : public std::logic_error {
 public:
-  MatrixException() : MatrixException("") {};
+  MatrixException() : MatrixException("") {}
   explicit MatrixException(const std::string &message)
       : std::logic_error(message) {}
 };
@@ -35,7 +35,9 @@ public:
 class MatrixException17 {
   // : public exception // for handling errors in the class Matrix
 private:
-  std::string_view info;
+  // Must view a string literal: what() needs a null-terminated buffer that
+  // outlives the exception object.
+  std::string_view info = "";
 
 public:
   MatrixException17() = default;

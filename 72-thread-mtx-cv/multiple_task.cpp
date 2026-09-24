@@ -4,28 +4,27 @@
 using namespace std::chrono_literals;
 
 void test_multiple_task() {
-  std::cout << "=== SKIP test multiple task with wait (shall wait forever) and "
-               "then signal exit  ===\n";
+  std::cout << "=== test multiple task with wait, no task, then signal exit ===\n";
   {
     MultipleTask mt(true);
-    std::cout << "waiting for task, let's wait for 1s before signal_exit";
+    std::cout << "waiting for task, let's wait for 1s before signal_exit\n";
     std::this_thread::sleep_for(1s);
     mt.signal_exit();
   }
 
-  std::cout << "=== test multiple task without wait ===\n";
+  std::cout << "=== test multiple task without wait, with signal_exit ===\n";
   {
     MultipleTask mt(false);
     mt.signal_exit();
   }
 
-  std::cout << "=== test multiple task without wait ===\n";
+  std::cout << "=== test multiple task without wait, without signal_exit ===\n";
   { MultipleTask mt(false); }
 
   // atomic: tasks run on different threads and may overlap
   std::atomic<size_t> result{0};
-  std::cout << "=== test multiple task with wait and tasks but non-shall "
-               "execute ===\n";
+  std::cout << "=== test multiple task with wait, tasks added after exit: "
+               "none shall execute ===\n";
   {
     result = 0;
     MultipleTask mt(true);

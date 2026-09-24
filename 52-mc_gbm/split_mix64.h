@@ -1,3 +1,7 @@
+#pragma once
+
+#include <cstdint>
+
 class SplitMix64 {
 public:
   explicit SplitMix64(uint64_t seed) : state_(seed) {}

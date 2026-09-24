@@ -20,6 +20,6 @@ int main() {
   cout << a.getCounter() << '\n';  // 2
   cout << c.getCounter() << '\n';  // 1
 
-  // Template speciailization, like Widget<int> or Widget<double> can be seen as
+  // Template specialization, like Widget<int> or Widget<double> can be seen as
   // a standalone class.
 }

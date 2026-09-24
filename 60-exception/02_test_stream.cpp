@@ -6,10 +6,10 @@ using std::cout;
 void test_stream() {
   cout << __FUNCTION__ << ":\n";
   try {
-    // Default behavior of stream object is silent of no throwing the exception.
-    // After a failure, it will set the failbit data member to a value
+    // By default a stream does not throw; after a failure it sets the
+    // failbit flag in its state, which fail() reports.
     std::ifstream f("doesn't exist");
-    std::cout << "failbit: " << f.failbit << '\n';
+    std::cout << "failbit: " << f.failbit << '\n'; // mask constant, not the state
     std::cout << "fail: " << f.fail()
               << '\n'; // prints 1 if stream is in failed state
 

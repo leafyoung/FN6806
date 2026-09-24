@@ -71,9 +71,9 @@ int main() {
   // Stateful function with callable class
   {
     auto varr = std::array<int, 3>{{2, 3, 4}};
-    int factorial =
+    int result =
         std::accumulate(varr.begin(), varr.end(), 1, MultiplyAndAdd{});
-    cout << "factorial: " << factorial << '\n'; // 40
+    cout << "result: " << result << '\n'; // 40
     // accumulate: acc=1, op(1,2)=1*2, op(2,3)=2+2*3=8, op(8,4)=8+8*4=40
 
     KeepAdd keepadd;

@@ -15,9 +15,9 @@ public:
 };
 
 class Ksub : public K { // 1. use public inheritance
-                        // 2. Override the base class' member
-                        // Base's member can be accessed by K::data_public
-  int data_public;
+  // 2. Override the base class' member
+  // Base's member can be accessed by K::data_public
+  int data_public; // override (hides K::data_public)
 
 public:
   // 3. Delegate to base class' ctor (preferred)
@@ -26,8 +26,7 @@ public:
   void print() {
     // 4. Access private member in base class via member function
     set_private(5);
-    cout << get_private() << "," << data_protected
-         << ","
+    cout << get_private() << "," << data_protected << ","
          // Access base class' member with the same name
          << K::data_public << "," << data_public << '\n';
   }

@@ -1,6 +1,7 @@
 // https://github.com/leafyoung/FN6806/tree/main/45-inheritance_for_reuse
 
 #include <iostream>
+#include <string>
 
 // Base class
 class Vehicle {

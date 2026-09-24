@@ -15,7 +15,7 @@ void test_future() {
   // 3. launch on a thread
   thread t(std::move(task));
 
-  f1.wait(); // wait for the task to finish}
+  f1.wait(); // wait for the task to finish
   cout << f1.get() << '\n';
 
   if (t.joinable())

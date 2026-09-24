@@ -12,12 +12,10 @@ class PointX {
   PointX(const PointX&) = default;
   inline PointX& operator=(const PointX& p) = default;
   /*
-  Compiler generates the following for us wiht `=default`.
+  With `= default` the compiler generates memberwise assignment:
   {
-    if(this^=&p) {
-      x=p.x;
-    }
-    return*this;
+    x = p.x;
+    return *this;
   }
   */
   inline int get_x() const { return x; }

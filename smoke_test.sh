@@ -86,7 +86,7 @@ EXPECTED_BUILD_FAILURES=()
 # cannot drift apart.
 std_for_module() {
   case "$1" in
-    # C++20 required: the `concept` keyword, and the module's own name says so.
+    # C++20 required: 49d uses a template lambda ([]<typename T>), 81 the `concept` keyword.
     49d-variant_visit_cxx20 | 81-concept) echo "c++20" ;;
     *) echo "c++17" ;;
   esac

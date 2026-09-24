@@ -1,5 +1,6 @@
 // https://github.com/leafyoung/FN6806/tree/main/71-multithread_mc_pi
 
+#include <cmath>
 #include <future>
 #include <iostream>
 #include <mutex>
@@ -55,7 +56,8 @@ double approximate_pi(long tot_samples, int n_threads) {
     tot_points_inside += f.get();
   }
 
-  double pi = 4.0 * (double)tot_points_inside / (double)tot_samples;
+  // divide by the samples actually drawn (the remainder of the division is dropped)
+  double pi = 4.0 * (double)tot_points_inside / (double)(samples_per_thread * n_threads);
   return pi;
 }
 

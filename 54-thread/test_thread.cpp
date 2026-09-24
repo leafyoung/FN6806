@@ -1,5 +1,6 @@
 #include <functional>
 #include <iostream>
+#include <string>
 #include <thread>
 
 using std::cout;
@@ -18,9 +19,10 @@ void test_thread() {
   cout << "CPU: " << thread::hardware_concurrency() << '\n';
   {
     std::thread t(func1);
-    // try either .join() or .detach()
-    // if (t.joinable()) t.join();
-    t.detach();
+    // try .detach() instead: the thread then runs on its own and may not
+    // finish (or print) before main() returns.
+    if (t.joinable())
+      t.join();
   } // must call t.join()/t.detach() before `t` goes out of scope, crash
     // otherwise
   {

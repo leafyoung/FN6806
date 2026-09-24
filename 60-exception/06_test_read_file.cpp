@@ -35,7 +35,7 @@ void test_read_file(int max_retries) {
   cout << __FUNCTION__ << "(int max_retries):\n";
 
   string filename = "60-exception/example.txt";
-  ifstream file(filename.c_str());
+  ifstream file; // not opened here: open() on an open stream sets failbit
   int tries = 0;
   while (tries < max_retries) {
     file.open(filename);

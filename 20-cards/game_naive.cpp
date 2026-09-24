@@ -61,7 +61,7 @@ bool is_serial(vector<Card> cards, size_t card_max) {
     return false;
   }
   vector<size_t> points(cards.size());
-  transform(cards.begin(), cards.end(), points.begin(), [](const auto& c) { return c.c; });
+  transform(cards.begin(), cards.end(), points.begin(), [](const auto& c) { return get_point(c); });
   sort(points.begin(), points.end());
   vector<size_t> diff(points.size());
   /*

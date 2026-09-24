@@ -15,4 +15,5 @@ template <typename T> void call_abc(const T &coll) {
 
 template <typename T, typename U> bool compare(T & /*t*/, U & /*u*/) {
   static_assert(!std::is_same<T, U>::value, "T must be different from U");
+  return false;
 }

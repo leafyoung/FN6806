@@ -6,7 +6,7 @@ class PointX {
   int x;
 
  public:
-  PointX(int x) : x(x) {};
+  PointX(int x) : x(x) {}
   // ~PointX() = delete;
 };
 
@@ -18,7 +18,7 @@ T first(T a, [[maybe_unused]] T b) {
 template <>
 int first(int a, int /*b*/) {
   return a;
-};
+}
 
 template <class T1, class T2>
 class Pair {

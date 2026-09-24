@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 using namespace std;
 
@@ -22,7 +23,7 @@ public:
   double area() const override { return 3.1415926 * r * r; }
 };
 
-void printArea(Shape const &s) { cout << s.area() << '\n'; }
+inline void printArea(Shape const &s) { cout << s.area() << '\n'; }
 
 template <typename T> void printAreaT(T const &s) { cout << s.area() << '\n'; }
 

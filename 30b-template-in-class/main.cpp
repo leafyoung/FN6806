@@ -13,7 +13,7 @@ void print(T array) {
     cout << array[i] << '\n';
 }
 
-// This allows class C to take a class template, i.e. vector, not sepecialized
+// This allows class C to take a class template, i.e. vector, not specialized
 // template vector<int>
 template <template <class...> class C, class T, int n>
 void print2(C<T>& array) {

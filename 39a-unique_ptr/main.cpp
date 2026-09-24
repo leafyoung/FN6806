@@ -36,14 +36,14 @@ void test_unique() {
   b = add_three_with_return(std::move(b));
   cout << *b << '\n';
 
-  // make_unique only support constructor initialization
-  // not value initialization.
+  // make_unique cannot forward a braced list {1, 2, 3}
+  // to the vector constructor.
   // auto v = make_unique<vector<int>>({1, 2, 3});
   auto v = make_unique<vector<int>>(20, 4);
   cout << v->back() << '\n';
 
   auto v2 = make_unique<vector<int>>();
-  *v2 = {1, 2, 3, 4};  // use copy constructor to buiit the vector
+  *v2 = {1, 2, 3, 4};  // initializer_list assignment rebuilds the vector
   cout << v2->back() << ", " << v2->size() << '\n';
 }
 

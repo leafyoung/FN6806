@@ -67,8 +67,8 @@ int main(int /* argc */, char** /* argv */) {
   cout << "expected mean: " << expected_mean << '\n';
   cout << "expected stdev: " << expected_stdev << '\n';
 
-  // seed_seq is stateful and non-copyable; create a fresh one each time
-  // we need to reset the generator to reproduce the same sequence.
+  // seed_seq is non-copyable; make_gen() builds a fresh generator from the
+  // same seed values whenever we need to reproduce the same sequence.
   auto make_gen = []() {
     seed_seq s{1238982123178};
     return mt19937_64{s};

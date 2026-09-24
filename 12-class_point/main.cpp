@@ -30,7 +30,7 @@ int main() {
     }
     Point p3(3, 5);
     cout << "p3 == p: " << (p3 == p) << "\n\n"; // comparison operator==
-  } // 4. p and p2 are out of scope, destroyed
+  } // 4. p, p2 and p3 are out of scope, destroyed
 
   {
     cout << "PointWithStrNoCtor\n";

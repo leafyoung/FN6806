@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <typeinfo>
 #include "date.h"
 using namespace std;
 
@@ -57,7 +58,7 @@ void test_weekday() {
   weekday{month{6} / 21 / 2016};
   cout << weekday{June / 21 / 2016}.c_encoding() << '\n';
   cout << weekday{June / 21 / 2016}.iso_encoding() << '\n';
-  // cout << weekday{June / 21 / 2016} << "\\n";
+  // cout << weekday{June / 21 / 2016} << '\n';
   static_assert(weekday{June / 21 / 2016} == Tuesday);
 
   [[maybe_unused]] constexpr auto second_tuesday_in_October_2019 =
@@ -105,17 +106,15 @@ void test_date_adv() {
   auto d2 = 2015_y / aug / 5;
   auto d3 = d2 - months(3) - years(1);
 
-  cout << (floor<days>(day_point{d2} - day_point{d3}) + +days{100}).count() << '\n';
+  cout << (floor<days>(day_point{d2} - day_point{d3}) + days{100}).count() << '\n';
 
-  cout << year(2014) / 2 / 30 << "\\n";
-  cout << typeid(year(2014) / 2 / 30).name() << "\\n";
+  cout << year(2014) / 2 / 30 << '\n';
+  cout << typeid(year(2014) / 2 / 30).name() << '\n';
   year_month_day x;
-  cout << typeid(x).name() << "\\n";
+  cout << typeid(x).name() << '\n';
 
   day_point dp = floor<days>(std::chrono::system_clock::now());
   cout << dp.time_since_epoch().count() << '\n';
-
-  cout << day_point{jan / 1 / 2000} - day_point{jan / 1 / 1999} << '\n';
 
   cout << day_point{jan / 1 / 2000} - day_point{jan / 1 / 1999} << '\n';
 

@@ -11,6 +11,7 @@ public:
   virtual void drive() = 0;
   virtual void speedup() = 0;
   virtual void stop() = 0;
+  virtual ~AbstractVehicle() = default;
 };
 
 template <typename Derived> class Vehicle {
@@ -24,7 +25,7 @@ public:
   void speedup() { self().speedup_impl(); };
   void stop() { self().stop_impl(); }
 
-  // little overhead in
+  // virtual dtor: unique_ptr<Vehicle<Car>> can delete a Car
   virtual ~Vehicle() = default;
 };
 
@@ -62,4 +63,4 @@ template <typename T> void operateVehicle(Vehicle<T> &v) {
   v.stop();
 }
 
-}; // namespace CRTP
+} // namespace CRTP

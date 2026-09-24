@@ -64,7 +64,7 @@ int main() {
 
     cout << '\n';
 
-    // Not yet support double as non-type parameter/constant parameter
+    // double as a non-type (constant) template parameter needs C++20
     // cout << larger_than_x<6.0>(5.0) << '\n';
   }
 

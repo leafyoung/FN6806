@@ -1,6 +1,8 @@
 // https://github.com/leafyoung/FN6806/tree/main/60-exception
 
 #include <iostream>
+#include <string>
+#include <vector>
 using namespace std;
 
 #include "01_test_vector.h"
@@ -25,6 +27,8 @@ int test_exp() {
   cout << narrowed_value << '\n';
 
   vector<int> xs = {1, 2, 3};
+  cout << xs.at(2) << '\n';
+
   string ss = "123";
   cout << ss.at(0) << '\n';
 

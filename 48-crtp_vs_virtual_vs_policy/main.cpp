@@ -1,5 +1,6 @@
 // https://github.com/leafyoung/FN6806/tree/main/48-crtp_vs_virtual_vs_policy
 
+#include <array>
 #include <chrono>
 #include <functional>
 #include <iostream>

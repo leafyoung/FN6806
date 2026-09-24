@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Make dctor as virtual as long as you need to use the pointer of base class to
+// Make dtor virtual as long as you need to use the pointer of base class to
 // access the instance of derived class.
 
 namespace virtual_dtor {
@@ -33,7 +33,7 @@ public:
 
 class B : public A {
 public:
-  virtual void a() { std::cout << "b" << '\n'; }
+  void a() override { std::cout << "b" << '\n'; }
 };
 } // namespace virtual_function
 
@@ -51,7 +51,7 @@ int main() {
     cout << "Case 2\n";
     B *b = new C;
     // if we don't make ~B as virtual, b will be destructed as class B.
-    // a is not destructed so no print of "A::~A()"
+    // a is not destructed so no print of "~A()"
     delete b;
 
     // unique_ptr will automatically call delete when object is destroyed.

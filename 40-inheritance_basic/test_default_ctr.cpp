@@ -16,5 +16,5 @@ public:
   // ctor case 2 :
   // E() : D() { cout << "E()\n"; }
   // ctor case 3 :
-  E(int x) : D(x) { cout << "E()\n"; }
+  E(int x) : D(x) { cout << "E(x)\n"; }
 };

@@ -114,7 +114,7 @@ int main() {
     cout << p.get() << " == " << z.get() << " == " << x.get() << '\n';
   }
 
-  // below code may cause runtime error
+  // getY() is safe; replacing it with getY2() below causes a runtime error
   {
     auto p = make_shared<Y>();
     // return a shared from a share_ptr

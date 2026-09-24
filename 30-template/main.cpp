@@ -3,6 +3,7 @@
 #include <array>
 #include <iostream>
 #include <list>
+#include <string>
 #include <tuple>
 #include <vector>
 
@@ -66,8 +67,8 @@ int main() {
 
   cout << (true > false) << '\n';
 
-  // C++11 allows us to skip the template argument
-  // when it can deduce, but not for this one.
+  // Function templates deduce T from the arguments,
+  // but not here: 3 is int and 2.0 is double.
   // cout << mymax(3, 2.0) << '\n';
   cout << mymax<double>(3, 2.0) << '\n';
 

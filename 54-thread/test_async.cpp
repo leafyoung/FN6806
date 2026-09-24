@@ -9,19 +9,16 @@ void test_async() {
 
   // Basic deferred / async
   {
-    cout << "Basic deferred:\n";
+    cout << "Basic deferred / async:\n";
+    // deferred: runs lazily on the calling thread at get()/wait()
     auto x = std::async(launch::deferred, [] { return 7; });
-    if (x.wait(), true) {
-      cout << x.get();
-    }
+    cout << "deferred: " << x.get() << '\n';
+    // async: runs on a new thread right away
     auto y = std::async(launch::async, [] { return 9; });
-    if (y.wait(), true) {
-      cout << y.get();
-    }
-    cout << '\n';
+    cout << "async: " << y.get() << '\n';
   }
 
-  // Multiple futures: parallel sum (demonstrates the N6 pattern from OOP2
+  // Multiple futures: parallel sum (the std::async pattern from OOP2
   // Lec05). Each task returns a partial sum; the caller collects via
   // future.get(). Any exception thrown inside a task is re-thrown by
   // future.get().
