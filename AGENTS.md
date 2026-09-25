@@ -69,12 +69,12 @@ Details worth knowing before changing the script:
   program).
 - Per-module differences live in three small `case` functions near the top of
   the script, not scattered through the logic:
-  - `flags_for_module` - C++20 for `49d-variant_visit_cxx20` and `81-concept`,
+ - `flags_for_module` - C++20 for `49d-variant_visit_cxx20` and `81-concept`,
     `-I third_party` for `96-test-xtensor-eigen`.
-  - `find_depth_for_module` - sources are top-level only, except `82-system`,
+ - `find_depth_for_module` - sources are top-level only, except `82-system`,
     which is searched recursively to pick up `observer/risk_limit_checker.cpp`
     (matching the `SRCS` list in its own `82-system/Makefile`).
-  - `timeout_for_module` - `92-et-vec-benchmark` gets 240 s because it runs two
+ - `timeout_for_module` - `92-et-vec-benchmark` gets 240 s because it runs two
     100-million-iteration loops with no optimisation flags.
 - Each program runs inside a disposable **copy** of its module, and the sandbox
   gets an `output/` subdirectory because `52-mc_gbm` and `82-system` write CSVs
@@ -113,8 +113,8 @@ under an embedded wasmtime, with **Native** (host clang++) as the other explicit
 reproduces that path, so a green host run plus a green wasm run means the
 modules work in the environment students actually use.
 
-- Compile flags are copied verbatim from `cppbox-core/src/wasi_exec.rs::compile`
-  — `-fwasm-exceptions` with the two `-mllvm` EH flags, the memory limits,
+- Compile flags are copied verbatim from `cppbox-core/src/wasi_exec.rs::compile`:
+  `-fwasm-exceptions` with the two `-mllvm` EH flags, the memory limits,
   `-lunwind`, and `-lc-printscan-long-double`. Change them only to track that
   file. `-std` and the `third_party` include path come from `std_for_module` /
   `includes_for_module`, shared with the host build so the targets cannot drift.
@@ -145,16 +145,16 @@ modules work in the environment students actually use.
   the parallel algorithms need threads and are absent from the wasm sysroot. No
   module here uses it today (FN6805's `52-stl` does). CPPBox's own
   `uses_threading` does not list `<execution>`, so such code reaches wasm there
-  and fails to compile instead of being routed to podman — worth adding upstream.
+  and fails to compile instead of being routed to podman - worth adding upstream.
 - `WASM_STACK_SIZE` (default 8 MiB) is the one flag added beyond CPPBox's set:
   wasi-sdk defaults the wasm stack to 64 KiB, which an ordinary large local
   array overflows, trapping with "memory access out of bounds". CPPBox should
   pass the same flag.
 - Threads do **not** work on wasm and that is not going to change: wasi-threads
   compiles and links (wasi-sdk 34 ships a `wasm32-wasip1-threads` sysroot, and
-  the module gets the right ABI — a `wasi.thread-spawn` import and a
-  `wasi_thread_start` export), but under wasmtime 46.0.3 — the version CPPBox
-  pins — `std::thread` still fails with `thread constructor failed: Resource
+  the module gets the right ABI - a `wasi.thread-spawn` import and a
+  `wasi_thread_start` export), but under wasmtime 46.0.3 - the version CPPBox
+  pins - `std::thread` still fails with `thread constructor failed: Resource
   temporarily unavailable`, and wasmtime warns that `-Sthreads` becomes a hard
   error in 47.0.0. Bytecode Alliance RFC 47 (merged May 2026) removes
   wasi-threads outright, pointing to WASIp3 cooperative threads near term and
@@ -163,7 +163,7 @@ modules work in the environment students actually use.
 - `wasm_expected_failure_reason` declares known wasm limitations, reported as
   `XFAIL-WASM`. It is **empty today**: every non-threaded module builds and runs
   on wasm. `47-poly_type` was in it until `K.h`'s `Ksub` allocation was reduced
-  from `vector<int> x(1'000'000'000)` (4 GB — impossible in wasm32's 4 GiB
+  from `vector<int> x(1'000'000'000)` (4 GB - impossible in wasm32's 4 GiB
   address space, `std::bad_alloc`, while succeeding on Linux via overcommit) to
   `100'000'000` (400 MB, which fits).
 - If a module in that list starts working, the run reports `XPASS-WASM` and
